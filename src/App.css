@@ -9,4 +9,5 @@
   right: 20vh;
   height: fit-content;
   width: fit-content;
+  z-index: 1000;
 }
