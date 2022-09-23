@@ -33,7 +33,12 @@ const LiveChat = () => {
     <div className={styles.liveChatContainer}>
       <div className={styles.floatBtn} onClick={() => {
         setIsBoxOpen(!isBoxOpen)
+        setInputDetails({
+          username:'',
+          room:''
+        })
         setIsLoggedIn(false)
+        socket.current.emit('leave-room')
       }}>
         <BsFillChatFill />
       </div>
