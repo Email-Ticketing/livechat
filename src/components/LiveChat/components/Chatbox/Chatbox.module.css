@@ -28,6 +28,7 @@
     display: flex;
     flex-direction: column;
     background-color: white;
+    width: 100%;
 }
 
 .sendMessage{
@@ -43,6 +44,7 @@
 }
 .chatBox footer{
     max-height: 50px;
+    padding: 0;
 }
 .sendMessage input{
     padding: 5px 8px;
