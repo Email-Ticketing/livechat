@@ -16,7 +16,7 @@ const Chatbox = ({socket,allMessages,username}) => {
         {
             allMessages.map((msg)=>{
                 return <div className={styles.msg + ' ' + (username===msg.username && styles.userMsg)}>
-                    {msg.text}
+                    {msg.message}
                 </div>
             })
         }

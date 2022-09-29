@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useSocket from './useSocket';
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
-    const [socket] = useSocket('https://rcht-live-chat.herokuapp.com/');
+    const [socket] = useSocket('https://et-dev-api.ringover-crm.xyz/');
     // const {username,room}=details
   
     useEffect(() => {
@@ -26,9 +26,9 @@ const useSocketForLiveChat = (setLatestActivityFromSocket) => {
         );
       });
   
-      socket.current.on('msg', (msg) => {
-        setLatestActivityFromSocket(msg);
-        console.log('Received msg:- ', msg);
+      socket.current.on('message', (message) => {
+        setLatestActivityFromSocket(message);
+        console.log('Received message:- ', message);
       });
   
       socket.current.on('disconnect', (disconect) => {

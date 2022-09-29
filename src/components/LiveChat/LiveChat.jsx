@@ -3,7 +3,7 @@ import { BsFillChatFill } from "react-icons/bs";
 import useSocketForLiveChat from "../../data-access/useSocketForLiveChat";
 import Chatbox from "./components/Chatbox/Chatbox";
 import styles from "./LiveChat.module.css";
-const LiveChat = () => {
+const LiveChat = ({teamCdn}) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false);
   const [isLoggedIn,setIsLoggedIn]=useState(false)
   const [inputDetails,setInputDetails]=useState({
@@ -14,9 +14,10 @@ const LiveChat = () => {
   // const [isButtonClicked,setIsButtonClicked]=useState(false)
   const [socket]=useSocketForLiveChat(setLatestActivityFromSocket)
   const [msgList,setMsgList]=useState([])
+
   const joinClickHandler=async()=>{
-    console.log('hey')
-    await socket.current.emit('join-room',inputDetails.username,inputDetails.room)
+    console.log(teamCdn)
+    await socket.current.emit('join-chat',inputDetails.username,inputDetails.room,teamCdn)
     setIsBoxOpen(false)
     setIsLoggedIn(true)
   }

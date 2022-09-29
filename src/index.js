@@ -1,13 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 
-const root = ReactDOM.createRoot(document.getElementById('live-chat'));
+let div = document.createElement("div");
+div.id = "live-chat";
+document.body.appendChild(div);
+const root = ReactDOM.createRoot(document.getElementById("live-chat"));
+const teamCdn=document.currentScript.getAttribute('cdnId')
 root.render(
   // <React.StrictMode>
-    <App />
+  <App teamCdn={teamCdn}/>
   // </React.StrictMode>
 );
 
