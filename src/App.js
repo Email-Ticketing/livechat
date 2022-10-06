@@ -1,12 +1,14 @@
+import { useState } from "react";
+import "./App.css";
+import LiveChat from "./components/LiveChat/LiveChat";
+import { PeerProvider } from "./context/PeerContext";
 
-import { useState } from 'react';
-import './App.css';
-import LiveChat from './components/LiveChat/LiveChat';
-
-function App({teamCdn}) {
+function App({ teamCdn }) {
   return (
     <div className="App">
-      <LiveChat teamCdn={teamCdn}/>
+      <PeerProvider>
+        <LiveChat teamCdn={teamCdn} />
+      </PeerProvider>
     </div>
   );
 }

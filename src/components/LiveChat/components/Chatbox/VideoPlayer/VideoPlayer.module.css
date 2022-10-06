@@ -1,0 +1,7 @@
+.videoPlayer{
+    position: fixed;
+    margin-top: 10vh;
+    z-index: 2000;
+    width: 60vw;
+    height: 60vh;
+}
