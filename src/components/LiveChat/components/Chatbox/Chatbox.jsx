@@ -11,7 +11,6 @@ const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream);
 };
 const Chatbox = ({ socket, allMessages, username }) => {
-  const [usersList, setUsersList] = useState([]);
   const [inputMsg, setInputMsg] = useState("");
   const [myStream, setMyStream] = useState();
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] =

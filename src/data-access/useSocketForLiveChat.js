@@ -26,9 +26,9 @@ const useSocketForLiveChat = (setLatestActivityFromSocket) => {
         );
       });
   
-      socket.current.on('message', (mesage) => {
-        setLatestActivityFromSocket(mesage);
-        console.log('Received message:- ', mesage);
+      socket.current.on('message', (message) => {
+        setLatestActivityFromSocket(message);
+        console.log('Received message:- ', message);
       });
   
       socket.current.on('disconnect', (disconect) => {
