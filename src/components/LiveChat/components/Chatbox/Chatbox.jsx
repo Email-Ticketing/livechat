@@ -43,7 +43,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
       "chat-message",
       inputMsg,
       "customer",
-      "fuFCL6RKOoWw0nuLPTGTn"
+      teamCdn
     );
     setInputMsg("");
   };

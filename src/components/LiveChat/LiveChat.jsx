@@ -16,7 +16,7 @@ const LiveChat = ({ teamCdn }) => {
   const [socket] = useSocketForLiveChat(setLatestActivityFromSocket);
   const [msgList, setMsgList] = useState([]);
   const joinClickHandler = async () => {
-    await socket.current.emit("join-chat", username, uuid(), 'fuFCL6RKOoWw0nuLPTGTn');
+    await socket.current.emit("join-chat", username, uuid(), teamCdn);
     setIsBoxOpen(false);
     setIsLoggedIn(true);
   };
