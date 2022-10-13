@@ -1,0 +1,94 @@
+@import "../../libs/themes/styles/variables.scss";
+
+.floatBtn {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  background: $chatBackground;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.floatBtn:hover {
+  background-color: #667aff;
+}
+
+.liveChatContainer {
+  position: relative;
+  width: 350px;
+  height: 540px;
+}
+
+.detailsBox {
+  position: absolute;
+  top: 0;
+  bottom: 55px;
+  right: 55px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 5px 10px 50px rgba(41, 43, 88, 0.2);
+  /* height: 100%; */
+  z-index: 1000;
+
+  main{
+  background-color: white;
+  }
+}
+
+.detailsBox header {
+  height: 54px;
+  width: 100%;
+  background: $chatBackground;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  padding: 18px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+
+}
+
+.chatHeader{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.inputField {
+  margin-top: 20px;
+  text-align: center;
+}
+.inputField label {
+  display: block;
+}
+
+.inputField input {
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  border: 1px solid ;
+  max-width: 200px;
+}
+
+.joinBtn {
+  margin: 20px auto;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: $chatBackground;
+  color: white;
+}

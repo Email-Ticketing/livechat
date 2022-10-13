@@ -1,0 +1,136 @@
+@import "../../../../libs/themes/styles/_variables.scss";
+.chatBox {
+  position: absolute;
+  top: 0;
+  bottom: 55px;
+  right: 55px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15px;
+  box-shadow: 5px 10px 50px rgba(41, 43, 88, 0.2);
+  /* height: 100%; */
+  z-index: 1000;
+}
+
+.chatBox header {
+  height: 54px;
+  width: 100%;
+  background: $chatBackground;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  padding: 18px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.chatHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.vidBtn {
+  cursor: pointer;
+}
+.chatBox main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 100%;
+  overflow-y: scroll;
+}
+.chatBox main::-webkit-scrollbar {
+  display: none;
+}
+
+.sendMessage {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  padding: 8px;
+  color: black;
+  gap: 10px;
+  border: none;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  width: 100%;
+}
+.sendOptions {
+  display: flex;
+  gap: 20px;
+}
+.chatBox footer {
+  max-height: 50px;
+  border-top: 1px solid #e4e6ea;
+  background-color: white;
+  padding: 0;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: white;
+}
+.sendMessage input {
+  padding: 5px 8px;
+  border: none;
+  width: 80%;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  &:focus {
+    outline: none;
+  }
+}
+.icon {
+  cursor: pointer;
+  color: #8193a8;
+}
+.msgContainerLeft {
+  color: #8193a8;
+  margin: 5px 15px;
+  .msg {
+    width: fit-content;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #567191;
+    background-color: #fafafa;
+  }
+
+  .userMsg {
+    background: linear-gradient(
+      106.52deg,
+      rgba(162, 130, 232, 0.92) -11.57%,
+      rgba(126, 142, 231, 0.92) 50.39%,
+      rgba(68, 153, 233, 0.92) 116.35%
+    );
+    align-self: end;
+    color: white;
+  }
+  .msgInfo{
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    padding: 5px 10px;
+  }
+}
+
+.msgContainerRight{
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+
+}
+
+.videoPlayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  width: 500px;
+  height: 500px;
+}

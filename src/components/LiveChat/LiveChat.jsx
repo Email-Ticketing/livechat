@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { BsFillChatFill } from "react-icons/bs";
 import useSocketForLiveChat from "../../data-access/useSocketForLiveChat";
 import Chatbox from "./components/Chatbox/Chatbox";
-import styles from "./LiveChat.module.css";
+import styles from "./LiveChat.module.scss";
 import { v4 as uuid } from "uuid";
 import { usePeer } from "../../context/PeerContext";
+import { ChatSupport } from "../../libs/icons/icon";
 
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false);
@@ -15,7 +16,7 @@ const LiveChat = ({ teamCdn }) => {
   const [socket] = useSocketForLiveChat(setLatestActivityFromSocket);
   const [msgList, setMsgList] = useState([]);
   const joinClickHandler = async () => {
-    await socket.current.emit("join-chat", username, uuid(), 'NDy9QuRKPkqXvg98qqNy7');
+    await socket.current.emit("join-chat", username, uuid(), teamCdn);
     setIsBoxOpen(false);
     setIsLoggedIn(true);
   };
@@ -37,12 +38,12 @@ const LiveChat = ({ teamCdn }) => {
           socket.current.emit("leave-room");
         }}
       >
-        <BsFillChatFill />
+        <ChatSupport/>
       </div>
       {isBoxOpen && (
         <div className={styles.detailsBox}>
           <header>
-            <h2>Live chat</h2>
+            <div className={styles.chatHeader}> <ChatSupport/> Live chat</div>
           </header>
           <main>
             <div className={styles.inputField}>
@@ -65,6 +66,7 @@ const LiveChat = ({ teamCdn }) => {
           socket={socket}
           allMessages={msgList}
           username={username}
+          teamCdn={teamCdn}
         />
       )}
     </div>
