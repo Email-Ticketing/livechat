@@ -56,6 +56,7 @@
   border: none;
   align-items: center;
   justify-content: space-between;
+  background-color: white;
   width: 100%;
 }
 .sendOptions {
@@ -67,6 +68,9 @@
   border-top: 1px solid #e4e6ea;
   background-color: white;
   padding: 0;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: white;
 }
 .sendMessage input {
   padding: 5px 8px;
