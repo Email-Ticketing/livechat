@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useSocket from "./useSocket";
-import useCookies from "react-cookie/cjs/useCookies";
+import { useCookies } from "react-cookie";
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
   const [socket] = useSocket("https://et-dev-api.ringover-crm.xyz/");
