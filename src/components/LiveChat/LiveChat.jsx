@@ -6,17 +6,24 @@ import styles from "./LiveChat.module.scss";
 import { v4 as uuid } from "uuid";
 import { usePeer } from "../../context/PeerContext";
 import { ChatSupport } from "../../libs/icons/icon";
-
+import { useCookies } from "react-cookie";
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState();
   const [latestActivityFromSocket, setLatestActivityFromSocket] = useState();
+  const [cookies, setCookies] = useCookies(["chat_room_id"]);
   // const [isButtonClicked,setIsButtonClicked]=useState(false)
+  
   const [socket] = useSocketForLiveChat(setLatestActivityFromSocket);
   const [msgList, setMsgList] = useState([]);
   const joinClickHandler = async () => {
-    await socket.current.emit("join-chat", username, uuid(), teamCdn);
+    if(!cookies.chat_room_id){
+      setCookies("chat_room_id", uuid(), {
+        path: "/",
+      });
+    }
+    await socket.current.emit("join-chat", username,cookies.chat_room_id, teamCdn);
     setIsBoxOpen(false);
     setIsLoggedIn(true);
   };

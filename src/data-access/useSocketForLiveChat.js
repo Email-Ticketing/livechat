@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import useSocket from "./useSocket";
-import { useCookies } from "react-cookie";
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
   const [socket] = useSocket("https://et-dev-api.ringover-crm.xyz/");
   // const {username,room}=details
-  const [cookies, setCookies] = useCookies(["chat_room_id"]);
+
 
   useEffect(() => {
     defineEvents();
@@ -30,12 +29,6 @@ const useSocketForLiveChat = (setLatestActivityFromSocket) => {
 
     socket.current.on("message", (message) => {
       setLatestActivityFromSocket(message);
-      if (!cookies.chat_room_id) {
-        setCookies("chat_room_id", message?.user?.chat_room_id, {
-          path: "/",
-        });
-      }
-
       console.log("Received message:- ", message);
     });
 

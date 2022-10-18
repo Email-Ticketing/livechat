@@ -9,6 +9,7 @@ import { usePeer } from "../../../../context/PeerContext";
 import { BsFillCameraVideoFill } from "react-icons/bs";
 import { Attachment, ChatSupport, Send } from "../../../../libs/icons/icon";
 import moment from "moment/moment";
+import { useCookies } from "react-cookie";
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream);
 };
@@ -17,6 +18,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const [myStream, setMyStream] = useState();
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] =
     useState();
+  const [cookies,setCookies]=useCookies()
   const [peerSocket] = useSocketForStream(
     setLatestActivityFromStreamSocket,
     myStream
@@ -43,6 +45,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
       "chat-message",
       inputMsg,
       "customer",
+      cookies.chat_room_id,
       teamCdn
     );
     setInputMsg("");
