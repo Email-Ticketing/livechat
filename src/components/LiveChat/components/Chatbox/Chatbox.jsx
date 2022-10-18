@@ -46,7 +46,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
       inputMsg,
       "customer",
       cookies.chat_room_id,
-      teamCdn
+      "jX3O79zUfqbwVVwisWHrN"
     );
     setInputMsg("");
   };
