@@ -41,6 +41,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
     });
   });
   const clickHandler = async () => {
+    console.log('teamChatCdn',teamCdn)
     await socket.current.emit(
       "chat-message",
       inputMsg,

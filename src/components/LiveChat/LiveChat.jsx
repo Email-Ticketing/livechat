@@ -18,16 +18,17 @@ const LiveChat = ({ teamCdn }) => {
   const [socket] = useSocketForLiveChat(setLatestActivityFromSocket);
   const [msgList, setMsgList] = useState([]);
   const joinClickHandler = async () => {
-    if(!cookies.chat_room_id){
-      setCookies("chat_room_id", uuid(), {
-        path: "/",
-      });
-    }
+    console.log('teamCdn:',teamCdn)
     await socket.current.emit("join-chat", username,cookies.chat_room_id, teamCdn);
     setIsBoxOpen(false);
     setIsLoggedIn(true);
   };
   useEffect(() => {
+    if(!cookies.chat_room_id){
+      setCookies("chat_room_id", uuid(), {
+        path: "/",
+      });
+    }
     if (latestActivityFromSocket) {
       setMsgList((list) => [...list, latestActivityFromSocket]);
     }
