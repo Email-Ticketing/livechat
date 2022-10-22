@@ -10,6 +10,7 @@ import { BsFillCameraVideoFill } from "react-icons/bs"
 import { Attachment, ChatSupport, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
+import stripHTML from "../../../../libs/utils/stripHtml"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
@@ -60,7 +61,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
           return (
             msg.content && (
               <div className={styles.msgContainerLeft + " " + (username === msg?.user?.username && styles.msgContainerRight)}>
-                <div className={styles.msg + " " + (username === msg?.user?.username && styles.userMsg)}>{msg.content}</div>
+                <div className={styles.msg + " " + (username === msg?.user?.username && styles.userMsg)}>{stripHTML(msg.content)}</div>
                 <p className={styles.msgInfo}>{moment(msg?.created_at).format("Do MMMM YYYY, h:mm a")}</p>
               </div>
             )
