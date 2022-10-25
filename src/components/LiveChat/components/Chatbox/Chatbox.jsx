@@ -8,14 +8,14 @@ import { v4 as uuid } from "uuid"
 import { usePeer } from "../../../../context/PeerContext"
 import { BsFillCameraVideoFill } from "react-icons/bs"
 import { Attachment, ChatSupport, Send } from "../../../../libs/icons/icon"
-import useChat from "../../../../data-access/useChat"
-import { useCookies } from "react-cookie"
-
 import moment from "moment/moment"
+import { useCookies } from "react-cookie"
+import stripHTML from "../../../../libs/utils/stripHtml"
+import useChat from "../../../../data-access/useChat"
+
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-
 const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const [cookies, setCookies] = useCookies(["chat_room_id", "support_chat_id", "chat_user_id"])
 
@@ -41,10 +41,11 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
     })
   })
   const clickHandler = async () => {
-    await socket.current.emit("chat-message", inputMsg, "customer", cookies?.chat_room_id, "jX3O79zUfqbwVVwisWHrN", supportMsgId)
+    console.log("teamChatCdn", teamCdn)
+    if (inputMsg) {
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, teamCdn)
+    }
     setInputMsg("")
-    setSupportMsgId()
-    setFiles([])
   }
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia()
