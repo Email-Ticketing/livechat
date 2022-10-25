@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import styles from "./Chatbox.module.scss"
-import { RiSendPlane2Fill } from "react-icons/ri"
+// import { RiSendPlane2Fill } from "react-icons/ri"
 import VideoPlayer from "./VideoPlayer/VideoPlayer"
 import { useEffect } from "react"
 import useSocketForStream from "../../../../data-access/useSocketForStream"
 import { v4 as uuid } from "uuid"
 import { usePeer } from "../../../../context/PeerContext"
-import { BsFillCameraVideoFill } from "react-icons/bs"
+// import { BsFillCameraVideoFill } from "react-icons/bs"
 import { Attachment, ChatSupport, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
@@ -43,10 +43,12 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   })
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
-    if (inputMsg) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, "jX3O79zUfqbwVVwisWHrN")
+    if (inputMsg || files?.length > 0) {
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, "jX3O79zUfqbwVVwisWHrN", supportMsgId)
     }
     setInputMsg("")
+    setFiles([])
+    setSupportMsgId()
   }
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia()
@@ -59,40 +61,29 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   }
 
   useEffect(() => {
-    // if (files?.length > 0) {
-    if (file) {
-      // console.log("abc")
+    if (files?.length > 0) {
       const formData = new FormData()
 
-      // const readFileDataAsBase64 = async (files) => {
-      //   const file = files[0]
+      for (let i = 0; i < files?.length; i++) {
+        formData.append(`image`, files[i])
+      }
 
-      //   return new Promise((resolve, reject) => {
-      //     const reader = new FileReader()
-
-      //     reader.onload = (event) => {
-      //       resolve(event.target.result)
-
-      //       uploadMultimediaApi(formData)
-      //     }
-
-      //     reader.onerror = (err) => {
-      //       reject(err)
-      //     }
-
-      //     reader.readAsArrayBuffer(file)
-      //   })
-      // }
-      formData.append("image", file)
       formData.append("support_chat_id", cookies?.support_chat_id)
       formData.append("msg_type", "customer")
       formData.append("chat_user_id", cookies?.chat_user_id)
       // readFileDataAsBase64(files)
-      uploadMultimediaApi(formData)
-      setFiles([])
-      setFile()
+
+      try {
+        uploadMultimediaApi(formData).then((data) => {
+          console.log(data)
+
+          setSupportMsgId(data?.data?.support_message_id)
+        })
+      } catch (err) {
+        console.log(err)
+      }
     }
-  }, [file])
+  }, [files])
 
   return (
     <div className={styles.chatBox}>
@@ -137,7 +128,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
               </label>
-              <input type="file" name="attachment" id="attachment" onChange={(event) => setFile(event.target.files[0])} />
+              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
             </div>
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
