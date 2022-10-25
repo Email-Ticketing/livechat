@@ -45,7 +45,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
     if (inputMsg || files?.length > 0) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, "jX3O79zUfqbwVVwisWHrN", supportMsgId)
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, teamCdn, supportMsgId)
     }
     setInputMsg("")
     setFiles([])
