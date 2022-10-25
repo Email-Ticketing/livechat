@@ -97,6 +97,10 @@
   color: #8193a8;
   margin: 5px 15px;
   .msg {
+    display: flex;
+    flex-direction: column;
+    // gap: 5px;
+
     width: fit-content;
     border-radius: 10px;
     padding: 8px 10px;
@@ -105,6 +109,20 @@
     line-height: 16px;
     color: #567191;
     background-color: #fafafa;
+
+    .images {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      .image {
+        max-width: 280px;
+        max-height: 160px;
+        img {
+          max-width: 280px;
+          max-height: 160px;
+        }
+      }
+    }
   }
 
   .userMsg {

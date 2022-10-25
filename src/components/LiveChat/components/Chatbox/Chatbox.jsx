@@ -24,6 +24,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const [inputMsg, setInputMsg] = useState("")
   const [myStream, setMyStream] = useState()
   const [files, setFiles] = useState([])
+  const [file, setFile] = useState()
   const [supportMsgId, setSupportMsgId] = useState()
 
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
@@ -43,7 +44,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
     if (inputMsg) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, teamCdn)
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, "jX3O79zUfqbwVVwisWHrN")
     }
     setInputMsg("")
   }
@@ -58,17 +59,40 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   }
 
   useEffect(() => {
-    if (files?.length > 0) {
+    // if (files?.length > 0) {
+    if (file) {
+      // console.log("abc")
       const formData = new FormData()
-      formData.append("support_chat_id", "c82ebee2-4a85-48bd-b85d-6086aef1c6b8")
-      formData.append("msg_type", "customer")
-      formData.append("chat_user_id", "e81d8750-9217-4c37-a6a9-c36c718b0701")
-      console.log(files[0])
-      formData.append("Image", files[0])
 
+      // const readFileDataAsBase64 = async (files) => {
+      //   const file = files[0]
+
+      //   return new Promise((resolve, reject) => {
+      //     const reader = new FileReader()
+
+      //     reader.onload = (event) => {
+      //       resolve(event.target.result)
+
+      //       uploadMultimediaApi(formData)
+      //     }
+
+      //     reader.onerror = (err) => {
+      //       reject(err)
+      //     }
+
+      //     reader.readAsArrayBuffer(file)
+      //   })
+      // }
+      formData.append("image", file)
+      formData.append("support_chat_id", cookies?.support_chat_id)
+      formData.append("msg_type", "customer")
+      formData.append("chat_user_id", cookies?.chat_user_id)
+      // readFileDataAsBase64(files)
       uploadMultimediaApi(formData)
+      setFiles([])
+      setFile()
     }
-  }, [files])
+  }, [file])
 
   return (
     <div className={styles.chatBox}>
@@ -81,10 +105,26 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
       <main>
         {allMessages.map((msg) => {
           return (
-            <div className={styles.msgContainerLeft + " " + (username === msg?.user?.username && styles.msgContainerRight)}>
-              <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>{msg.content}</div>
-              <p className={styles.msgInfo}>{moment(msg?.created_at).format("Do MMMM YYYY, h:mm a")}</p>
-            </div>
+            (msg?.content || msg?.Support_Chat_Attachments.length > 0) && (
+              <div className={styles.msgContainerLeft + " " + (username === msg?.user?.username && styles.msgContainerRight)}>
+                <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
+                  {" "}
+                  <div className={styles.text}>{stripHTML(msg?.content)}</div>
+                  {msg?.Support_Chat_Attachments?.length > 0 && (
+                    <div className={styles.images}>
+                      {msg?.Support_Chat_Attachments?.map((attachment) => {
+                        return (
+                          <div className={styles.image}>
+                            <img src={attachment?.attachment_url} alt="#" />
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+                <p className={styles.msgInfo}>{moment(msg?.created_at).format("Do MMMM YYYY, h:mm a")}</p>
+              </div>
+            )
           )
         })}
         <div className={styles.videoPlayer}>{peerState?.remoteMediaStream && <VideoPlayer stream={peerState.remoteMediaStream} />}</div>
@@ -97,7 +137,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
               </label>
-              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
+              <input type="file" name="attachment" id="attachment" onChange={(event) => setFile(event.target.files[0])} />
             </div>
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
