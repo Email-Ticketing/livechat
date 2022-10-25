@@ -24,7 +24,8 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const [inputMsg, setInputMsg] = useState("")
   const [myStream, setMyStream] = useState()
   const [files, setFiles] = useState([])
-  const [file, setFile] = useState()
+  // const [file, setFile] = useState()
+  console.log(files)
   const [supportMsgId, setSupportMsgId] = useState()
 
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
@@ -120,6 +121,13 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
         })}
         <div className={styles.videoPlayer}>{peerState?.remoteMediaStream && <VideoPlayer stream={peerState.remoteMediaStream} />}</div>
       </main>
+      {
+        files?.length > 0 && supportMsgId && <div className={styles.images_name}>{files[0].name}</div>
+        // files?.map((file) => {
+        // return <div className={styles.images_name}>{file.name}</div>
+        // })
+      }
+
       <footer>
         <div className={styles.sendMessage}>
           <input type="text" placeholder="Write here ..." value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
