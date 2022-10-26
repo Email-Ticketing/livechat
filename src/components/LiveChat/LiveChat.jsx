@@ -12,14 +12,14 @@ const LiveChat = ({ teamCdn }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [username, setUsername] = useState()
   const [latestActivityFromSocket, setLatestActivityFromSocket] = useState()
-  const [cookies, setCookies] = useCookies(["chat_room_id", "support_chat_id", "chat_user_id"])
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id","support_chat_id"])
   // const [isButtonClicked,setIsButtonClicked]=useState(false)
 
   const [socket] = useSocketForLiveChat(setLatestActivityFromSocket)
   const [msgList, setMsgList] = useState([])
   const joinClickHandler = async () => {
     console.log("teamCdn:", teamCdn)
-    await socket.current.emit("join-chat", username, cookies.chat_room_id, teamCdn)
+    await socket.current.emit("join-chat", username, cookies.chat_room_id, "zdEPvDcI_IgpO_8zit2RR")
     setIsBoxOpen(false)
     setIsLoggedIn(true)
   }
@@ -31,14 +31,19 @@ const LiveChat = ({ teamCdn }) => {
     }
 
     if (latestActivityFromSocket) {
-      if (latestActivityFromSocket?.support_chat_id) {
-        setCookies("support_chat_id", latestActivityFromSocket?.support_chat_id, {
+      if (latestActivityFromSocket?.chatRoom?.chat_session_id) {
+        setCookies("chat_session_id",latestActivityFromSocket?.chatRoom?.chat_session_id , {
           path: "/",
         })
-        // console.log(latestActivityFromSocket.support_chat_id)
+
       }
-      if (latestActivityFromSocket?.chat_user_id) {
-        setCookies("chat_user_id", latestActivityFromSocket?.chat_user_id, {
+      if (latestActivityFromSocket?.userJoined?.chat_user_id) {
+        setCookies("chat_user_id", latestActivityFromSocket?.userJoined?.chat_user_id, {
+          path: "/",
+        })
+      }
+      if(latestActivityFromSocket?.support_chat_id){
+        setCookies("support_chat_id", latestActivityFromSocket?.support_chat_id, {
           path: "/",
         })
       }

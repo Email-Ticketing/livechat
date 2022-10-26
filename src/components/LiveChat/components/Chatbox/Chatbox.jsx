@@ -17,17 +17,15 @@ const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
 const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
-  const [cookies, setCookies] = useCookies(["chat_room_id", "support_chat_id", "chat_user_id"])
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id","support_chat_id"])
 
   const { uploadMultimediaApi } = useChat()
 
   const [inputMsg, setInputMsg] = useState("")
   const [myStream, setMyStream] = useState()
   const [files, setFiles] = useState([])
-  // const [file, setFile] = useState()
-  console.log(files)
   const [supportMsgId, setSupportMsgId] = useState()
-
+  console.log(files)
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
   const [peerSocket] = useSocketForStream(setLatestActivityFromStreamSocket, myStream)
   const { peerState } = usePeer()
@@ -45,7 +43,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
     if (inputMsg || files?.length > 0) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, teamCdn, supportMsgId)
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id,"zdEPvDcI_IgpO_8zit2RR", supportMsgId)
     }
     setInputMsg("")
     setFiles([])
@@ -66,7 +64,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
       const formData = new FormData()
 
       for (let i = 0; i < files?.length; i++) {
-        formData.append(`image`, files[i])
+        formData.append(`attachment`, files[i])
       }
 
       formData.append("support_chat_id", cookies?.support_chat_id)
@@ -97,7 +95,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
       <main>
         {allMessages.map((msg) => {
           return (
-            (msg?.content || msg?.Support_Chat_Attachments.length > 0) && (
+            (msg?.content || msg?.Support_Chat_Attachments?.length > 0) && (
               <div className={styles.msgContainerLeft + " " + (username === msg?.user?.username && styles.msgContainerRight)}>
                 <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
                   {" "}
