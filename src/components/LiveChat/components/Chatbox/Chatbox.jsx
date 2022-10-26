@@ -12,6 +12,7 @@ import moment from "moment/moment"
 import { useCookies } from "react-cookie"
 import stripHTML from "../../../../libs/utils/stripHtml"
 import useChat from "../../../../data-access/useChat"
+import Spinner from "../../../../libs/utils/Spinner/Spinner"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
@@ -24,6 +25,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const [inputMsg, setInputMsg] = useState("")
   const [myStream, setMyStream] = useState()
   const [files, setFiles] = useState([])
+  const [uploadingMultimedia, setUploadingMultimedia] = useState(false)
   // const [file, setFile] = useState()
   console.log(files)
   const [supportMsgId, setSupportMsgId] = useState()
@@ -63,6 +65,8 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
 
   useEffect(() => {
     if (files?.length > 0) {
+      setUploadingMultimedia(true)
+
       const formData = new FormData()
 
       for (let i = 0; i < files?.length; i++) {
@@ -76,12 +80,12 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
 
       try {
         uploadMultimediaApi(formData).then((data) => {
-          console.log(data)
-
           setSupportMsgId(data?.data?.support_message_id)
+          setUploadingMultimedia(false)
         })
       } catch (err) {
         console.log(err)
+        setUploadingMultimedia(false)
       }
     }
   }, [files])
@@ -121,12 +125,16 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
         })}
         <div className={styles.videoPlayer}>{peerState?.remoteMediaStream && <VideoPlayer stream={peerState.remoteMediaStream} />}</div>
       </main>
-      {
-        files?.length > 0 && supportMsgId && <div className={styles.images_name}>{files[0].name}</div>
-        // files?.map((file) => {
-        // return <div className={styles.images_name}>{file.name}</div>
-        // })
-      }
+      <div className={styles.attachment_name}>
+        {files?.length > 0 &&
+          (uploadingMultimedia ? (
+            <div className={styles.loading}>
+              <Spinner />
+            </div>
+          ) : (
+            supportMsgId && <div className={styles.images_name}>{files[0].name}</div>
+          ))}
+      </div>
 
       <footer>
         <div className={styles.sendMessage}>
