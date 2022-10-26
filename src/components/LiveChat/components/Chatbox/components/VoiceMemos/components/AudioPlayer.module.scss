@@ -1,0 +1,26 @@
+.audioParent {
+  display: flex;
+  align-items: center;
+  background: #f1f1f1;
+  border-radius: 12px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  width: fit-content;
+  font-size: 10px;
+  line-height: 14px;
+  color: #1e4552;
+  padding: 15px 20px;
+  gap: 10px;
+  svg {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    > path {
+      fill: #1e4552;
+    }
+  }
+  audio {
+    display: none;
+  }
+}

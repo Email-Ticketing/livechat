@@ -133,9 +133,14 @@
       .image {
         max-width: 280px;
         max-height: 160px;
+        position: relative;
         img {
           max-width: 280px;
           max-height: 160px;
+        }
+        audio {
+          max-width: 200px;
+          max-height: 40px;
         }
       }
     }

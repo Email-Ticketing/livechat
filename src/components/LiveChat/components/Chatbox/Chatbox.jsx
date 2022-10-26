@@ -13,12 +13,13 @@ import { useCookies } from "react-cookie"
 import stripHTML from "../../../../libs/utils/stripHtml"
 import useChat from "../../../../data-access/useChat"
 import Spinner from "../../../../libs/utils/Spinner/Spinner"
+import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
 const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
-  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id","support_chat_id"])
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
 
   const { uploadMultimediaApi } = useChat()
 
@@ -47,7 +48,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
     if (inputMsg || files?.length > 0) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id,teamCdn, supportMsgId)
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, teamCdn, supportMsgId)
     }
     setInputMsg("")
     setFiles([])
@@ -109,11 +110,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
                       {msg?.Support_Chat_Attachments?.map((attachment) => {
-                        return (
-                          <div className={styles.image}>
-                            <img src={attachment?.attachment_url} alt="#" />
-                          </div>
-                        )
+                        return <div className={styles.image}>{attachment?.attachment_type === "audio/wav" ? <audio controls id="audio" src={attachment?.attachment_url} type={attachment?.attachment_type}></audio> : <img src={attachment?.attachment_url} alt="#" />}</div>
                       })}
                     </div>
                   )}
@@ -140,6 +137,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
         <div className={styles.sendMessage}>
           <input type="text" placeholder="Write here ..." value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
           <div className={styles.sendOptions}>
+            <VoiceMemos setFiles={setFiles} />
             <div className={styles.attachments}>
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
