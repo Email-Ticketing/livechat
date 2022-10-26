@@ -2,8 +2,7 @@ import { useEffect, useState } from "react"
 import useSocket from "./useSocket"
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
-  const [socket] = useSocket("https://et-dev-api.ringover-crm.xyz/")
-  // const {username,room}=details
+  const [socket] = useSocket("https://et-dev-api.ringover-crm.xyz/");
 
   useEffect(() => {
     defineEvents()
