@@ -19,7 +19,7 @@ const LiveChat = ({ teamCdn }) => {
   const [msgList, setMsgList] = useState([])
   const joinClickHandler = async () => {
     console.log("teamCdn:", teamCdn)
-    await socket.current.emit("join-chat", username, cookies.chat_room_id, "zdEPvDcI_IgpO_8zit2RR")
+    await socket.current.emit("join-chat", username, cookies.chat_room_id, teamCdn)
     setIsBoxOpen(false)
     setIsLoggedIn(true)
   }
