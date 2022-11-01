@@ -18,7 +18,7 @@ import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
+const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
 
   const { uploadMultimediaApi } = useChat()
@@ -37,7 +37,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
   console.log(allMessages)
   useEffect(() => {
     if (peerState?.myPeer?._id) {
-      peerSocket.current.emit("join-room", username, peerState.myPeer._id, null, "tech1")
+      peerSocket.current.emit("join-room", cookies.chat_user_id, peerState.myPeer._id, null, "tech1")
     }
   }, [])
   useEffect(() => {
@@ -58,7 +58,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
     const stream = await navigator.mediaDevices.getDisplayMedia()
     setMyStream(stream)
     peerState?.users?.map((user) => {
-      if (user.username !== username) {
+      if (user.chat_user_id !== cookies.chat_user_id) {
         const call = peerState.myPeer.call(user.user_id, stream)
       }
     })
@@ -103,7 +103,7 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
         {allMessages.map((msg) => {
           return (
             (msg?.content || msg?.Support_Chat_Attachments?.length > 0) && (
-              <div className={styles.msgContainerLeft + " " + (username === msg?.user?.username && styles.msgContainerRight)}>
+              <div className={styles.msgContainerLeft + " " + (cookies.chat_user_id === msg.user?.chat_user_id && styles.msgContainerRight)}>
                 <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
                   {" "}
                   <div className={styles.text}>{stripHTML(msg?.content)}</div>
