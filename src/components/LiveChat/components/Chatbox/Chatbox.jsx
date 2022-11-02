@@ -11,6 +11,7 @@ import { Attachment, ChatSupport, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
 import stripHTML from "../../../../libs/utils/stripHtml"
+import {MdScreenShare} from 'react-icons/md'
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
@@ -75,6 +76,9 @@ const Chatbox = ({ socket, allMessages, username, teamCdn }) => {
           <div className={styles.sendOptions}>
             <Attachment className={styles.icon} />
             <Send className={styles.icon} onClick={clickHandler} />
+          </div>
+          <div onClick={vidClickHandler}>
+            <MdScreenShare size={25} className={styles.icon}/>
           </div>
         </div>
       </footer>
