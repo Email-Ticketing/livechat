@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
+import { usePeer } from "../context/PeerContext";
 import useSocket from "./useSocket"
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
   const [socket] = useSocket("https://et-staging-api.ringover-crm.xyz/");
-
+  const { peerState, setPeerState } = usePeer()
   useEffect(() => {
     defineEvents()
   }, [])
@@ -26,6 +27,16 @@ const useSocketForLiveChat = (setLatestActivityFromSocket) => {
 
     socket.current.on("disconnect", (disconect) => {
       console.log("socket for activity disconnected", disconect)
+    })
+    socket.current.on("user-connected", (user) => {
+      console.log("new user", user)
+      setPeerState((state) => ({
+        ...state,
+        user: {...user},
+      }))
+    })
+    socket.current.on('close-stream',()=>{
+      console.log('stream ending')
     })
   }
 

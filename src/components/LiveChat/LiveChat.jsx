@@ -34,11 +34,6 @@ const LiveChat = ({ teamCdn }) => {
     }
   };
   useEffect(() => {
-    if (!cookies.chat_room_id) {
-      setCookies("chat_room_id", uuid(), {
-        path: "/",
-      });
-    }
 
     if (latestActivityFromSocket) {
       if (latestActivityFromSocket?.chatRoom?.chat_session_id) {
