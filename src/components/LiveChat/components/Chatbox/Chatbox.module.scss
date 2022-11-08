@@ -115,6 +115,7 @@
   .msg {
     display: flex;
     flex-direction: column;
+
     // gap: 5px;
 
     width: fit-content;
@@ -129,18 +130,90 @@
     .images {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
       gap: 5px;
       .image {
         max-width: 280px;
+
         max-height: 160px;
-        position: relative;
         img {
           max-width: 280px;
           max-height: 160px;
         }
         audio {
-          max-width: 200px;
-          max-height: 40px;
+          max-width: 250px;
+          max-height: 50px;
+        }
+      }
+    }
+    // .attachemnts {
+    //   display: flex;
+    //   flex-wrap: wrap;
+    //   gap: 10px;
+    &_ml {
+      margin-left: 20px;
+    }
+    .attachemnt {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      // margin-top: -3px;
+      gap: 10px;
+
+      width: 195px;
+      height: 25px;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+      .spinner {
+        div {
+          width: 15px;
+          height: 15px;
+          border: 2px solid $lightBlue;
+          border-color: $lightBlue transparent transparent transparent;
+        }
+      }
+      .attachemntImage {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $lightBlue;
+
+        border-radius: 5px;
+        width: 28px;
+        height: 28px;
+
+        .image {
+          color: $input;
+          height: 16px;
+          width: 18px;
+        }
+      }
+      .download_link {
+        .download_icon {
+          color: $lightBlue;
+        }
+      }
+      .attachemntText {
+        margin-right: auto;
+        width: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        h5 {
+          font-size: 12px;
+
+          color: $black;
+          font-weight: 400;
+        }
+        p {
+          font-size: 12px;
+          font-weight: 400;
+          text-transform: uppercase;
+          color: $black;
         }
       }
     }

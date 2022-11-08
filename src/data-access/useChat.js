@@ -3,7 +3,7 @@ import axios from "axios"
 
 const useChat = () => {
   const PublicApi = axios.create({
-    baseURL: "https://et-dev-api.ringover-crm.xyz/",
+    baseURL: "https://et-staging-api.ringover-crm.xyz/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -24,7 +24,7 @@ const useChat = () => {
     // var json = JSON.stringify(object)
 
     return axios
-      .patch(`https://et-api.ringover-crm.xyz/v1/ticket/upload`, formData, {
+      .patch(`https://et-staging-api.ringover-crm.xyz/v1/ticket/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

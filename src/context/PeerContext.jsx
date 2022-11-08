@@ -1,10 +1,10 @@
-import { Peer } from "peerjs";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { createContext } from "react";
-import { useCookies } from "react-cookie";
-import { v4 as uuid } from "uuid";
+import { Peer } from "peerjs"
+import { useState } from "react"
+import { useEffect } from "react"
+import { useContext } from "react"
+import { createContext } from "react"
+import { useCookies } from "react-cookie"
+import { v4 as uuid } from "uuid"
 
 // const chatForm = document.getElementById('chat-form');
 // const chatMessages = document.querySelector('.chat-messages');
@@ -156,78 +156,67 @@ import { v4 as uuid } from "uuid";
 //   }
 // });
 
-const PeerContext = createContext(null);
+const PeerContext = createContext(null)
 
-const defaultState = { users: [] };
+const defaultState = { users: [] }
 
-const chat_room_id=uuid()
-const chat_user_id=uuid()
+const chat_room_id = uuid()
+const chat_user_id = uuid()
 
-export const usePeer = () => useContext(PeerContext);
+export const usePeer = () => useContext(PeerContext)
 
 export const PeerProvider = ({ children }) => {
   // const[peerSocket]=useSocketForStream()
-  const [peerState, setPeerState] = useState(defaultState);
-  const [cookies, setCookies] = useCookies([
-    "chat_room_id",
-    "chat_session_id",
-    "chat_user_id",
-    "support_chat_id",
-  ]);
+  const [peerState, setPeerState] = useState(defaultState)
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!cookies.chat_room_id) {
       setCookies("chat_room_id", chat_room_id, {
         path: "/",
-      });
+      })
     }
     if (!cookies.chat_user_id) {
       setCookies("chat_user_id", chat_user_id, {
         path: "/",
-      });
+      })
     }
   })
   useEffect(() => {
-    const myPeer = new Peer(cookies.chat_user_id? cookies.chat_user_id : chat_user_id,{
-      host:'et-api.ringover-crm.xyz',
-      path:'/peerApp',
-      secure:true
-    });
-    setPeerState((state) => ({ ...state, myPeer:myPeer }));
-  }, []);
+    const myPeer = new Peer(cookies.chat_user_id ? cookies.chat_user_id : chat_user_id, {
+      host: "et-staging-api.ringover-crm.xyz",
+      path: "/peerApp",
+      secure: true,
+    })
+    setPeerState((state) => ({ ...state, myPeer: myPeer }))
+  }, [])
 
   useEffect(() => {
-
     peerState?.myPeer?.on("open", (id) => {
-      console.log("My id:", id);
-    });
-
-  }, [peerState.myPeer]);
+      console.log("My id:", id)
+    })
+  }, [peerState.myPeer])
   useEffect(() => {
     // peerState.myPeer?.on()
     peerState?.myPeer?.on("call", (call) => {
-      console.log("new call");
+      console.log("new call")
       call.answer()
-      call.on('stream',(mediaStream)=>{
-        setPeerState(state=>({
-            ...state,
-            remoteMediaStream:mediaStream
+      call.on("stream", (mediaStream) => {
+        setPeerState((state) => ({
+          ...state,
+          remoteMediaStream: mediaStream,
         }))
       })
-    });
-    peerState?.myPeer?.on('close',()=>{
-      console.log('call ended')
     })
-    peerState?.myPeer?.on('disconnected',()=>{
-      console.log('call ended diss')
+    peerState?.myPeer?.on("close", () => {
+      console.log("call ended")
     })
-    peerState?.myPeer?.on('error',(error)=>{
+    peerState?.myPeer?.on("disconnected", () => {
+      console.log("call ended diss")
+    })
+    peerState?.myPeer?.on("error", (error) => {
       console.log(error)
     })
-  });
-  return (
-    <PeerContext.Provider value={{ peerState, setPeerState }}>
-      {children}
-    </PeerContext.Provider>
-  );
-};
+  })
+  return <PeerContext.Provider value={{ peerState, setPeerState }}>{children}</PeerContext.Provider>
+}
