@@ -157,35 +157,30 @@ import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/A
 //   }
 // });
 
-const PeerContext = createContext(null);
+const PeerContext = createContext(null)
 
-const defaultState = { users: [] };
+const defaultState = { users: [] }
 
-const chat_room_id=uuid()
-const chat_user_id=uuid()
+const chat_room_id = uuid()
+const chat_user_id = uuid()
 
-export const usePeer = () => useContext(PeerContext);
+export const usePeer = () => useContext(PeerContext)
 
 export const PeerProvider = ({ children }) => {
   // const[peerSocket]=useSocketForStream()
-  const [peerState, setPeerState] = useState(defaultState);
-  const [cookies, setCookies] = useCookies([
-    "chat_room_id",
-    "chat_session_id",
-    "chat_user_id",
-    "support_chat_id",
-  ]);
+  const [peerState, setPeerState] = useState(defaultState)
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!cookies.chat_room_id) {
       setCookies("chat_room_id", chat_room_id, {
         path: "/",
-      });
+      })
     }
     if (!cookies.chat_user_id) {
       setCookies("chat_user_id", chat_user_id, {
         path: "/",
-      });
+      })
     }
   })
   useEffect(() => {
@@ -198,25 +193,23 @@ export const PeerProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-
     peerState?.myPeer?.on("open", (id) => {
-      console.log("My id:", id);
-    });
-
-  }, [peerState.myPeer]);
+      console.log("My id:", id)
+    })
+  }, [peerState.myPeer])
   useEffect(() => {
     // peerState.myPeer?.on()
     peerState?.myPeer?.on("call", (call) => {
-      console.log("new call");
+      console.log("new call")
       call.answer()
     });
     peerState?.myPeer?.on('close',()=>{
       console.log('call ended')
     })
-    peerState?.myPeer?.on('disconnected',()=>{
-      console.log('call ended diss')
+    peerState?.myPeer?.on("disconnected", () => {
+      console.log("call ended diss")
     })
-    peerState?.myPeer?.on('error',(error)=>{
+    peerState?.myPeer?.on("error", (error) => {
       console.log(error)
     })
   });
