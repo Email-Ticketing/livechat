@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { useCookies } from "react-cookie";
 import { v4 as uuid } from "uuid";
+import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/AudioPlayer";
 
 // const chatForm = document.getElementById('chat-form');
 // const chatMessages = document.querySelector('.chat-messages');
@@ -189,7 +190,7 @@ export const PeerProvider = ({ children }) => {
   })
   useEffect(() => {
     const myPeer = new Peer(cookies.chat_user_id? cookies.chat_user_id : chat_user_id,{
-      host:'et-api.ringover-crm.xyz',
+      host:'et-staging-api.ringover-crm.xyz',
       path:'/peerApp',
       secure:true
     });
@@ -208,12 +209,6 @@ export const PeerProvider = ({ children }) => {
     peerState?.myPeer?.on("call", (call) => {
       console.log("new call");
       call.answer()
-      call.on('stream',(mediaStream)=>{
-        setPeerState(state=>({
-            ...state,
-            remoteMediaStream:mediaStream
-        }))
-      })
     });
     peerState?.myPeer?.on('close',()=>{
       console.log('call ended')
@@ -227,6 +222,8 @@ export const PeerProvider = ({ children }) => {
   });
   return (
     <PeerContext.Provider value={{ peerState, setPeerState }}>
+      {console.log('ye stream: ' , peerState?.remoteAudioStream)}
+      {peerState?.remoteAudioStream && <AudioPlayer stream={peerState?.remoteAudioStream}/>}
       {children}
     </PeerContext.Provider>
   );

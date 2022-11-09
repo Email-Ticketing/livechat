@@ -37,7 +37,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const [supportMsgId, setSupportMsgId] = useState();
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] =
     useState();
-  const { peerState } = usePeer();
+  const { peerState,setPeerState } = usePeer();
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id);
@@ -52,7 +52,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         "customer",
         cookies.chat_room_id,
         cookies.chat_session_id,
-        teamCdn,
+        "E6p2MJWUVSbKiPtQ7tgyj",
         supportMsgId
       );
     }
@@ -62,10 +62,21 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   };
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia();
+    const audioStream=await navigator.mediaDevices.getUserMedia({audio:true})
+    const audioTrack=await audioStream.getAudioTracks()[0]
+    await stream.addTrack(audioTrack)
     setMyStream(stream);
     if (peerState?.user) {
-      console.log(stream)
       const call = peerState.myPeer.call(peerState.user.user_id, stream);
+
+      call.on('stream',(mediaStream)=>{
+        console.log('incomingStream')
+        console.log(mediaStream)
+        setPeerState(state=>({
+            ...state,
+            remoteAudioStream:mediaStream
+        }))
+      })
     }
   };
 
@@ -153,11 +164,11 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
             )
           );
         })}
-        <div className={styles.videoPlayer}>
+        {/* <div className={styles.videoPlayer}>
           {peerState?.remoteMediaStream && (
             <VideoPlayer stream={peerState.remoteMediaStream} />
           )}
-        </div>
+        </div> */}
       </main>
       <div className={styles.attachment_name}>
         {files?.length > 0 &&
