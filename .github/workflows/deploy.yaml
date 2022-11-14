@@ -22,5 +22,5 @@ jobs:
       with:
         instance_name: 'example-instance'
         zone: 'us-central1-a'
-        ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+        ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY }}'
         command: 'echo Hello world'
