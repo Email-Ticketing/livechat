@@ -9,9 +9,10 @@ echo "Syncing livechat repo on branch $branch"
 
 cd livechat
 
-git checkout $branch
+
 
 git fetch --all
+git checkout $branch
 git reset --hard origin/$branch
 
 npm install
