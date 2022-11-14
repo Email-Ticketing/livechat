@@ -20,7 +20,7 @@ jobs:
     - id: 'compute-ssh'
       uses: 'google-github-actions/ssh-compute@v0'
       with:
-        instance_name: 'example-instance'
+        instance_name: 'staging-email-ticketing-backend'
         zone: 'us-central1-a'
         ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY }}'
         command: 'echo Hello world'
