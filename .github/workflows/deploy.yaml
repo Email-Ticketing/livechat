@@ -1,8 +1,14 @@
-name: "livechat cicd"
+name: CI for livechat Project
+on:
+  push:
+    branches: [ cicd ]
+  pull_request:
+    branches: [ cicd ]
 
 jobs:
-  job_id:
-    steps:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Test
     - uses: 'actions/checkout@v3'
 
     - id: 'auth'
