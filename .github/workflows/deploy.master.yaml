@@ -1,0 +1,26 @@
+name: CI for livechat Project
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  job_id:
+    runs-on: ubuntu-latest
+    name: Build and Test
+    steps:
+    - uses: 'actions/checkout@v3'
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+
+    - id: 'compute-ssh'
+      uses: 'google-github-actions/ssh-compute@v0'
+      with:
+        instance_name: 'production-email-ticketing-backend'
+        zone: 'us-central1-a'
+        ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY_PRODUCTION }}'
+        command: 'sudo ./livechat/livechat-cdn.sh -b master'
