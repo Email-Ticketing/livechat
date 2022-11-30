@@ -24,4 +24,4 @@ jobs:
         user: 'ringover_developer'
         zone: 'us-central1-a'
         ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY_DEV }}'
-        command: 'sudo ./livechat/livechat-cdn.sh -b dev'
+        command: 'sudo ./livechat-cdn.sh -b dev'
