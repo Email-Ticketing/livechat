@@ -1,27 +1,27 @@
 name: CI for livechat Project
 on:
   push:
-    branches: [ staging ]
+    branches: [staging]
   pull_request:
-    branches: [ staging ]
+    branches: [staging]
 
 jobs:
   job_id:
     runs-on: ubuntu-latest
     name: Build and Test
     steps:
-    - uses: 'actions/checkout@v3'
+      - uses: "actions/checkout@v3"
 
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v0'
-      with:
-        credentials_json: '${{ secrets.GCP_CREDENTIAL }}'
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GCP_CREDENTIAL }}"
 
-    - id: 'compute-ssh'
-      uses: 'google-github-actions/ssh-compute@v0'
-      with:
-        instance_name: 'staging-email-ticketing-backend'
-        user: 'ringover_developer'
-        zone: 'us-central1-a'
-        ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY }}'
-        command: 'sudo ./livechat-cdn.sh -b staging'
+      - id: "compute-ssh"
+        uses: "google-github-actions/ssh-compute@v0"
+        with:
+          instance_name: "staging-email-ticketing-backend"
+          user: "ringover_developer"
+          zone: "us-central1-a"
+          ssh_private_key: "${{ secrets.GCP_PRIVATE_KEY_STAGING }}"
+          command: "sudo ./livechat-cdn.sh -b staging"
