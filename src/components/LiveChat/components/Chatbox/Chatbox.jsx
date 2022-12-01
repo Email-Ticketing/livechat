@@ -15,6 +15,7 @@ import useChat from "../../../../data-access/useChat"
 import Spinner from "../../../../libs/utils/Spinner/Spinner"
 import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
 import { MdScreenShare } from "react-icons/md"
+import html2canvas from "html2canvas"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
@@ -29,10 +30,9 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const [files, setFiles] = useState([])
   const [uploadingMultimedia, setUploadingMultimedia] = useState(false)
   // const [file, setFile] = useState()
-  const [supportMsgId, setSupportMsgId] = useState();
-  const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] =
-    useState();
-  const { peerState,setPeerState } = usePeer();
+  const [supportMsgId, setSupportMsgId] = useState()
+  const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
+  const { peerState, setPeerState } = usePeer()
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id)
@@ -41,34 +41,26 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
     if (inputMsg || files?.length > 0) {
-      await socket.current.emit(
-        "chat-message",
-        inputMsg,
-        "customer",
-        cookies.chat_room_id,
-        cookies.chat_session_id,
-        teamCdn,
-        supportMsgId
-      );
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, "E6p2MJWUVSbKiPtQ7tgyj", supportMsgId)
     }
     setInputMsg("")
     setFiles([])
     setSupportMsgId()
   }
   const vidClickHandler = async () => {
-    const stream = await navigator.mediaDevices.getDisplayMedia();
-    const audioStream=await navigator.mediaDevices.getUserMedia({audio:true})
-    const audioTrack=await audioStream.getAudioTracks()[0]
+    const stream = await navigator.mediaDevices.getDisplayMedia()
+    const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    const audioTrack = await audioStream.getAudioTracks()[0]
     await stream.addTrack(audioTrack)
-    setMyStream(stream);
+    setMyStream(stream)
     if (peerState?.user) {
-      const call = peerState.myPeer.call(peerState.user.user_id, stream);
-      call.on('stream',(mediaStream)=>{
-        console.log('incomingStream')
+      const call = peerState.myPeer.call(peerState.user.user_id, stream)
+      call.on("stream", (mediaStream) => {
+        console.log("incomingStream")
         console.log(mediaStream)
-        setPeerState(state=>({
-            ...state,
-            remoteAudioStream:mediaStream
+        setPeerState((state) => ({
+          ...state,
+          remoteAudioStream: mediaStream,
         }))
       })
     }
@@ -106,6 +98,23 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
     if (bytes == 0) return "0 Byte"
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)))
     return Math.round(bytes / Math.pow(1024, i), 2) + " " + sizes[i]
+  }
+
+  const handleSnapshot = () => {
+    const root = document.body
+
+    html2canvas(root, { cacheBust: true })
+      .then((canvas) => {
+        const dataUrl = canvas.toDataURL("image/png")
+        var file
+        canvas.toBlob((blob) => {
+          file = new File([blob], "fileName.jpg", { type: "image/jpeg" })
+          setFiles((prev) => [...prev, file])
+        }, "image/jpeg")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (
@@ -187,6 +196,9 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         <div className={styles.sendMessage}>
           <input type="text" placeholder="Write here ..." value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
           <div className={styles.sendOptions}>
+            <button className={styles.snapshot} onClick={handleSnapshot}>
+              Snapshot
+            </button>
             <VoiceMemos setFiles={setFiles} />
             <div className={styles.attachments}>
               <label htmlFor="attachment">
