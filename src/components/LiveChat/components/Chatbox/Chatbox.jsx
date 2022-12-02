@@ -179,6 +179,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
           {peerState?.remoteMediaStream && (
             <VideoPlayer stream={peerState.remoteMediaStream} />
           )}
+          //
         </div> */}
       </main>
       <div className={styles.attachment_name}>
