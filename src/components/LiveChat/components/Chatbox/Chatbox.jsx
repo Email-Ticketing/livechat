@@ -81,7 +81,6 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
       formData.append("support_chat_id", cookies?.support_chat_id)
       formData.append("msg_type", "customer")
       formData.append("chat_user_id", cookies?.chat_user_id)
-      // readFileDataAsBase64(files)
 
       try {
         uploadMultimediaApi(formData).then((data) => {
