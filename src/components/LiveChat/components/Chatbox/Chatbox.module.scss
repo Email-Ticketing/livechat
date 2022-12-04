@@ -61,6 +61,7 @@
 }
 .sendOptions {
   display: flex;
+  align-items: center;
   gap: 20px;
 
   .attachments {
@@ -69,11 +70,13 @@
     }
   }
   .snapshot {
-    border-radius: 8px;
-    border: none;
-    border: 1px solid black;
-    padding: 5px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    height: 20px;
+  }
+  .blur {
+    opacity: 0.3;
   }
 }
 .attachment_name {
