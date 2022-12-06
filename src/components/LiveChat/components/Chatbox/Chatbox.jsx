@@ -205,7 +205,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         <div className={styles.sendMessage}>
           <input type="text" placeholder="Write here ..." value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
           <div className={styles.sendOptions}>
-            <img src={snapshot} alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
 
             <VoiceMemos setFiles={setFiles} />
             <div className={styles.attachments}>
