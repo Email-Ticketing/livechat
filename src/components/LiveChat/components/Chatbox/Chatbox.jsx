@@ -13,10 +13,9 @@ import { useCookies } from "react-cookie"
 import stripHTML from "../../../../libs/utils/stripHtml"
 import useChat from "../../../../data-access/useChat"
 import Spinner from "../../../../libs/utils/Spinner/Spinner"
-import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
+// import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
 import { MdScreenShare } from "react-icons/md"
 import html2canvas from "html2canvas"
-import snapshot from "./tempIcon/screenshot.png"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
@@ -207,7 +206,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
           <div className={styles.sendOptions}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
 
-            <VoiceMemos setFiles={setFiles} />
+            {/* <VoiceMemos setFiles={setFiles} /> */}
             <div className={styles.attachments}>
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
