@@ -13,7 +13,7 @@ import { useCookies } from "react-cookie"
 import stripHTML from "../../../../libs/utils/stripHtml"
 import useChat from "../../../../data-access/useChat"
 import Spinner from "../../../../libs/utils/Spinner/Spinner"
-import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
+// import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
 import { MdScreenShare } from "react-icons/md"
 import html2canvas from "html2canvas"
 
@@ -31,6 +31,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const [uploadingMultimedia, setUploadingMultimedia] = useState(false)
   // const [file, setFile] = useState()
   const [supportMsgId, setSupportMsgId] = useState()
+  const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
   const { peerState, setPeerState } = usePeer()
   useEffect(() => {
@@ -79,16 +80,17 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
       formData.append("support_chat_id", cookies?.support_chat_id)
       formData.append("msg_type", "customer")
       formData.append("chat_user_id", cookies?.chat_user_id)
-      // readFileDataAsBase64(files)
 
       try {
         uploadMultimediaApi(formData).then((data) => {
           setSupportMsgId(data?.data?.support_message_id)
           setUploadingMultimedia(false)
+          setIsTakingSnapshot(false)
         })
       } catch (err) {
         console.log(err)
         setUploadingMultimedia(false)
+        setIsTakingSnapshot(false)
       }
     }
   }, [files])
@@ -101,6 +103,9 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   }
 
   const handleSnapshot = () => {
+    if (isTakingSnapshot) return
+
+    setIsTakingSnapshot(true)
     const root = document.body
 
     html2canvas(root, { cacheBust: true })
@@ -141,7 +146,9 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
                             {attachment?.attachment_type === "audio/wav" ? (
                               <audio controls id="audio" src={attachment?.attachment_url} type={attachment?.attachment_type}></audio>
                             ) : attachment.attachment_type.includes("image") ? (
-                              <img src={attachment?.attachment_url} alt="#" />
+                              <a href={attachment?.attachment_url} className={styles.download_link} download>
+                                <img src={attachment?.attachment_url} alt="#" />
+                              </a>
                             ) : (
                               <div
                                 // key={`attachementkey-${index}`}
@@ -180,6 +187,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
             <VideoPlayer stream={peerState.remoteMediaStream} />
             //
           )}
+          //
         </div> */}
       </main>
       <div className={styles.attachment_name}>
@@ -197,10 +205,9 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         <div className={styles.sendMessage}>
           <input type="text" placeholder="Write here ..." value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
           <div className={styles.sendOptions}>
-            <button className={styles.snapshot} onClick={handleSnapshot}>
-              Snapshot
-            </button>
-            <VoiceMemos setFiles={setFiles} />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
+
+            {/* <VoiceMemos setFiles={setFiles} /> */}
             <div className={styles.attachments}>
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />

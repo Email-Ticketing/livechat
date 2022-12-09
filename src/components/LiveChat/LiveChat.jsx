@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid"
 import { usePeer } from "../../context/PeerContext"
 import { ChatSupport } from "../../libs/icons/icon"
 import { useCookies } from "react-cookie"
+
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
