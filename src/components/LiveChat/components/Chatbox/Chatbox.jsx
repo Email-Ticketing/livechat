@@ -42,7 +42,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const clickHandler = async () => {
     console.log("teamChatCdn", teamCdn)
     if (inputMsg || files?.length > 0) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, teamCdn, supportMsgId)
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, "E6p2MJWUVSbKiPtQ7tgyj", supportMsgId)
     }
     setInputMsg("")
     setFiles([])
@@ -108,7 +108,15 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
     setIsTakingSnapshot(true)
     const root = document.body
 
-    html2canvas(root, { cacheBust: true })
+    html2canvas(root, {
+      cacheBust: true,
+      ignoreElements: function (element) {
+        /* Remove element with id="live-chat" */
+        if ("live-chat" === element.id) {
+          return true
+        }
+      },
+    })
       .then((canvas) => {
         const dataUrl = canvas.toDataURL("image/png")
         var file
