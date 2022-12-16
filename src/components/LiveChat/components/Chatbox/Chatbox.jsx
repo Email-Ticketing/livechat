@@ -108,7 +108,15 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
     setIsTakingSnapshot(true)
     const root = document.body
 
-    html2canvas(root, { cacheBust: true })
+    html2canvas(root, {
+      cacheBust: true,
+      ignoreElements: function (element) {
+        /* Remove element with id="live-chat" */
+        if ("live-chat" === element.id) {
+          return true
+        }
+      },
+    })
       .then((canvas) => {
         const dataUrl = canvas.toDataURL("image/png")
         var file
