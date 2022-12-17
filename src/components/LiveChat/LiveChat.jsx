@@ -20,7 +20,7 @@ const LiveChat = ({ teamCdn }) => {
   const joinClickHandler = async () => {
     if (!isBoxOpen) {
       console.log("teamCdn:", teamCdn)
-      await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, teamCdn)
+      await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, "E6p2MJWUVSbKiPtQ7tgyj")
       setIsLoggedIn(true)
     }
   }
