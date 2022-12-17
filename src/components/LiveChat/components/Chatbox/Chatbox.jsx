@@ -49,13 +49,15 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
     })
   })
   const clickHandler = async () => {
-    console.log("teamChatCdn", teamCdn)
-    if (inputMsg || files?.length > 0) {
-      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, "E6p2MJWUVSbKiPtQ7tgyj", supportMsgId)
+    // console.log("teamChatCdn", teamCdn)
+    const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
+    const inputMsgLength = inputMsg.length
+    if ((inputMsg && inputMsgLength > numberOfLineBreaks) || files?.length > 0) {
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, teamCdn, supportMsgId)
+      setInputMsg("")
+      setFiles([])
+      setSupportMsgId()
     }
-    setInputMsg("")
-    setFiles([])
-    setSupportMsgId()
   }
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia()
