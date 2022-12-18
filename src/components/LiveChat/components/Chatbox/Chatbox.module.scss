@@ -1,269 +1,269 @@
 @import "../../../../libs/themes/styles/_variables.scss";
 .chatBox {
-  position: absolute !important;
-  top: 0 !important;
-  bottom: 55px !important;
-  right: 55px !important;
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  border-radius: 15px !important;
-  box-shadow: 5px 10px 50px rgba(41, 43, 88, 0.2) !important;
-  /* height: 100% !important; */
-  z-index: 1000 !important;
+  position: absolute;
+  top: 0;
+  bottom: 55px;
+  right: 55px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15px;
+  box-shadow: 5px 10px 50px rgba(41, 43, 88, 0.2);
+  /* height: 100%; */
+  z-index: 1000;
 }
 
 .chatBox header {
-  height: 54px !important;
-  width: 100% !important;
-  background: $chatBackground !important;
-  color: white !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  line-height: 19px !important;
-  padding: 18px !important;
-  border-top-left-radius: 15px !important;
-  border-top-right-radius: 15px !important;
+  height: 54px;
+  width: 100%;
+  background: $chatBackground;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  padding: 18px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 .chatHeader {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .vidBtn {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 .chatBox main {
-  flex-grow: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  background-color: white !important;
-  width: 100% !important;
-  overflow-y: scroll !important;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 100%;
+  overflow-y: scroll;
 }
 .chatBox main::-webkit-scrollbar {
-  display: none !important;
+  display: none;
 }
 
 .sendMessage {
-  border-bottom-left-radius: 15px !important;
-  border-bottom-right-radius: 15px !important;
-  display: flex !important;
-  padding: 8px !important;
-  color: black !important;
-  gap: 10px !important;
-  border: none !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  background-color: white !important;
-  width: 100% !important;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: flex;
+  padding: 8px;
+  color: black;
+  gap: 10px;
+  border: none;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  width: 100%;
 }
 .sendOptions {
-  display: flex !important;
-  align-items: center !important;
-  gap: 20px !important;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 
   .attachments {
     input {
-      display: none !important;
+      display: none;
     }
   }
   .snapshot {
-    display: flex !important;
-    align-items: center !important;
-    cursor: pointer !important;
-    height: 20px !important;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    height: 20px;
   }
   .blur {
-    opacity: 0.3 !important;
+    opacity: 0.3;
   }
 }
 .attachment_name {
   .loading {
-    // overflow: hidden !important;
-    display: flex !important;
-    // flex-direction: column !important;
-    align-items: center !important;
-    width: 100% !important;
-    height: 20px !important;
+    // overflow: hidden;
+    display: flex;
+    // flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 20px;
 
     div {
       div {
-        border-color: $link transparent transparent transparent !important;
+        border-color: $link transparent transparent transparent;
       }
     }
   }
 }
 .chatBox footer {
-  max-height: 50px !important;
-  border-top: 1px solid #e4e6ea !important;
-  background-color: white !important;
-  padding: 0 !important;
-  border-bottom-left-radius: 15px !important;
-  border-bottom-right-radius: 15px !important;
-  background-color: white !important;
+  max-height: 50px;
+  border-top: 1px solid #e4e6ea;
+  background-color: white;
+  padding: 0;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: white;
 }
 .sendMessage input {
-  padding: 5px 8px !important;
-  border: none !important;
-  width: 80% !important;
-  font-weight: 400 !important;
-  font-size: 14px !important;
-  line-height: 19px !important;
+  padding: 5px 8px;
+  border: none;
+  width: 80%;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
   &:focus {
-    outline: none !important;
+    outline: none;
   }
 }
 .icon {
-  cursor: pointer !important;
-  color: #8193a8 !important;
+  cursor: pointer;
+  color: #8193a8;
 }
 .msgContainerLeft {
-  color: #8193a8 !important;
-  margin: 5px 15px !important;
+  color: #8193a8;
+  margin: 5px 15px;
   .msg {
-    display: flex !important;
-    flex-direction: column !important;
+    display: flex;
+    flex-direction: column;
 
-    // gap: 5px !important;
+    // gap: 5px;
 
-    width: fit-content !important;
-    border-radius: 10px !important;
-    padding: 8px 10px !important;
-    font-weight: 400 !important;
-    font-size: 12px !important;
-    line-height: 16px !important;
-    color: #567191 !important;
-    background-color: #fafafa !important;
+    width: fit-content;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #567191;
+    background-color: #fafafa;
 
     .images {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-      gap: 5px !important;
+      gap: 5px;
       .image {
-        max-width: 280px !important;
+        max-width: 280px;
 
-        max-height: 160px !important;
+        max-height: 160px;
         img {
-          max-width: 280px !important;
-          max-height: 160px !important;
+          max-width: 280px;
+          max-height: 160px;
         }
         audio {
-          max-width: 250px !important;
-          max-height: 50px !important;
+          max-width: 250px;
+          max-height: 50px;
         }
       }
     }
     // .attachemnts {
-    //   display: flex !important;
-    //   flex-wrap: wrap !important;
-    //   gap: 10px !important;
+    //   display: flex;
+    //   flex-wrap: wrap;
+    //   gap: 10px;
     &_ml {
-      margin-left: 20px !important;
+      margin-left: 20px;
     }
     .attachemnt {
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: center !important;
-      // margin-top: -3px !important;
-      gap: 10px !important;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      // margin-top: -3px;
+      gap: 10px;
 
-      width: 195px !important;
-      height: 25px !important;
+      width: 195px;
+      height: 25px;
 
-      border-radius: 10px !important;
+      border-radius: 10px;
 
-      cursor: pointer !important;
+      cursor: pointer;
       .spinner {
         div {
-          width: 15px !important;
-          height: 15px !important;
-          border: 2px solid $lightBlue !important;
-          border-color: $lightBlue transparent transparent transparent !important;
+          width: 15px;
+          height: 15px;
+          border: 2px solid $lightBlue;
+          border-color: $lightBlue transparent transparent transparent;
         }
       }
       .attachemntImage {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        background: $lightBlue !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $lightBlue;
 
-        border-radius: 5px !important;
-        width: 28px !important;
-        height: 28px !important;
+        border-radius: 5px;
+        width: 28px;
+        height: 28px;
 
         .image {
-          color: $input !important;
-          height: 16px !important;
-          width: 18px !important;
+          color: $input;
+          height: 16px;
+          width: 18px;
         }
       }
       .download_link {
         .download_icon {
-          color: $lightBlue !important;
+          color: $lightBlue;
         }
       }
       .attachemntText {
-        margin-right: auto !important;
-        width: 120px !important;
-        overflow: hidden !important;
-        white-space: nowrap !important;
-        text-overflow: ellipsis !important;
+        margin-right: auto;
+        width: 120px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         h5 {
-          font-size: 12px !important;
+          font-size: 12px;
 
-          color: $black !important;
-          font-weight: 400 !important;
+          color: $black;
+          font-weight: 400;
         }
         p {
-          font-size: 12px !important;
-          font-weight: 400 !important;
-          text-transform: uppercase !important;
-          color: $black !important;
+          font-size: 12px;
+          font-weight: 400;
+          text-transform: uppercase;
+          color: $black;
         }
       }
     }
   }
 
   .userMsg {
-    background: linear-gradient(106.52deg, rgba(162, 130, 232, 0.92) -11.57%, rgba(126, 142, 231, 0.92) 50.39%, rgba(68, 153, 233, 0.92) 116.35%) !important;
-    align-self: end !important;
-    color: white !important;
+    background: linear-gradient(106.52deg, rgba(162, 130, 232, 0.92) -11.57%, rgba(126, 142, 231, 0.92) 50.39%, rgba(68, 153, 233, 0.92) 116.35%);
+    align-self: end;
+    color: white;
   }
   .msgInfo {
-    font-weight: 400 !important;
-    font-size: 10px !important;
-    line-height: 14px !important;
-    padding: 5px 10px !important;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    padding: 5px 10px;
   }
 }
 
 .msgContainerRight {
-  display: flex !important;
-  flex-direction: column !important;
-  align-self: end !important;
+  display: flex;
+  flex-direction: column;
+  align-self: end;
 
   .msg {
     .attachemnt {
       .attachemntImage {
-        background: rgba(255, 255, 255, 0.48) !important;
+        background: rgba(255, 255, 255, 0.48);
         .image {
-          color: $mainPurple !important;
+          color: $mainPurple;
         }
       }
       .attachemntText {
         p,
         h5 {
-          color: $white !important;
+          color: $white;
         }
       }
       .download_link {
         .download_icon {
-          color: $white !important;
+          color: $white;
         }
       }
     }
@@ -271,10 +271,10 @@
 }
 
 .videoPlayer {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  z-index: 3000 !important;
-  width: 500px !important;
-  height: 500px !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  width: 500px;
+  height: 500px;
 }
