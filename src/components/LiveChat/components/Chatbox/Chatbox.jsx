@@ -116,6 +116,9 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
           return true
         }
       },
+      letterRendering: 1,
+      allowTaint: true,
+      onrendered: function (canvas) {},
     })
       .then((canvas) => {
         const dataUrl = canvas.toDataURL("image/png")
