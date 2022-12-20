@@ -23,7 +23,7 @@ import MessageContent from "./components/MessageContent/MessageContent"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn }) => {
+const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
   const endRef = useRef()
   const textAreaRef = useRef(null)
 
@@ -159,7 +159,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
 
   return (
     <div className={styles.chatBox}>
-      <header>
+      <header onClick={()=>{setIsBoxOpen(false)}}>
         <div className={styles.chatHeader}>
           {" "}
           <ChatSupport /> Live chat
