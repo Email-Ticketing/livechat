@@ -20,19 +20,20 @@ import stripHTML from "../../../../libs/utils/stripHtml";
 import useChat from "../../../../data-access/useChat";
 import Spinner from "../../../../libs/utils/Spinner/Spinner";
 // import VoiceMemos from "./components/VoiceMemos/VoiceMemos"
-import { MdScreenShare } from "react-icons/md";
-import html2canvas from "html2canvas";
+import { MdScreenShare } from "react-icons/md"
+import html2canvas from "html2canvas"
+import { useRef } from "react"
+import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
+import MessageContent from "./components/MessageContent/MessageContent"
 
 const addToCall = (user, myPeer, myStream) => {
-  const call = myPeer.call(user.user_id, myStream);
-};
-const Chatbox = ({ socket, allMessages, teamCdn }) => {
-  const [cookies, setCookies] = useCookies([
-    "chat_room_id",
-    "chat_session_id",
-    "chat_user_id",
-    "support_chat_id",
-  ]);
+  const call = myPeer.call(user.user_id, myStream)
+}
+const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
+  const endRef = useRef()
+  const textAreaRef = useRef(null)
+
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
 
   const { uploadMultimediaApi } = useChat();
 
@@ -41,32 +42,28 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const [files, setFiles] = useState([]);
   const [uploadingMultimedia, setUploadingMultimedia] = useState(false);
   // const [file, setFile] = useState()
-  const [supportMsgId, setSupportMsgId] = useState();
-  const [isTakingSnapshot, setIsTakingSnapshot] = useState(false);
-  const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] =
-    useState();
-  const { peerState, setPeerState } = usePeer();
+  const [supportMsgId, setSupportMsgId] = useState()
+  const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
+  const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
+  const { peerState, setPeerState } = usePeer()
+
+  useAutosizeTextArea(textAreaRef.current, inputMsg)
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id);
     });
   });
   const clickHandler = async () => {
-    console.log("teamChatCdn", teamCdn);
-    if (inputMsg || files?.length > 0) {
-      await socket.current.emit(
-        "chat-message",
-        inputMsg,
-        "customer",
-        cookies.chat_room_id,
-        cookies.chat_session_id, teamCdn,
-        supportMsgId
-      );
+    // console.log("teamChatCdn", teamCdn)
+    const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
+    const inputMsgLength = inputMsg.length
+    if ((inputMsg && inputMsgLength > numberOfLineBreaks) || files?.length > 0) {
+      await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, teamCdn, supportMsgId)
+      setInputMsg("")
+      setFiles([])
+      setSupportMsgId()
     }
-    setInputMsg("");
-    setFiles([]);
-    setSupportMsgId();
-  };
+  }
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia();
     const audioStream = await navigator.mediaDevices.getUserMedia({
@@ -152,12 +149,29 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         }, "image/jpeg");
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      clickHandler()
+      e.preventDefault()
+    }
+  }
+
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+
+    const timer = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+    }, 500)
+    return () => clearTimeout(timer)
+  })
+
   return (
     <div className={styles.chatBox}>
-      <header>
+      <header onClick={()=>{setIsBoxOpen(false)}}>
         <div className={styles.chatHeader}>
           <ChatSupport /> Live chat
         </div>
@@ -166,22 +180,10 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         {allMessages.map((msg) => {
           return (
             (msg?.content || msg?.Support_Chat_Attachments?.length > 0) && (
-              <div
-                className={
-                  styles.msgContainerLeft +
-                  " " +
-                  (cookies.chat_user_id === msg.user?.chat_user_id &&
-                    styles.msgContainerRight)
-                }
-              >
-                <div
-                  className={
-                    styles.msg +
-                    " " +
-                    ("customer" === msg?.user_type && styles.userMsg)
-                  }
-                >
-                  <div className={styles.text}>{stripHTML(msg?.content)}</div>
+              <div className={styles.msgContainerLeft + " " + (cookies.chat_user_id === msg.user?.chat_user_id && styles.msgContainerRight)}>
+                <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
+                  {" "}
+                  <div className={styles.text}>{<MessageContent msg={msg} />}</div>
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
                       {msg?.Support_Chat_Attachments?.map((attachment) => {
@@ -242,6 +244,8 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
             )
           );
         })}
+        <div ref={endRef} className={styles.emptyDiv}></div>
+
         {/* <div className={styles.videoPlayer}>
           {peerState?.remoteMediaStream && (
             <VideoPlayer stream={peerState.remoteMediaStream} />
@@ -264,12 +268,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
       </div>
       <footer>
         <div className={styles.sendMessage}>
-          <input
-            type="text"
-            placeholder="Write here ..."
-            value={inputMsg}
-            onChange={(e) => setInputMsg(e.target.value)}
-          />
+          <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
           <div className={styles.sendOptions}>
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU"
