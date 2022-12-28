@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { BsFillChatFill } from "react-icons/bs";
-import useSocketForLiveChat from "../../data-access/useSocketForLiveChat";
-import Chatbox from "./components/Chatbox/Chatbox";
-import styles from "./LiveChat.module.scss";
-import { v4 as uuid } from "uuid";
-import { usePeer } from "../../context/PeerContext";
-import { ChatSupport } from "../../libs/icons/icon";
-import { useCookies } from "react-cookie";
+
+import React, { useEffect, useState } from "react"
+import { BsFillChatFill } from "react-icons/bs"
+import useSocketForLiveChat from "../../data-access/useSocketForLiveChat"
+import Chatbox from "./components/Chatbox/Chatbox"
+import styles from "./LiveChat.module.scss"
+import { v4 as uuid } from "uuid"
+import { usePeer } from "../../context/PeerContext"
+import { ChatSupport } from "../../libs/icons/icon"
+import { useCookies } from "react-cookie"
+
 
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false);
@@ -80,9 +82,8 @@ const LiveChat = ({ teamCdn }) => {
       >
         <ChatSupport />
       </div>
-      {isBoxOpen && isLoggedIn && (
-        <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} />
-      )}
+
+      {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} setIsBoxOpen={setIsBoxOpen} />}
     </div>
   );
 };
