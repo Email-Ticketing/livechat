@@ -24,7 +24,27 @@ import MessageContent from "./components/MessageContent/MessageContent"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) => {
+
+  const [chatbot,setChatbot] = useState(chatbotConfig);
+
+  const customChatStyles = {
+    chatbot_header: {
+      height: "54px",
+      width: "100%",
+      background: chatbot?.color,
+      color: "white",
+      fontWeight: "600",
+      fontSize: "14px",
+      lineHeight: "19px",
+      padding: "18px",
+      borderTopLeftRadius: "15px",
+      borderTopRightRadius: "15px"
+    }
+  }
+
+
+
   const endRef = useRef()
   const textAreaRef = useRef(null)
 
@@ -49,6 +69,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id)
     })
+    console.log("MESSAGE LIST",allMessages)
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
@@ -157,6 +178,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   }
 
   useEffect(() => {
+    console.log("CHATBOT WELCOME MESSAGE",chatbotConfig)
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
 
     const timer = setTimeout(() => {
@@ -177,13 +199,14 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   return (
     <div className={styles.chatBox}>
       <header
+        style={customChatStyles.chatbot_header}
         onClick={() => {
           setIsBoxOpen(false)
         }}
       >
         <div className={styles.chatHeader}>
           {" "}
-          <ChatSupport /> Live chat
+          <ChatSupport /> {chatbot?.chatbot_name}
         </div>
       </header>
       <main>
@@ -194,6 +217,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
                 <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
                   {" "}
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
+                  {/* <div className={styles.text}>{chatbot?.Chatbot_Messages?.[0]?.text}</div> */}
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
                       {msg?.Support_Chat_Attachments?.map((attachment) => {
@@ -273,7 +297,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
             </div>
             <div onClick={vidClickHandler}>
-              <MdScreenShare size={25} className={styles.icon} />
+              {chatbot?.Chatbot_Messages?.[2]?.enabled&&<MdScreenShare size={25} className={styles.icon} />}
             </div>
             <Send className={styles.icon} onClick={clickHandler} />
           </div>

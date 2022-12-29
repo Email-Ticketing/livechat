@@ -14,18 +14,18 @@
   z-index: 1000;
 }
 
-.chatBox header {
-  height: 54px;
-  width: 100%;
-  background: $chatBackground;
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 19px;
-  padding: 18px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
+// .chatBox header {
+//   height: 54px;
+//   width: 100%;
+//   background: $chatBackground;
+//   color: white;
+//   font-weight: 600;
+//   font-size: 14px;
+//   line-height: 19px;
+//   padding: 18px;
+//   border-top-left-radius: 15px;
+//   border-top-right-radius: 15px;
+// }
 .chatBox header:hover{
   cursor:pointer;
 }
