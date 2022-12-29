@@ -22,6 +22,9 @@ export const Close = (props) => <Icon {...props} name="close" />;
 export const CloseEye = (props) => <Icon {...props} name="close_eye" />;
 export const Compose = (props) => <Icon {...props} name="compose" />;
 export const Compress = (props) => <Icon {...props} name="compress" />;
+export const ChatBoxes = (props) => <Icon {...props} name="chat_boxes" />;
+export const ChatDots = (props) => <Icon {...props} name="chat_dots" />;
+export const ChatSquare = (props) => <Icon {...props} name="chat_square" />;
 export const Delete = (props) => <Icon {...props} name="delete" />;
 export const DeleteGradient = (props) => (
   <Icon {...props} name="delete_gradient" />
@@ -35,11 +38,14 @@ export const EditWithBackground = (props) => (
 export const Email = (props) => <Icon {...props} name="email" />;
 export const Expand = (props) => <Icon {...props} name="expand" />;
 export const Eye = (props) => <Icon {...props} name="eye" />;
+export const FaceIcon = (props) => <Icon {...props} name="face_icon" />;
+export const FaceMask = (props) => <Icon {...props} name="face_mask" />;
 export const FilledPlus = (props) => <Icon {...props} name="filled_plus" />;
 export const Filter = (props) => <Icon {...props} name="filter" />;
 export const FilterClose = (props) => <Icon {...props} name="filter_close" />;
 export const FilterTick = (props) => <Icon {...props} name="filter_tick" />;
 export const Flag = (props) => <Icon {...props} name="flag" />;
+export const Flash = (props) => <Icon {...props} name="flash" />;
 export const Forward = (props) => <Icon {...props} name="Forward" />;
 export const FranceFlag = (props) => <Icon {...props} name="france_flag" />;
 export const Gmail = (props) => <Icon {...props} name="gmail" />;
@@ -70,6 +76,7 @@ export const Integration = (props) => <Icon {...props} name="integration" />;
 export const Keyboard = (props) => <Icon {...props} name="keyboard" />;
 export const Label = (props) => <Icon {...props} name="label" />;
 export const Labelstatus = (props) => <Icon {...props} name="labelStatus" />;
+export const LightBulb = (props) => <Icon {...props} name="light_bulb" />;
 export const Mail = (props) => <Icon {...props} name="mail" />;
 export const Mailsent = (props) => <Icon {...props} name="mailsent" />;
 export const Members = (props) => <Icon {...props} name="members" />;
@@ -83,6 +90,8 @@ export const PageNotFoundImg = (props) => (
 export const PartyPopper = (props) => <Icon {...props} name="party_popper" />;
 export const Plus = (props) => <Icon {...props} name="plus" />;
 export const PlusCircular = (props) => <Icon {...props} name="plus_circular" />;
+export const QuesCircle = (props) => <Icon {...props} name="ques_circle" />;
+export const QuesBubble = (props) => <Icon {...props} name="ques_bubble" />;
 export const Remove = (props) => <Icon {...props} name="remove" />;
 export const Reply = (props) => <Icon {...props} name="Reply" />;
 export const ReplyAll = (props) => <Icon {...props} name="reply_all" />;
