@@ -38,6 +38,19 @@ const LiveChat = ({ teamCdn }) => {
       bottom: "0",
       right: "0",
       zIndex: "1000"
+    },
+    float_btn_disabled:{
+      display: "grid",
+      placeItems: "center",
+      width: "50px",
+      height: "50px",
+      background: "grey",
+      color: "white",
+      borderRadius: "50%",
+      position: "absolute",
+      bottom: "0",
+      right: "0",
+      zIndex: "1000"
     }
   }
 
@@ -52,7 +65,7 @@ const LiveChat = ({ teamCdn }) => {
   useEffect(()=>{
     getChatBotConfigData(teamCdn).then((res)=>{
       setChatbotConfig(res.data.data);
-      setIcon(defaultIcons[res.data.data.default_chatbot_icon]?.IconName);
+      setIcon(defaultIcons[res.data.data.default_chatbot_icon-1]?.IconName);
     }).catch((error)=>{
       console.log("LIVE CHAT ERROR",error);
     })
@@ -87,17 +100,20 @@ const LiveChat = ({ teamCdn }) => {
 
   return (
     <div className={styles.liveChatContainer}>
-      <div
+      {chatbotConfig?.chatbot_visibility&&<div
         style={customChatStyles.float_btn}
         onClick={() => {
           setIsBoxOpen(!isBoxOpen)
           joinClickHandler()
         }}
       >
-        {/* <ChatSupport /> */}
-        {/* {defaultIcons[chatbotConfig?.default_chatbot_icon]?.IconName} */}
         {icon}
-      </div>
+      </div>}
+      {!chatbotConfig?.chatbot_visibility&&
+        <div style={customChatStyles.float_btn_disabled}>
+          {icon}
+        </div>
+      }
       {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig}/>}
     </div>
   )
