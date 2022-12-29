@@ -7,6 +7,7 @@ import useSocketForStream from "../../../../data-access/useSocketForStream"
 import { v4 as uuid } from "uuid"
 import { usePeer } from "../../../../context/PeerContext"
 // import { BsFillCameraVideoFill } from "react-icons/bs"
+
 import { Attachment, ChatSupport, Download, ImageFile, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
@@ -23,7 +24,7 @@ import MessageContent from "./components/MessageContent/MessageContent"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   const endRef = useRef()
   const textAreaRef = useRef(null)
 
@@ -36,6 +37,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   const [files, setFiles] = useState([])
   const [uploadingMultimedia, setUploadingMultimedia] = useState(false)
   // const [file, setFile] = useState()
+
   const [supportMsgId, setSupportMsgId] = useState()
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
@@ -50,6 +52,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
+
     const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
     const inputMsgLength = inputMsg.length
     if ((inputMsg && inputMsgLength > numberOfLineBreaks) || files?.length > 0) {
@@ -59,9 +62,12 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
       setSupportMsgId()
     }
   }
+
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia()
-    const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    const audioStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    })
     const audioTrack = await audioStream.getAudioTracks()[0]
     await stream.addTrack(audioTrack)
     setMyStream(stream)
@@ -121,6 +127,8 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
 
     html2canvas(root, {
       cacheBust: true,
+      useCORS: true,
+      allowTaint: true,
       ignoreElements: function (element) {
         /* Remove element with id="live-chat" */
         if ("live-chat" === element.id) {
@@ -157,9 +165,22 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
     return () => clearTimeout(timer)
   })
 
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+
+    const timer = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+    }, 500)
+    return () => clearTimeout(timer)
+  })
+
   return (
     <div className={styles.chatBox}>
-      <header>
+      <header
+        onClick={() => {
+          setIsBoxOpen(false)
+        }}
+      >
         <div className={styles.chatHeader}>
           {" "}
           <ChatSupport /> Live chat
@@ -222,6 +243,7 @@ const Chatbox = ({ socket, allMessages, teamCdn }) => {
         {/* <div className={styles.videoPlayer}>
           {peerState?.remoteMediaStream && (
             <VideoPlayer stream={peerState.remoteMediaStream} />
+            //
           )}
           //
         </div> */}
