@@ -8,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import { usePeer } from "../../../../context/PeerContext";
 // import { BsFillCameraVideoFill } from "react-icons/bs"
 
+
 import { Attachment, ChatSupport, Download, ImageFile, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
@@ -30,6 +31,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
 
   const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
 
+
   const [cookies, setCookies] = useCookies([
     "chat_room_id",
     "chat_session_id",
@@ -37,7 +39,9 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     "support_chat_id",
   ]);
 
+
   const { uploadMultimediaApi } = useChat();
+
 
   const [inputMsg, setInputMsg] = useState("");
   const [myStream, setMyStream] = useState();
@@ -51,6 +55,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   const { peerState, setPeerState } = usePeer()
 
   useAutosizeTextArea(textAreaRef.current, inputMsg)
+
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id);
@@ -58,6 +63,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   });
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
+
     const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
     const inputMsgLength = inputMsg.length
     if ((inputMsg && inputMsgLength > numberOfLineBreaks) || files?.length > 0) {
@@ -127,7 +133,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   }
 
   const handleSnapshot = () => {
-
     if (isTakingSnapshot) return;
 
     setIsTakingSnapshot(true);
@@ -136,7 +141,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     html2canvas(root, {
       cacheBust: true,
       useCORS: true,
-      letterRendering: 1,
       allowTaint: true,
       ignoreElements: function (element) {
         /* Remove element with id="live-chat" */
@@ -174,7 +178,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     }, 500);
     return () => clearTimeout(timer);
   });
-
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       clickHandler()
@@ -224,7 +227,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
                 >
 
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
-
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
                       {msg?.Support_Chat_Attachments?.map((attachment) => {
