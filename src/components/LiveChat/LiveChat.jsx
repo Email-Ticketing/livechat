@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from "react"
 import { BsFillChatFill } from "react-icons/bs"
 import useSocketForLiveChat from "../../data-access/useSocketForLiveChat"
@@ -72,6 +73,7 @@ const LiveChat = ({ teamCdn }) => {
   }, [latestActivityFromSocket]);
   // console.log(myPeer)
   return (
+
     <div className={styles.liveChatContainer}>
       <div
         className={styles.floatBtn}
@@ -85,6 +87,7 @@ const LiveChat = ({ teamCdn }) => {
 
       {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} setIsBoxOpen={setIsBoxOpen} />}
     </div>
+
   );
 };
 
