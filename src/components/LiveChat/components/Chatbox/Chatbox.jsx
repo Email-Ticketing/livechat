@@ -164,12 +164,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     }, 500)
     return () => clearTimeout(timer)
   })
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      clickHandler()
-      e.preventDefault()
-    }
-  }
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
