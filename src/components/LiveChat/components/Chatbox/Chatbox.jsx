@@ -20,11 +20,33 @@ import html2canvas from "html2canvas"
 import { useRef } from "react"
 import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
 import MessageContent from "./components/MessageContent/MessageContent"
+import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) => {
+
+  const [chatbot,setChatbot] = useState(chatbotConfig);
+  const [icon,setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon-1].IconName)
+
+  const customChatStyles = {
+    chatbot_header: {
+      height: "54px",
+      width: "100%",
+      background: chatbot?.color,
+      color: "white",
+      fontWeight: "600",
+      fontSize: "14px",
+      lineHeight: "19px",
+      padding: "18px",
+      borderTopLeftRadius: "15px",
+      borderTopRightRadius: "15px"
+    }
+  }
+
+
+
   const endRef = useRef()
   const textAreaRef = useRef(null)
 
@@ -49,6 +71,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id)
     })
+    console.log("MESSAGE LIST",allMessages)
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
@@ -177,13 +200,15 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   return (
     <div className={styles.chatBox}>
       <header
+        style={customChatStyles.chatbot_header}
         onClick={() => {
           setIsBoxOpen(false)
         }}
       >
         <div className={styles.chatHeader}>
           {" "}
-          <ChatSupport /> Live chat
+          {icon} 
+          <p>{chatbot?.chatbot_name}</p>
         </div>
       </header>
       <main>
@@ -271,9 +296,9 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
               </label>
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
             </div>
-            <div onClick={vidClickHandler}>
-              <MdScreenShare size={25} className={styles.icon} />
-            </div>
+            {chatbot?.Chatbot_Messages?.[2]?.enabled&&<div onClick={vidClickHandler}>
+             <MdScreenShare size={25} className={styles.icon} />
+            </div>}
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
         </div>
