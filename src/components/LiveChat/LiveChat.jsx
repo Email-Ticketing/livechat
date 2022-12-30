@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react"
 import { BsFillChatFill } from "react-icons/bs"
 import useSocketForLiveChat from "../../data-access/useSocketForLiveChat"
@@ -76,35 +78,47 @@ const LiveChat = ({ teamCdn }) => {
     if (latestActivityFromSocket) {
       console.log("LATEST ACTIVITY FROM SOCKET",latestActivityFromSocket)
       if (latestActivityFromSocket?.chatRoom?.chat_session_id) {
-        setCookies("chat_session_id", latestActivityFromSocket?.chatRoom?.chat_session_id, {
-          path: "/",
-        })
+        setCookies(
+          "chat_session_id",
+          latestActivityFromSocket?.chatRoom?.chat_session_id,
+          {
+            path: "/",
+          }
+        );
       }
       if (latestActivityFromSocket?.userJoined?.chat_user_id) {
-        setCookies("chat_user_id", latestActivityFromSocket?.userJoined?.chat_user_id, {
-          path: "/",
-        })
+        setCookies(
+          "chat_user_id",
+          latestActivityFromSocket?.userJoined?.chat_user_id,
+          {
+            path: "/",
+          }
+        );
       }
       if (latestActivityFromSocket?.support_chat_id) {
-        setCookies("support_chat_id", latestActivityFromSocket?.support_chat_id, {
-          path: "/",
-        })
+        setCookies(
+          "support_chat_id",
+          latestActivityFromSocket?.support_chat_id,
+          {
+            path: "/",
+          }
+        );
       }
-      console.log("MESSAGES",msgList);
-      setMsgList((list) => [...list, latestActivityFromSocket])
-    }
-    setLatestActivityFromSocket(null)
-  }, [latestActivityFromSocket])
 
+      setMsgList((list) => [...list, latestActivityFromSocket]);
+    }
+    setLatestActivityFromSocket(null);
+  }, [latestActivityFromSocket]);
   // console.log(myPeer)
 
   return (
+
     <div className={styles.liveChatContainer}>
       {chatbotConfig?.chatbot_visibility&&<div
         style={customChatStyles.float_btn}
         onClick={() => {
-          setIsBoxOpen(!isBoxOpen)
-          joinClickHandler()
+          setIsBoxOpen(!isBoxOpen);
+          joinClickHandler();
         }}
       >
         {icon}
@@ -119,4 +133,4 @@ const LiveChat = ({ teamCdn }) => {
   )
 }
 
-export default LiveChat
+export default LiveChat;

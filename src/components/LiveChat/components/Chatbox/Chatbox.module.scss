@@ -26,6 +26,9 @@
 //   border-top-left-radius: 15px;
 //   border-top-right-radius: 15px;
 // }
+.chatBox header:hover{
+  cursor:pointer;
+}
 .chatHeader {
   display: flex;
   align-items: center;
@@ -120,6 +123,7 @@
   border: none;
   outline: none;
   resize: none;
+  font-family: "Open Sans";
 
   &::-webkit-scrollbar {
     width: 0;
