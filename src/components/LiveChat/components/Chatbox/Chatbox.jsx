@@ -20,6 +20,7 @@ import html2canvas from "html2canvas"
 import { useRef } from "react"
 import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
 import MessageContent from "./components/MessageContent/MessageContent"
+import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
@@ -27,6 +28,7 @@ const addToCall = (user, myPeer, myStream) => {
 const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) => {
 
   const [chatbot,setChatbot] = useState(chatbotConfig);
+  const [icon,setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon-1].IconName)
 
   const customChatStyles = {
     chatbot_header: {
@@ -206,7 +208,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) =
       >
         <div className={styles.chatHeader}>
           {" "}
-          <ChatSupport /> {chatbot?.chatbot_name}
+          {icon} 
+          <p>{chatbot?.chatbot_name}</p>
         </div>
       </header>
       <main>
@@ -296,9 +299,9 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) =
               </label>
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
             </div>
-            <div onClick={vidClickHandler}>
-              {chatbot?.Chatbot_Messages?.[2]?.enabled&&<MdScreenShare size={25} className={styles.icon} />}
-            </div>
+            {chatbot?.Chatbot_Messages?.[2]?.enabled&&<div onClick={vidClickHandler}>
+             <MdScreenShare size={25} className={styles.icon} />
+            </div>}
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
         </div>
