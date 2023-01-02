@@ -5,6 +5,7 @@ import VideoPlayer from "./VideoPlayer/VideoPlayer";
 import { useEffect } from "react";
 import useSocketForStream from "../../../../data-access/useSocketForStream";
 import { v4 as uuid } from "uuid";
+import axios from "axios";
 import { usePeer } from "../../../../context/PeerContext";
 // import { BsFillCameraVideoFill } from "react-icons/bs"
 import {
@@ -16,7 +17,7 @@ import {
   Delete,
 } from "../../../../libs/icons/icon";
 import moment from "moment/moment";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import stripHTML from "../../../../libs/utils/stripHtml";
 import useChat from "../../../../data-access/useChat";
 import Spinner from "../../../../libs/utils/Spinner/Spinner";
@@ -26,7 +27,8 @@ import html2canvas from "html2canvas";
 import { useRef } from "react";
 import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea";
 import MessageContent from "./components/MessageContent/MessageContent";
-
+import { async } from "q";
+// import useDeleteAttachment from "../../../../data-access/useDeleteAttachment";
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream);
 };
@@ -39,10 +41,12 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     "chat_session_id",
     "chat_user_id",
     "support_chat_id",
+    "support_message_id",
+    "chat_attachment_id",
   ]);
-
+  console.log("cookies", cookies);
+  // const { deleteMultimediaApi } = useDeleteAttachment();
   const { uploadMultimediaApi } = useChat();
-
   const [inputMsg, setInputMsg] = useState("");
   const [myStream, setMyStream] = useState();
   const [files, setFiles] = useState([]);
@@ -50,13 +54,15 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   const [uploadingMultimedia, setUploadingMultimedia] = useState(false);
   // const [file, setFile] = useState()
   const [supportMsgId, setSupportMsgId] = useState();
+  const [supportChatId, setSupportChatId] = useState();
+  const [chatAttachmentId, setChatAttachmentId] = useState();
+  console.log("MessageID", supportMsgId);
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false);
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] =
     useState();
   const { peerState, setPeerState } = usePeer();
-
   useAutosizeTextArea(textAreaRef.current, inputMsg);
-
+  // const [deleteMedia, setDeleteMedia] = useState(data);
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id);
@@ -84,6 +90,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
       setSupportMsgId();
     }
   };
+
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia();
     const audioStream = await navigator.mediaDevices.getUserMedia({
@@ -122,8 +129,11 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
       try {
         uploadMultimediaApi(formData).then((data) => {
           setSupportMsgId(data?.data?.support_message_id);
+          setCookies("support_chat_id", data?.data?.support_chat_id);
+          setCookies("chat_attachment_id", data?.data?.chat_attachment_id);
           setUploadingMultimedia(false);
           setIsTakingSnapshot(false);
+          console.log("Datacheck", data);
         });
       } catch (err) {
         console.log(err);
@@ -132,6 +142,27 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
       }
     }
   }, [files]);
+
+  // Delete Attachment
+  const deleteAttachmentHandler = async () => {
+    const { support_chat_id, chat_attachment_id } = cookies;
+    try {
+      const deleteRes = await axios.delete(
+        `https://et-staging-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
+        {
+          data: {
+            support_message_id: supportMsgId,
+            support_chat_id,
+            chat_attachment_id,
+          },
+        }
+      );
+      setFiles([]);
+      return deleteRes;
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
 
   function formatBytes(bytes) {
     var sizes = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -203,7 +234,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
         }}
       >
         <div className={styles.chatHeader}>
-          {" "}
           <ChatSupport /> Live chat
         </div>
       </header>
@@ -226,7 +256,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
                     ("customer" === msg?.user_type && styles.userMsg)
                   }
                 >
-                  {" "}
                   <div className={styles.text}>
                     {<MessageContent msg={msg} />}
                   </div>
@@ -349,8 +378,12 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
           ) : (
             supportMsgId && (
               <>
-                <div className={styles.images_name}>
-                  {files[0].name} <Delete className={styles.close_icon} />
+                <div
+                  className={styles.images_name}
+                  onClick={() => deleteAttachmentHandler()}
+                >
+                  {files[0].name}
+                  <Delete className={styles.close_icon} />
                 </div>
               </>
             )
