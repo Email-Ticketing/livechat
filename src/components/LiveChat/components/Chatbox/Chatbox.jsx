@@ -7,6 +7,7 @@ import useSocketForStream from "../../../../data-access/useSocketForStream"
 import { v4 as uuid } from "uuid"
 import { usePeer } from "../../../../context/PeerContext"
 // import { BsFillCameraVideoFill } from "react-icons/bs"
+
 import { Attachment, ChatSupport, Download, ImageFile, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
@@ -19,11 +20,33 @@ import html2canvas from "html2canvas"
 import { useRef } from "react"
 import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
 import MessageContent from "./components/MessageContent/MessageContent"
+import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) => {
+
+  const [chatbot,setChatbot] = useState(chatbotConfig);
+  const [icon,setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon-1].IconName)
+
+  const customChatStyles = {
+    chatbot_header: {
+      height: "54px",
+      width: "100%",
+      background: chatbot?.color,
+      color: "white",
+      fontWeight: "600",
+      fontSize: "14px",
+      lineHeight: "19px",
+      padding: "18px",
+      borderTopLeftRadius: "15px",
+      borderTopRightRadius: "15px"
+    }
+  }
+
+
+
   const endRef = useRef()
   const textAreaRef = useRef(null)
 
@@ -36,6 +59,7 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
   const [files, setFiles] = useState([])
   const [uploadingMultimedia, setUploadingMultimedia] = useState(false)
   // const [file, setFile] = useState()
+
   const [supportMsgId, setSupportMsgId] = useState()
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const [latestActivityFromStreamSocket, setLatestActivityFromStreamSocket] = useState()
@@ -47,9 +71,11 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id)
     })
+    console.log("MESSAGE LIST",allMessages)
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
+
     const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
     const inputMsgLength = inputMsg.length
     if ((inputMsg && inputMsgLength > numberOfLineBreaks) || files?.length > 0) {
@@ -59,9 +85,12 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
       setSupportMsgId()
     }
   }
+
   const vidClickHandler = async () => {
     const stream = await navigator.mediaDevices.getDisplayMedia()
-    const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    const audioStream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    })
     const audioTrack = await audioStream.getAudioTracks()[0]
     await stream.addTrack(audioTrack)
     setMyStream(stream)
@@ -121,6 +150,8 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
 
     html2canvas(root, {
       cacheBust: true,
+      useCORS: true,
+      allowTaint: true,
       ignoreElements: function (element) {
         /* Remove element with id="live-chat" */
         if ("live-chat" === element.id) {
@@ -157,12 +188,27 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
     return () => clearTimeout(timer)
   })
 
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+
+    const timer = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+    }, 500)
+    return () => clearTimeout(timer)
+  })
+
   return (
     <div className={styles.chatBox}>
-      <header onClick={()=>{setIsBoxOpen(false)}}>
+      <header
+        style={customChatStyles.chatbot_header}
+        onClick={() => {
+          setIsBoxOpen(false)
+        }}
+      >
         <div className={styles.chatHeader}>
           {" "}
-          <ChatSupport /> Live chat
+          {icon} 
+          <p>{chatbot?.chatbot_name}</p>
         </div>
       </header>
       <main>
@@ -171,7 +217,6 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
             (msg?.content || msg?.Support_Chat_Attachments?.length > 0) && (
               <div className={styles.msgContainerLeft + " " + (cookies.chat_user_id === msg.user?.chat_user_id && styles.msgContainerRight)}>
                 <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
-                  {" "}
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
@@ -251,9 +296,9 @@ const Chatbox = ({ socket, allMessages, teamCdn,setIsBoxOpen }) => {
               </label>
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
             </div>
-            <div onClick={vidClickHandler}>
-              <MdScreenShare size={25} className={styles.icon} />
-            </div>
+            {chatbot?.Chatbot_Messages?.[2]?.enabled&&<div onClick={vidClickHandler}>
+             <MdScreenShare size={25} className={styles.icon} />
+            </div>}
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
         </div>
