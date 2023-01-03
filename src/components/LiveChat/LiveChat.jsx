@@ -12,6 +12,7 @@ import { useCookies } from "react-cookie"
 import useChat from "../../data-access/useChat"
 import defaultIcons from "../../libs/icons/defaultIcons/defaultIcons";
 
+
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
