@@ -25,7 +25,7 @@ import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) => {
 
   const [chatbot,setChatbot] = useState(chatbotConfig);
   const [icon,setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon-1].IconName)
@@ -218,9 +218,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) =
             (msg?.content || msg?.Support_Chat_Attachments?.length > 0) && (
               <div className={styles.msgContainerLeft + " " + (cookies.chat_user_id === msg.user?.chat_user_id && styles.msgContainerRight)}>
                 <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
-                  {" "}
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
-                  {/* <div className={styles.text}>{chatbot?.Chatbot_Messages?.[0]?.text}</div> */}
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
                       {msg?.Support_Chat_Attachments?.map((attachment) => {
