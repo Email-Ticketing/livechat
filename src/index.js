@@ -9,7 +9,8 @@ div.id = "live-chat";
 document.body.appendChild(div);
 const root = ReactDOM.createRoot(document.getElementById("live-chat"));
 // const teamCdn="TX3O79zUfqbwVVwisWHrN";
-const teamCdn = document.currentScript.getAttribute('cdnId');
+// const teamCdn = document.currentScript.getAttribute('cdnId');
+const teamCdn = "mfLuhGyNra4WQyj2mKDTs";
 root.render(
   // <React.StrictMode>
   <App teamCdn={teamCdn}/>

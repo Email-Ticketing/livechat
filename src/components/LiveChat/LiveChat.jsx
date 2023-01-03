@@ -128,7 +128,7 @@ const LiveChat = ({ teamCdn }) => {
           {icon}
         </div>
       }
-      {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig}/>}
+      {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen}/>}
     </div>
   )
 }
