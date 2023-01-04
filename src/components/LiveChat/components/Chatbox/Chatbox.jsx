@@ -25,7 +25,7 @@ import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig,setIsBoxOpen }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) => {
 
   const [chatbot,setChatbot] = useState(chatbotConfig);
   const [icon,setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon-1].IconName)
