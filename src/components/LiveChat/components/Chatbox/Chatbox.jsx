@@ -180,6 +180,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   }
 
   useEffect(() => {
+    console.log("CHATBOT WELCOME MESSAGE",chatbotConfig)
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
 
     const timer = setTimeout(() => {
