@@ -193,7 +193,7 @@ export const PeerProvider = ({ children }) => {
     const myPeer = new Peer(
       cookies.chat_user_id ? cookies.chat_user_id : chat_user_id,
       {
-        host: "et-staging-api.ringover-crm.xyz",
+        host: "et-dev-api.ringover-crm.xyz",
         path: "/peerApp",
         secure: true,
       }

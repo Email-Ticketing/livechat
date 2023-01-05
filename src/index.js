@@ -8,10 +8,10 @@ let div = document.createElement("div");
 div.id = "live-chat";
 document.body.appendChild(div);
 const root = ReactDOM.createRoot(document.getElementById("live-chat"));
-const teamCdn=document.currentScript.getAttribute('cdnId')
+const teamCdn = document.currentScript.getAttribute("cdnId");
 root.render(
   // <React.StrictMode>
-  <App teamCdn={teamCdn}/>
+  <App teamCdn={teamCdn} />
   // </React.StrictMode>
 );
 

@@ -44,7 +44,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     "support_message_id",
     "chat_attachment_id",
   ]);
-  console.log("cookies", cookies);
   // const { deleteMultimediaApi } = useDeleteAttachment();
   const { uploadMultimediaApi } = useChat();
   const [inputMsg, setInputMsg] = useState("");
@@ -148,7 +147,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     const { support_chat_id, chat_attachment_id } = cookies;
     try {
       const deleteRes = await axios.delete(
-        `https://et-staging-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
+        `https://et-dev-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
         {
           data: {
             support_message_id: supportMsgId,
@@ -367,27 +366,37 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
         </div>
+        <div className={styles.attachment_name}>
+          {files?.length > 0 &&
+            (uploadingMultimedia ? (
+              <div className={styles.loading}>
+                <Spinner />
+              </div>
+            ) : (
+              supportMsgId && (
+                <>
+                  {files[0].name.length > 15 ? (
+                    <div className={styles.images_name}>
+                      {files[0].name.substring(0, 10) + "...."}
+                      <Delete
+                        className={styles.close_icon}
+                        onClick={() => deleteAttachmentHandler()}
+                      />
+                    </div>
+                  ) : (
+                    <div className={styles.images_name}>
+                      {files[0].name}
+                      <Delete
+                        className={styles.close_icon}
+                        onClick={() => deleteAttachmentHandler()}
+                      />
+                    </div>
+                  )}
+                </>
+              )
+            ))}
+        </div>
       </footer>
-      <div className={styles.attachment_name}>
-        {files?.length > 0 &&
-          (uploadingMultimedia ? (
-            <div className={styles.loading}>
-              <Spinner />
-            </div>
-          ) : (
-            supportMsgId && (
-              <>
-                <div
-                  className={styles.images_name}
-                  onClick={() => deleteAttachmentHandler()}
-                >
-                  {files[0].name}
-                  <Delete className={styles.close_icon} />
-                </div>
-              </>
-            )
-          ))}
-      </div>
     </div>
   );
 };
