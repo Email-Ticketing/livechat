@@ -14,7 +14,10 @@
   right: 0;
   z-index: 1000;
 }
-
+.icon svg{
+  position: relative;
+  top:0.1em;
+}
 .floatBtn:hover {
   background-color: #667aff;
 }

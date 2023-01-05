@@ -36,23 +36,23 @@ const useChat = () => {
 
   // const { isLoading: isMultimediaUploading, mutate: uploadMultimedia } = useMutation(uploadMultimediaApi)
 
+
   //GET CHATBOT CONFIGS DATA
 
-  const getChatBotConfigData = async (team_cdn_id) => {
-    return PublicApi.get(`v1/chatbot/cdn/${team_cdn_id}`)
-      .then((res) => {
-        console.log("CHATBOT CONFIGS", res)
-        return res
-      })
-      .catch((error) => {
-        console.log("CHATBOT CONFIG GET ERROR", error)
-        return error
-      })
+  const getChatBotConfigData = async (team_cdn_id) =>{
+    return PublicApi.get(`v1/chatbot/cdn/${team_cdn_id}`).then((res)=>{
+      console.log("CHATBOT CONFIGS",res);
+      return res;
+    }).catch((error)=>{
+      console.log("CHATBOT CONFIG GET ERROR",error)
+      return error;
+    })
   }
+
 
   return {
     uploadMultimediaApi,
-    getChatBotConfigData,
+    getChatBotConfigData
   }
 }
 
