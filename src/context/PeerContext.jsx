@@ -185,7 +185,7 @@ export const PeerProvider = ({ children }) => {
   })
   useEffect(() => {
     const myPeer = new Peer(cookies.chat_user_id ? cookies.chat_user_id : chat_user_id, {
-      host: "et-staging-api.ringover-crm.xyz",
+      host: process.env.REACT_APP_PEERJS,
       path: "/peerApp",
       secure: true,
     })
