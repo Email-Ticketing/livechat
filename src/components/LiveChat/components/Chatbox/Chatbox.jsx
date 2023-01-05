@@ -82,7 +82,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
         "customer",
         cookies.chat_room_id,
         cookies.chat_session_id,
-        "b-j0dIGFE-WjbCM7aWyTw",
+        teamCdn,
         supportMsgId
       );
       setInputMsg("");
@@ -180,7 +180,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     html2canvas(root, {
       cacheBust: true,
       useCORS: true,
-      letterRendering: 1,
       allowTaint: true,
       ignoreElements: function (element) {
         /* Remove element with id="live-chat" */

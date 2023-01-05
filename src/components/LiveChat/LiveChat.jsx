@@ -29,7 +29,7 @@ const LiveChat = ({ teamCdn }) => {
         "join-chat",
         cookies.chat_user_id ? cookies.chat_user_id : uuid(),
         cookies.chat_room_id,
-        "b-j0dIGFE-WjbCM7aWyTw"
+        teamCdn
       );
       setIsLoggedIn(true);
     }
