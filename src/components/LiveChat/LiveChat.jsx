@@ -7,7 +7,7 @@ import Chatbox from "./components/Chatbox/Chatbox"
 import styles from "./LiveChat.module.scss"
 import { v4 as uuid } from "uuid"
 import { usePeer } from "../../context/PeerContext"
-import { ChatSupport } from "../../libs/icons/icon"
+import { Close } from "../../libs/icons/icon"
 import { useCookies } from "react-cookie"
 import useChat from "../../data-access/useChat"
 import defaultIcons from "../../libs/icons/defaultIcons/defaultIcons";
@@ -39,7 +39,13 @@ const LiveChat = ({ teamCdn }) => {
       position: "absolute",
       bottom: "0",
       right: "0",
-      zIndex: "1000"
+      zIndex: "1000",
+      span:{
+        svg:{
+          position:"relative",
+          top:"0.1em",
+        }
+      }
     },
     float_btn_disabled:{
       display: "grid",
@@ -121,7 +127,8 @@ const LiveChat = ({ teamCdn }) => {
           joinClickHandler();
         }}
       >
-        {icon}
+        {!isBoxOpen&&<span className={styles.icon}>{icon}</span>}
+        {isBoxOpen&&<span className={styles.icon}><Close/></span>}
       </div>}
       {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen}/>}
     </div>

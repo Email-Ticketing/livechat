@@ -12,6 +12,7 @@ import { ReactComponent as Flash } from './flash.svg';
 import { ReactComponent as LightBulb } from './lightbulb.svg';
 import { ReactComponent as FaceIcon } from './fac_icon.svg';
 import { ReactComponent as FaceMask } from './face_mask.svg';
+import { ReactComponent as Close} from './close.svg';
 
 export default {
   image_file: ImageFile,
@@ -27,5 +28,6 @@ export default {
   flash:Flash,
   light_bulb:LightBulb,
   face_icon:FaceIcon,
-  face_mask:FaceMask
+  face_mask:FaceMask,
+  close:Close
 }
