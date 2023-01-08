@@ -25,7 +25,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
 
   const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id", "support_message_id", "chat_attachment_id"])
   // const { deleteMultimediaApi } = useDeleteAttachment();
-  const { uploadMultimedia, isMultimediaUploading } = useChat()
+  const { uploadMultimedia, isMultimediaUploading, deleteAttachment, isDeletingAttachment } = useChat()
   const [inputMsg, setInputMsg] = useState("")
   const [myStream, setMyStream] = useState()
   const [files, setFiles] = useState([])
@@ -93,39 +93,39 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
       formData.append("chat_room_id", cookies?.chat_room_id)
       formData.append("chat_session_id", cookies?.chat_session_id)
 
-      try {
-        uploadMultimedia(formData).then((data) => {
+      // try {
+      uploadMultimedia(formData, {
+        onSuccess: (data) => {
           setSupportMsgId(data?.data?.support_message_id)
           setCookies("support_chat_id", data?.data?.support_chat_id)
           setCookies("chat_attachment_id", data?.data?.chat_attachment_id)
           // setUploadingMultimedia(false)
           setIsTakingSnapshot(false)
           console.log("Datacheck", data)
-        })
-      } catch (err) {
-        console.log(err)
-        // setUploadingMultimedia(false)
-        setIsTakingSnapshot(false)
-      }
+        },
+        onError: (err) => {
+          console.log(err)
+          // setUploadingMultimedia(false)
+          setIsTakingSnapshot(false)
+        },
+      })
     }
   }, [files])
 
   // Delete Attachment
   const deleteAttachmentHandler = async () => {
     const { support_chat_id, chat_attachment_id } = cookies
-    try {
-      const deleteRes = await axios.delete(`https://et-dev-api.ringover-crm.xyz/v1/ticket/deleteAttachment`, {
-        data: {
-          support_message_id: supportMsgId,
-          support_chat_id,
-          chat_attachment_id,
+    deleteAttachment(
+      { support_message_id: supportMsgId, support_chat_id, chat_attachment_id },
+      {
+        onSuccess: (data) => {
+          setFiles([])
         },
-      })
-      setFiles([])
-      return deleteRes
-    } catch (error) {
-      console.log("Error", error)
-    }
+        onError: (err) => {
+          console.log(err)
+        },
+      }
+    )
   }
 
   function formatBytes(bytes) {
@@ -261,7 +261,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
           //
         </div> */}
       </main>
-      <footer>
+      <footer className={styles.footer}>
         <div className={styles.sendMessage}>
           <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
           <div className={styles.sendOptions}>
@@ -282,7 +282,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
         </div>
         <div className={styles.attachment_name}>
           {files?.length > 0 &&
-            (isMultimediaUploading ? (
+            (isMultimediaUploading || isDeletingAttachment ? (
               <div className={styles.loading}>
                 <Spinner />
               </div>
@@ -292,7 +292,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
                   {
                     <div className={styles.images_name}>
                       {files[0].name.length > 15 ? files[0].name.substring(0, 10) + "..." : files[0].name}
-                      <Delete className={styles.close_icon} onClick={() => deleteAttachmentHandler()} />
+                      <Delete className={styles.close_icon} onClick={deleteAttachmentHandler} />
                     </div>
                   }
                 </>

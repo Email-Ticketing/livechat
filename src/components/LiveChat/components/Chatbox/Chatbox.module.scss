@@ -104,6 +104,8 @@
   }
 }
 .chatBox footer {
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid #e4e6ea;
   background-color: white;
   padding: 0;
@@ -247,12 +249,7 @@
   }
 
   .userMsg {
-    background: linear-gradient(
-      106.52deg,
-      rgba(162, 130, 232, 0.92) -11.57%,
-      rgba(126, 142, 231, 0.92) 50.39%,
-      rgba(68, 153, 233, 0.92) 116.35%
-    );
+    background: linear-gradient(106.52deg, rgba(162, 130, 232, 0.92) -11.57%, rgba(126, 142, 231, 0.92) 50.39%, rgba(68, 153, 233, 0.92) 116.35%);
     align-self: end;
     color: white;
   }

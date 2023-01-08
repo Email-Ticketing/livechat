@@ -21,9 +21,25 @@ const useChat = () => {
 
   const { isLoading: isMultimediaUploading, mutate: uploadMultimedia } = useMutation(uploadMultimediaApi)
 
+  const deleteAttachmentHandler = async ({ support_message_id, support_chat_id, chat_attachment_id }) => {
+    return PublicApi.delete(`v1/ticket/deleteAttachment`, {
+      data: {
+        support_message_id,
+        support_chat_id,
+        chat_attachment_id,
+      },
+    }).then((res) => {
+      console.log("uploadRes", res)
+      return res.data
+    })
+  }
+  const { isLoading: isDeletingAttachment, mutate: deleteAttachment } = useMutation(deleteAttachmentHandler)
+
   return {
     uploadMultimedia,
     isMultimediaUploading,
+    deleteAttachment,
+    isDeletingAttachment,
   }
 }
 
