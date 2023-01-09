@@ -1,11 +1,11 @@
-import { Peer } from "peerjs";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { createContext } from "react";
-import { useCookies } from "react-cookie";
-import { v4 as uuid } from "uuid";
-import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/AudioPlayer";
+import { Peer } from "peerjs"
+import { useState } from "react"
+import { useEffect } from "react"
+import { useContext } from "react"
+import { createContext } from "react"
+import { useCookies } from "react-cookie"
+import { v4 as uuid } from "uuid"
+import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/AudioPlayer"
 
 // const chatForm = document.getElementById('chat-form');
 // const chatMessages = document.querySelector('.chat-messages');
@@ -157,78 +157,66 @@ import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/A
 //   }
 // });
 
-const PeerContext = createContext(null);
+const PeerContext = createContext(null)
 
-const defaultState = { users: [] };
+const defaultState = { users: [] }
 
-const chat_room_id = uuid();
-const chat_user_id = uuid();
+const chat_room_id = uuid()
+const chat_user_id = uuid()
 
-export const usePeer = () => useContext(PeerContext);
+export const usePeer = () => useContext(PeerContext)
 
 export const PeerProvider = ({ children }) => {
   // const[peerSocket]=useSocketForStream()
-  const [peerState, setPeerState] = useState(defaultState);
-  const [cookies, setCookies] = useCookies([
-    "chat_room_id",
-    "chat_session_id",
-    "chat_user_id",
-    "support_chat_id",
-    "support_message_id",
-    "chat_attachment_id",
-  ]);
+  const [peerState, setPeerState] = useState(defaultState)
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id", "support_message_id", "chat_attachment_id"])
   useEffect(() => {
     if (!cookies.chat_room_id) {
       setCookies("chat_room_id", chat_room_id, {
         path: "/",
-      });
+      })
     }
     if (!cookies.chat_user_id) {
       setCookies("chat_user_id", chat_user_id, {
         path: "/",
-      });
+      })
     }
-  });
+  })
   useEffect(() => {
-    const myPeer = new Peer(
-      cookies.chat_user_id ? cookies.chat_user_id : chat_user_id,
-      {
-        host: "et-dev-api.ringover-crm.xyz",
-        path: "/peerApp",
-        secure: true,
-      }
-    );
-    setPeerState((state) => ({ ...state, myPeer: myPeer }));
-  }, []);
+    const myPeer = new Peer(cookies.chat_user_id ? cookies.chat_user_id : chat_user_id, {
+      host: "et-dev-api.ringover-crm.xyz",
+      path: "/peerApp",
+      secure: true,
+    })
+    setPeerState((state) => ({ ...state, myPeer: myPeer }))
+  }, [])
 
   useEffect(() => {
     peerState?.myPeer?.on("open", (id) => {
-      console.log("My id:", id);
-    });
-  }, [peerState.myPeer]);
+      console.log("My id:", id)
+    })
+  }, [peerState.myPeer])
   useEffect(() => {
     // peerState.myPeer?.on()
     peerState?.myPeer?.on("call", (call) => {
-      console.log("new call");
-      call.answer();
-    });
+      console.log("new call")
+      call.answer()
+    })
     peerState?.myPeer?.on("close", () => {
-      console.log("call ended");
-    });
+      console.log("call ended")
+    })
     peerState?.myPeer?.on("disconnected", () => {
-      console.log("call ended diss");
-    });
+      console.log("call ended diss")
+    })
     peerState?.myPeer?.on("error", (error) => {
-      console.log(error);
-    });
-  });
+      console.log(error)
+    })
+  })
   return (
     <PeerContext.Provider value={{ peerState, setPeerState }}>
       {console.log("ye stream: ", peerState?.remoteAudioStream)}
-      {peerState?.remoteAudioStream && (
-        <AudioPlayer stream={peerState?.remoteAudioStream} />
-      )}
+      {peerState?.remoteAudioStream && <AudioPlayer stream={peerState?.remoteAudioStream} />}
       {children}
     </PeerContext.Provider>
-  );
-};
+  )
+}

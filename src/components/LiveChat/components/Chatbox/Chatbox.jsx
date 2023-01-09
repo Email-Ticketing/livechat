@@ -3,7 +3,9 @@ import styles from "./Chatbox.module.scss"
 import { useEffect } from "react"
 import axios from "axios"
 import { usePeer } from "../../../../context/PeerContext"
-import { Attachment, ChatSupport, Download, ImageFile, Send, Delete } from "../../../../libs/icons/icon"
+// import { BsFillCameraVideoFill } from "react-icons/bs"
+
+import { Attachment, ChatSupport, Delete, Download, ImageFile, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
 import useChat from "../../../../data-access/useChat"
@@ -14,16 +16,35 @@ import html2canvas from "html2canvas"
 import { useRef } from "react"
 import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
 import MessageContent from "./components/MessageContent/MessageContent"
-import { async } from "q"
-// import useDeleteAttachment from "../../../../data-access/useDeleteAttachment";
+import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
+
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
-const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
+const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) => {
+  const [chatbot, setChatbot] = useState(chatbotConfig)
+  const [icon, setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon - 1].IconName)
+
+  const customChatStyles = {
+    chatbot_header: {
+      height: "54px",
+      width: "100%",
+      background: chatbot?.color,
+      color: "white",
+      fontWeight: "600",
+      fontSize: "14px",
+      lineHeight: "19px",
+      padding: "18px",
+      borderTopLeftRadius: "15px",
+      borderTopRightRadius: "15px",
+    },
+  }
+
   const endRef = useRef()
   const textAreaRef = useRef(null)
 
-  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id", "support_message_id", "chat_attachment_id"])
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
+
   // const { deleteMultimediaApi } = useDeleteAttachment();
   const { uploadMultimedia, isMultimediaUploading, deleteAttachment, isDeletingAttachment } = useChat()
   const [inputMsg, setInputMsg] = useState("")
@@ -32,19 +53,23 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   const [image, setImage] = useState()
   // const [uploadingMultimedia, setUploadingMultimedia] = useState(false)
   // const [file, setFile] = useState()
+
   const [supportMsgId, setSupportMsgId] = useState()
 
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const { peerState, setPeerState } = usePeer()
+
   useAutosizeTextArea(textAreaRef.current, inputMsg)
-  // const [deleteMedia, setDeleteMedia] = useState(data);
+
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
       console.log("My id:", id)
     })
+    console.log("MESSAGE LIST", allMessages)
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
+
     const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
     const inputMsgLength = inputMsg.length
     if ((inputMsg && inputMsgLength > numberOfLineBreaks) || files?.length > 0) {
@@ -60,6 +85,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
     const audioStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
     })
+
     const audioTrack = await audioStream.getAudioTracks()[0]
     await stream.addTrack(audioTrack)
     setMyStream(stream)
@@ -166,12 +192,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
         console.log(err)
       })
   }
-  const screenshotDownloadHandler = () => {
-    const a = document.createElement("a")
-    a.setAttribute("download", "screenshot.jpeg")
-    a.setAttribute("href", image)
-    a.click()
-  }
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -179,6 +199,16 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
       e.preventDefault()
     }
   }
+
+  useEffect(() => {
+    console.log("CHATBOT WELCOME MESSAGE", chatbotConfig)
+    endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+
+    const timer = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
+    }, 500)
+    return () => clearTimeout(timer)
+  })
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
@@ -192,12 +222,15 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
   return (
     <div className={styles.chatBox}>
       <header
+        style={customChatStyles.chatbot_header}
         onClick={() => {
           setIsBoxOpen(false)
         }}
       >
         <div className={styles.chatHeader}>
-          <ChatSupport /> Live chat
+          {" "}
+          {icon}
+          <p>{chatbot?.chatbot_name}</p>
         </div>
       </header>
       <main>
@@ -215,7 +248,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
                             {attachment?.attachment_type === "audio/wav" ? (
                               <audio controls id="audio" src={attachment?.attachment_url} type={attachment?.attachment_type}></audio>
                             ) : attachment.attachment_type.includes("image") ? (
-                              <a onClick={screenshotDownloadHandler} href={attachment?.attachment_url} className={styles.download_link}>
+                              <a href={attachment?.attachment_url} download={attachment?.attachment_title} className={styles.download_link}>
                                 <img src={attachment?.attachment_url} alt="#" />
                               </a>
                             ) : (
@@ -274,9 +307,11 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
               </label>
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
             </div>
-            <div onClick={vidClickHandler}>
-              <MdScreenShare size={25} className={styles.icon} />
-            </div>
+            {chatbot?.Chatbot_Messages?.[2]?.enabled && (
+              <div onClick={vidClickHandler}>
+                <MdScreenShare size={25} className={styles.icon} />
+              </div>
+            )}
             <Send className={styles.icon} onClick={clickHandler} />
           </div>
         </div>
@@ -291,6 +326,9 @@ const Chatbox = ({ socket, allMessages, teamCdn, setIsBoxOpen }) => {
                 <>
                   {
                     <div className={styles.images_name}>
+                      <div className={styles.attachment_icon_image}>
+                        <ImageFile />
+                      </div>
                       {files[0].name.length > 15 ? files[0].name.substring(0, 10) + "..." : files[0].name}
                       <Delete className={styles.close_icon} onClick={deleteAttachmentHandler} />
                     </div>

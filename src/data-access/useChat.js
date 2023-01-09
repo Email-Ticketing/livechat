@@ -35,11 +35,26 @@ const useChat = () => {
   }
   const { isLoading: isDeletingAttachment, mutate: deleteAttachment } = useMutation(deleteAttachmentHandler)
 
+  //GET CHATBOT CONFIGS DATA
+
+  const getChatBotConfigData = async (team_cdn_id) => {
+    return PublicApi.get(`v1/chatbot/cdn/${team_cdn_id}`)
+      .then((res) => {
+        console.log("CHATBOT CONFIGS", res)
+        return res
+      })
+      .catch((error) => {
+        console.log("CHATBOT CONFIG GET ERROR", error)
+        return error
+      })
+  }
+
   return {
     uploadMultimedia,
     isMultimediaUploading,
     deleteAttachment,
     isDeletingAttachment,
+    getChatBotConfigData,
   }
 }
 
