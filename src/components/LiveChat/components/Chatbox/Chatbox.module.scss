@@ -312,10 +312,9 @@
 .images_name {
   display: flex;
   color: $gray;
-  font-size: 1rem;
   align-items: center;
-  // justify-content: space-between;
-  gap: 5px;
+  font-size: 10px;
+  gap: 8px;
   margin-left: 1rem;
   border: 0.6px solid rgb(188, 184, 184);
   width: 12.5rem;
