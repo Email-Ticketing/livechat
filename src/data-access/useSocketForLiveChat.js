@@ -3,7 +3,7 @@ import { usePeer } from "../context/PeerContext"
 import useSocket from "./useSocket"
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
-  const [socket] = useSocket(process.env.REACT_APP_BACKEND)
+  const [socket] = useSocket("https://et-dev-api.ringover-crm.xyz/")
   const { peerState, setPeerState } = usePeer()
   useEffect(() => {
     defineEvents()
