@@ -88,6 +88,13 @@
     opacity: 0.3;
   }
 }
+.disabled {
+  svg,
+  .snapshot {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
 .attachment_name {
   width: auto;
   .loading {
