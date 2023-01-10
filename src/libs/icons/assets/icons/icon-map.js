@@ -13,6 +13,7 @@ import { ReactComponent as LightBulb } from './lightbulb.svg';
 import { ReactComponent as FaceIcon } from './fac_icon.svg';
 import { ReactComponent as FaceMask } from './face_mask.svg';
 import { ReactComponent as Close} from './close.svg';
+import { ReactComponent as ScreenShare } from './screen-share.svg';
 
 export default {
   image_file: ImageFile,
@@ -29,5 +30,6 @@ export default {
   light_bulb:LightBulb,
   face_icon:FaceIcon,
   face_mask:FaceMask,
-  close:Close
+  close:Close,
+  screen_share:ScreenShare
 }

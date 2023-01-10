@@ -8,7 +8,7 @@ import { v4 as uuid } from "uuid"
 import { usePeer } from "../../../../context/PeerContext"
 // import { BsFillCameraVideoFill } from "react-icons/bs"
 
-import { Attachment, ChatSupport, Download, ImageFile, Send } from "../../../../libs/icons/icon"
+import { Attachment, ChatSupport, Download, ImageFile, Send,ScreenShare } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
 import stripHTML from "../../../../libs/utils/stripHtml"
@@ -288,7 +288,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         <div className={styles.sendMessage}>
           <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
           <div className={styles.sendOptions}>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
+            <ScreenShare className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
 
             {/* <VoiceMemos setFiles={setFiles} /> */}
             <div className={styles.attachments}>
@@ -300,7 +300,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
             {chatbot?.Chatbot_Messages?.[2]?.enabled&&<div onClick={vidClickHandler}>
              <MdScreenShare size={25} className={styles.icon} />
             </div>}
-            <Send className={styles.icon} onClick={clickHandler} />
+            <Send className={styles.sendIcon} onClick={clickHandler} />
           </div>
         </div>
       </footer>

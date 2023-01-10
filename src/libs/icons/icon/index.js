@@ -108,6 +108,7 @@ export const SendGradient = (props) => <Icon {...props} name="send_gradient" />;
 export const Setting = (props) => <Icon {...props} name="setting" />;
 export const Sort = (props) => <Icon {...props} name="sort" />;
 export const SpainFlag = (props) => <Icon {...props} name="spain_flag" />;
+export const ScreenShare = (props) => <Icon {...props} name="screen_share" />;
 export const Templates = (props) => <Icon {...props} name="templates" />;
 export const Tick = (props) => <Icon {...props} name="tick" />;
 export const Tray = (props) => <Icon {...props} name="tray" />;
