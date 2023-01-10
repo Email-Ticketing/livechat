@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react"
 import { BsFillChatFill } from "react-icons/bs"
 import useSocketForLiveChat from "../../data-access/useSocketForLiveChat"
@@ -64,7 +62,7 @@ const LiveChat = ({ teamCdn }) => {
 
   const joinClickHandler = async () => {
     if (!isBoxOpen) {
-      console.log("teamCdn:",teamCdn)
+      console.log("teamCdn:", teamCdn)
       await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, teamCdn)
       setIsLoggedIn(true)
     }
@@ -86,41 +84,28 @@ const LiveChat = ({ teamCdn }) => {
     if (latestActivityFromSocket) {
       console.log("LATEST ACTIVITY FROM SOCKET", latestActivityFromSocket)
       if (latestActivityFromSocket?.chatRoom?.chat_session_id) {
-        setCookies(
-          "chat_session_id",
-          latestActivityFromSocket?.chatRoom?.chat_session_id,
-          {
-            path: "/",
-          }
-        );
+        setCookies("chat_session_id", latestActivityFromSocket?.chatRoom?.chat_session_id, {
+          path: "/",
+        })
       }
       if (latestActivityFromSocket?.userJoined?.chat_user_id) {
-        setCookies(
-          "chat_user_id",
-          latestActivityFromSocket?.userJoined?.chat_user_id,
-          {
-            path: "/",
-          }
-        );
+        setCookies("chat_user_id", latestActivityFromSocket?.userJoined?.chat_user_id, {
+          path: "/",
+        })
       }
       if (latestActivityFromSocket?.support_chat_id) {
-        setCookies(
-          "support_chat_id",
-          latestActivityFromSocket?.support_chat_id,
-          {
-            path: "/",
-          }
-        );
+        setCookies("support_chat_id", latestActivityFromSocket?.support_chat_id, {
+          path: "/",
+        })
       }
 
-      setMsgList((list) => [...list, latestActivityFromSocket]);
+      setMsgList((list) => [...list, latestActivityFromSocket])
     }
-    setLatestActivityFromSocket(null);
-  }, [latestActivityFromSocket]);
+    setLatestActivityFromSocket(null)
+  }, [latestActivityFromSocket])
   // console.log(myPeer)
 
   return (
-
     <div className={styles.liveChatContainer}>
       {chatbotConfig?.chatbot_visibility && (
         <div
@@ -143,4 +128,4 @@ const LiveChat = ({ teamCdn }) => {
   )
 }
 
-export default LiveChat;
+export default LiveChat

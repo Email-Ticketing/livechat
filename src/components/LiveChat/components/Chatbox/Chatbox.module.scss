@@ -79,10 +79,11 @@
     }
   }
   .snapshot {
-    display: flex;
-    align-items: center;
     cursor: pointer;
-    height: 20px;
+    height:1.5em;
+    width:1.5em;
+    position: relative;
+    bottom:0.1em;
   }
   .blur {
     opacity: 0.3;
@@ -137,6 +138,8 @@
   outline: none;
   resize: none;
   font-family: "Open Sans";
+  position: relative;
+  bottom:0.1em;
   height: 29px;
   border: none;
   outline: none;
@@ -154,6 +157,12 @@
 .icon {
   cursor: pointer;
   color: #8193a8;
+}
+.sendIcon {
+  cursor: pointer;
+  color: #8193a8;
+  position: relative;
+  bottom:0.15em;
 }
 .msgContainerLeft {
   color: #8193a8;

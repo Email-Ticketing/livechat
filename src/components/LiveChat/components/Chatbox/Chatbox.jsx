@@ -5,7 +5,7 @@ import axios from "axios"
 import { usePeer } from "../../../../context/PeerContext"
 // import { BsFillCameraVideoFill } from "react-icons/bs"
 
-import { Attachment, ChatSupport, Delete, Download, ImageFile, Send } from "../../../../libs/icons/icon"
+import { Attachment, ChatSupport,Delete, Download, ImageFile, Send,ScreenShare } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
 import useChat from "../../../../data-access/useChat"
@@ -300,8 +300,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       <footer className={styles.footer}>
         <div className={styles.sendMessage}>
           <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
-          <div className={styles.sendOptions + " " + ((isMultimediaUploading || isDeletingAttachment) && styles.disabled)}>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
+          <div className={styles.sendOptions}>
+            <ScreenShare className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
 
             {/* <VoiceMemos setFiles={setFiles} /> */}
             <div className={styles.attachments}>
@@ -310,12 +310,10 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
               </label>
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} />
             </div>
-            {chatbot?.Chatbot_Messages?.[2]?.enabled && (
-              <div onClick={vidClickHandler}>
-                <MdScreenShare size={25} className={styles.icon} />
-              </div>
-            )}
-            <Send className={styles.icon} onClick={clickHandler} />
+            {chatbot?.Chatbot_Messages?.[2]?.enabled&&<div onClick={vidClickHandler}>
+             <MdScreenShare size={25} className={styles.icon} />
+            </div>}
+            <Send className={styles.sendIcon} onClick={clickHandler} />
           </div>
         </div>
         <div className={styles.attachment_name}>
