@@ -48,6 +48,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   // const { deleteMultimediaApi } = useDeleteAttachment();
   const { uploadMultimedia, isMultimediaUploading, deleteAttachment, isDeletingAttachment } = useChat()
   const [inputMsg, setInputMsg] = useState("")
+  const [chatAttachmentId, setChatAttachmentId] = useState()
   const [myStream, setMyStream] = useState()
   const [files, setFiles] = useState([])
   const [image, setImage] = useState()
@@ -69,6 +70,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
+    if (isMultimediaUploading || isDeletingAttachment) return
 
     const numberOfLineBreaks = (inputMsg.match(/\n/g) || []).length
     const inputMsgLength = inputMsg.length
@@ -77,6 +79,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       setInputMsg("")
       setFiles([])
       setSupportMsgId()
+      setChatAttachmentId()
     }
   }
 
@@ -125,6 +128,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
           setSupportMsgId(data?.data?.support_message_id)
           setCookies("support_chat_id", data?.data?.support_chat_id)
           setCookies("chat_attachment_id", data?.data?.chat_attachment_id)
+          setChatAttachmentId(data?.data?.chat_attachment_id)
           // setUploadingMultimedia(false)
           setIsTakingSnapshot(false)
           console.log("Datacheck", data)
@@ -142,7 +146,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   const deleteAttachmentHandler = async () => {
     const { support_chat_id, chat_attachment_id } = cookies
     deleteAttachment(
-      { support_message_id: supportMsgId, support_chat_id, chat_attachment_id },
+      { support_message_id: supportMsgId, support_chat_id, chat_attachment_id: chatAttachmentId },
       {
         onSuccess: (data) => {
           setFiles([])
@@ -162,7 +166,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   }
 
   const handleSnapshot = () => {
-    if (isTakingSnapshot) return
+    if (isMultimediaUploading || isDeletingAttachment || isTakingSnapshot) return
 
     setIsTakingSnapshot(true)
     const root = document.body
@@ -184,7 +188,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         var file
         canvas.toBlob((blob) => {
           file = new File([blob], "screenshot.jpeg", { type: "image/jpeg" })
-          setFiles((prev) => [...prev, file])
+          setFiles([file])
         }, "image/jpeg")
         setImage(dataUrl)
       })
@@ -297,7 +301,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       <footer className={styles.footer}>
         <div className={styles.sendMessage}>
           <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
-          <div className={styles.sendOptions}>
+          <div className={styles.sendOptions + " " + ((isMultimediaUploading || isDeletingAttachment) && styles.disabled)}>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
 
             {/* <VoiceMemos setFiles={setFiles} /> */}
@@ -305,7 +309,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
               </label>
-              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} />
+              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} />
             </div>
             {chatbot?.Chatbot_Messages?.[2]?.enabled && (
               <div onClick={vidClickHandler}>
