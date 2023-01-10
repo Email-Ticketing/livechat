@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useState } from "react";
+import axios from "axios"
+import { useState } from "react"
 // import { useMutation } from "react-query"
 
 const useDeleteAttachment = () => {
@@ -8,12 +8,8 @@ const useDeleteAttachment = () => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-  const deleteMultimediaApi = async (
-    support_message_id,
-    support_chat_id,
-    chat_attachment_id
-  ) => {
+  })
+  const deleteMultimediaApi = async (support_message_id, support_chat_id, chat_attachment_id) => {
     return axios
       .delete(
         `https://et-dev-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
@@ -26,16 +22,16 @@ const useDeleteAttachment = () => {
       )
 
       .then((res) => {
-        console.log("ress", res);
+        console.log("ress", res)
 
-        return res.data;
-      });
-  };
+        return res.data
+      })
+  }
 
   // const { isLoading: isMultimediaUploading, mutate: uploadMultimedia } = useMutation(uploadMultimediaApi)
   return {
     deleteMultimediaApi,
-  };
-};
+  }
+}
 
-export default useDeleteAttachment;
+export default useDeleteAttachment
