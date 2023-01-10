@@ -1,6 +1,5 @@
 import axios from "axios"
-// import { useMutation } from "react-query"
-
+import { useMutation } from "react-query"
 const useChat = () => {
   const PublicApi = axios.create({
     baseURL: "https://et-staging-api.ringover-crm.xyz/",
@@ -8,33 +7,33 @@ const useChat = () => {
       "Content-Type": "application/json",
     },
   })
-
   // "Content-Type": "multipart/form-data",
-
   const uploadMultimediaApi = async (formData) => {
-    for (let key of formData.entries()) {
-      console.log(key[0])
-      console.log(key[1])
-    }
-
-    // var object = {}
-    // for (let key of formData.entries()) {
-    //   object[key[0]] = key[1]
-    // }
-    // var json = JSON.stringify(object)
-
-    return axios
-      .patch(`https://et-staging-api.ringover-crm.xyz/v1/ticket/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        return res.data
-      })
+    return PublicApi.patch(`v1/ticket/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }).then((res) => {
+      console.log("uploadRes", res)
+      return res.data
+    })
   }
 
-  // const { isLoading: isMultimediaUploading, mutate: uploadMultimedia } = useMutation(uploadMultimediaApi)
+  const { isLoading: isMultimediaUploading, mutate: uploadMultimedia } = useMutation(uploadMultimediaApi)
+
+  const deleteAttachmentHandler = async ({ support_message_id, support_chat_id, chat_attachment_id }) => {
+    return PublicApi.delete(`v1/ticket/deleteAttachment`, {
+      data: {
+        support_message_id,
+        support_chat_id,
+        chat_attachment_id,
+      },
+    }).then((res) => {
+      console.log("uploadRes", res)
+      return res.data
+    })
+  }
+  const { isLoading: isDeletingAttachment, mutate: deleteAttachment } = useMutation(deleteAttachmentHandler)
 
 
   //GET CHATBOT CONFIGS DATA
@@ -51,8 +50,11 @@ const useChat = () => {
 
 
   return {
-    uploadMultimediaApi,
-    getChatBotConfigData
+    uploadMultimedia,
+    isMultimediaUploading,
+    deleteAttachment,
+    isDeletingAttachment,
+    getChatBotConfigData,
   }
 }
 

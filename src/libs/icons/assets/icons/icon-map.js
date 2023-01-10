@@ -3,6 +3,7 @@ import { ReactComponent as Send } from "./send.svg"
 import { ReactComponent as Attachment } from "./attachment.svg"
 import { ReactComponent as ImageFile } from "./image_file.svg"
 import { ReactComponent as Download } from "./download.svg"
+import { ReactComponent as Delete } from "./delete.svg"
 import { ReactComponent as ChatSquare } from './chat_square.svg';
 import { ReactComponent as QuesCircle } from './question.svg';
 import { ReactComponent as QuesBubble } from './ques_bubble.svg';
@@ -18,6 +19,7 @@ import { ReactComponent as ScreenShare } from './screen-share.svg';
 export default {
   image_file: ImageFile,
   download: Download,
+  delete: Delete,
   chat_support: ChatSupport,
   send: Send,
   attachment: Attachment,
