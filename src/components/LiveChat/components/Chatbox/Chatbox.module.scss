@@ -125,6 +125,9 @@
   border-bottom-right-radius: 15px;
   background-color: white;
 }
+.sendMessage {
+  padding: 15px 8px 15px 15px;
+}
 .sendMessage .inputMsgBox {
   padding: 5px 8px;
   border: none;
@@ -320,31 +323,43 @@
 .images_name {
   display: flex;
   color: $gray;
+
   align-items: center;
   justify-content: flex-start;
   font-size: 10px;
   gap: 8px;
   margin-left: 1rem;
-  border: 0.6px solid rgb(188, 184, 184);
+  border: 1px solid #8193a81f;
   width: 12.5rem;
   padding: 8px;
   margin-bottom: 0.8rem;
   border-radius: 0.6rem;
+
+  .files_name_size {
+    color: #394759;
+    p {
+      line-height: 10px;
+    }
+    :nth-child(2) {
+      color: #8193a8;
+      margin-top: 2px;
+    }
+  }
 
   .attachment_icon_image {
     display: flex;
     align-items: center;
     background: #f5f6f7;
     border-radius: 5px;
-    width: 26px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
 .close_icon {
-  background-color: #434242;
+  background-color: #8193a8;
   margin-left: auto;
   border-radius: 50%;
   width: 17px;
