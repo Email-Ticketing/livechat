@@ -333,8 +333,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                       <div className={styles.attachment_icon_image}>
                         <ImageFile />
                       </div>
-                      <div>
-                        {files[0].name.length > 23 ? files[0].name.substring(0, 20) + "..." : files[0].name}
+                      <div className={styles.files_name_size}>
+                        <p>{files[0].name.length > 23 ? files[0].name.substring(0, 20) + "..." : files[0].name}</p>
                         <p>{Math.round((files[0].size / (1024 * 1024)) * 100) / 100} MB</p>
                       </div>
                       <Delete className={styles.close_icon} onClick={deleteAttachmentHandler} />
