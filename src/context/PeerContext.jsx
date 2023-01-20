@@ -169,8 +169,7 @@ export const usePeer = () => useContext(PeerContext)
 export const PeerProvider = ({ children }) => {
   // const[peerSocket]=useSocketForStream()
   const [peerState, setPeerState] = useState(defaultState)
-  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id"])
-
+  const [cookies, setCookies] = useCookies(["chat_room_id", "chat_session_id", "chat_user_id", "support_chat_id", "support_message_id", "chat_attachment_id"])
   useEffect(() => {
     if (!cookies.chat_room_id) {
       setCookies("chat_room_id", chat_room_id, {
@@ -185,7 +184,7 @@ export const PeerProvider = ({ children }) => {
   })
   useEffect(() => {
     const myPeer = new Peer(cookies.chat_user_id ? cookies.chat_user_id : chat_user_id, {
-      host: "et-api.ringover-crm.xyz",
+      host: "et-staging-api.ringover-crm.xyz",
       path: "/peerApp",
       secure: true,
     })
