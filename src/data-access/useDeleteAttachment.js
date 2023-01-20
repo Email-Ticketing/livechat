@@ -4,7 +4,7 @@ import { useState } from "react"
 
 const useDeleteAttachment = () => {
   const PublicApi = axios.create({
-    baseURL: "https://et-staging-api.ringover-crm.xyz/",
+    baseURL: "https://et-api.ringover-crm.xyz/",
     headers: {
       "Content-Type": "application/json",
     },
@@ -12,7 +12,7 @@ const useDeleteAttachment = () => {
   const deleteMultimediaApi = async (support_message_id, support_chat_id, chat_attachment_id) => {
     return axios
       .delete(
-        `https://et-staging-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
+        `https://et-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
