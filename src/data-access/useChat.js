@@ -2,7 +2,7 @@ import axios from "axios"
 import { useMutation } from "react-query"
 const useChat = () => {
   const PublicApi = axios.create({
-    baseURL: "https://et-staging-api.ringover-crm.xyz/",
+    baseURL: "https://et-api.ringover-crm.xyz/",
     headers: {
       "Content-Type": "application/json",
     },
