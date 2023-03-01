@@ -128,3 +128,4 @@ export const UserNotAssigned = (props) => (
 export const ChatSupport=(props)=><Icon {...props} name='chat_support'/>;
 export const Send=(props)=><Icon {...props} name='send'/>
 export const Attachment=(props)=><Icon {...props} name='attachment'/>
+export const ScreenShot=(props)=><Icon {...props} name='screenshot'/>
