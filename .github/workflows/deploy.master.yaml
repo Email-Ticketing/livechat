@@ -20,7 +20,7 @@ jobs:
     - id: 'compute-ssh'
       uses: 'google-github-actions/ssh-compute@v0'
       with:
-        instance_name: 'production-email-ticketing-backend'
+        instance_name: 'email-ticketing'
         user: 'ringover_developer'
         zone: 'us-central1-a'
         ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY_PRODUCTION }}'
