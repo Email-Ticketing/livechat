@@ -5,7 +5,7 @@ import axios from "axios"
 import { usePeer } from "../../../../context/PeerContext"
 // import { BsFillCameraVideoFill } from "react-icons/bs"
 
-import { Attachment, ChatSupport, Delete, Download, ImageFile, Send } from "../../../../libs/icons/icon"
+import { Attachment, ChatSupport, Delete, Download, ImageFile, ScreenShot, Send } from "../../../../libs/icons/icon"
 import moment from "moment/moment"
 import { useCookies } from "react-cookie"
 import useChat from "../../../../data-access/useChat"
@@ -302,7 +302,9 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         <div className={styles.sendMessage}>
           <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
           <div className={styles.sendOptions + " " + ((isMultimediaUploading || isDeletingAttachment) && styles.disabled)}>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIcZBZPttoh360vK7HP3n9PLQpL_q_YHKUhQ&usqp=CAU" alt="#" className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot} />
+            <div className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot}>
+              <ScreenShot size={18} className={styles.icon} />
+            </div>
 
             {/* <VoiceMemos setFiles={setFiles} /> */}
             <div className={styles.attachments}>
