@@ -1,5 +1,6 @@
 import { ReactComponent as ChatSupport } from "./chat-support.svg"
 import { ReactComponent as Send } from "./send.svg"
+import { ReactComponent as ScreenShot } from "./screenshot.svg"
 import { ReactComponent as Attachment } from "./attachment.svg"
 import { ReactComponent as ImageFile } from "./image_file.svg"
 import { ReactComponent as Download } from "./download.svg"
@@ -21,6 +22,7 @@ export default {
   delete: Delete,
   chat_support: ChatSupport,
   send: Send,
+  screenshot: ScreenShot,
   attachment: Attachment,
   chat_square: ChatSquare,
   ques_circle: QuesCircle,

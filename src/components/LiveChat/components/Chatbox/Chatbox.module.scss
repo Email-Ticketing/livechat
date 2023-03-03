@@ -139,7 +139,9 @@
   border: none;
   outline: none;
   resize: none;
-  font-family: "Open Sans";
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
   height: 29px;
   border: none;
   outline: none;
@@ -157,6 +159,7 @@
 .icon {
   cursor: pointer;
   color: #8193a8;
+  vertical-align: sub;
 }
 .msgContainerLeft {
   color: #8193a8;
