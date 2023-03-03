@@ -300,7 +300,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       </main>
       <footer className={styles.footer}>
         <div className={styles.sendMessage}>
-          <textarea style={{fontFamily: "Open Sans"}} className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
+          <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
           <div className={styles.sendOptions + " " + ((isMultimediaUploading || isDeletingAttachment) && styles.disabled)}>
             <div className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot}>
               <ScreenShot size={18} className={styles.icon} />
