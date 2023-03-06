@@ -1,10 +1,11 @@
 import axios from "axios"
 import { useState } from "react"
 // import { useMutation } from "react-query"
+const backendURL = process.env.REACT_APP_BACKEND_URL
 
 const useDeleteAttachment = () => {
   const PublicApi = axios.create({
-    baseURL: "https://et-staging-api.ringover-crm.xyz/",
+    baseURL: backendURL,
     headers: {
       "Content-Type": "application/json",
     },
@@ -12,7 +13,7 @@ const useDeleteAttachment = () => {
   const deleteMultimediaApi = async (support_message_id, support_chat_id, chat_attachment_id) => {
     return axios
       .delete(
-        `https://et-staging-api.ringover-crm.xyz/v1/ticket/deleteAttachment`,
+        `${backendURL}v1/ticket/deleteAttachment`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

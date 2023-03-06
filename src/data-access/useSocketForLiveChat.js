@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { usePeer } from "../context/PeerContext"
 import useSocket from "./useSocket"
+const backendURL = process.env.REACT_APP_BACKEND_URL
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
-  const [socket] = useSocket("https://et-staging-api.ringover-crm.xyz/")
+  const [socket] = useSocket(backendURL)
   const { peerState, setPeerState } = usePeer()
   useEffect(() => {
     defineEvents()

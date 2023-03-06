@@ -9,7 +9,7 @@ import { Close } from "../../libs/icons/icon"
 import { useCookies } from "react-cookie"
 import useChat from "../../data-access/useChat"
 import defaultIcons from "../../libs/icons/defaultIcons/defaultIcons"
-import { browserName, osName } from "react-device-detect";
+import { browserName, osName } from "react-device-detect"
 
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false)
@@ -22,7 +22,15 @@ const LiveChat = ({ teamCdn }) => {
 
   const [socket] = useSocketForLiveChat(setLatestActivityFromSocket)
   const [msgList, setMsgList] = useState([])
-  const [userData, setUserData] = useState({browser: browserName, os: osName, timezone: new Date().toString().match(/\(([^\)]+)\)$/)[1].match(/\b(\w)/g).join("") })
+  const [userData, setUserData] = useState({
+    browser: browserName,
+    os: osName,
+    timezone: new Date()
+      .toString()
+      .match(/\(([^\)]+)\)$/)[1]
+      .match(/\b(\w)/g)
+      .join(""),
+  })
 
   const { getChatBotConfigData } = useChat()
 
@@ -65,7 +73,7 @@ const LiveChat = ({ teamCdn }) => {
   const joinClickHandler = async () => {
     if (!isBoxOpen) {
       console.log("teamCdn:", teamCdn)
-      console.log('user_data',userData)
+      console.log("user_data", userData)
       await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, teamCdn, userData)
       setIsLoggedIn(true)
     }
@@ -74,8 +82,8 @@ const LiveChat = ({ teamCdn }) => {
   useEffect(() => {
     getChatBotConfigData(teamCdn)
       .then((res) => {
-        setChatbotConfig(res.data.data)
-        setIcon(defaultIcons[res.data.data.default_chatbot_icon - 1]?.IconName)
+        setChatbotConfig(res?.data?.data)
+        setIcon(defaultIcons[res?.data?.data?.default_chatbot_icon - 1]?.IconName)
       })
       .catch((error) => {
         console.log("LIVE CHAT ERROR", error)
