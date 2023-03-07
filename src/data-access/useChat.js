@@ -1,11 +1,11 @@
 import axios from "axios"
 import { useMutation } from "react-query"
-const backendURL = process.env.REACT_APP_BACKEND_URL
+import { BACKEND_URL } from "../enviournments/enviournment"
 
 const useChat = () => {
-  console.log("Backend Url is: ", backendURL)
+  console.log("Backend Url is: ", BACKEND_URL)
   const PublicApi = axios.create({
-    baseURL: backendURL,
+    baseURL: BACKEND_URL,
     headers: {
       "Content-Type": "application/json",
     },
