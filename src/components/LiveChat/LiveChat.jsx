@@ -91,7 +91,6 @@ const LiveChat = ({ teamCdn }) => {
   }, [teamCdn])
 
   useEffect(() => {
-    console.log("ICON", defaultIcons[chatbotConfig?.default_chatbot_icon]?.IconName)
     if (latestActivityFromSocket) {
       console.log("LATEST ACTIVITY FROM SOCKET", latestActivityFromSocket)
       if (latestActivityFromSocket?.chatRoom?.chat_session_id) {
