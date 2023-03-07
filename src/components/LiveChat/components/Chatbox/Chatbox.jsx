@@ -64,7 +64,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
 
   useEffect(() => {
     peerState?.myPeer.on("open", (id) => {
-      console.log("My id:", id)
+      console.log("My peerstate id for connection is:", id)
     })
     console.log("MESSAGE LIST", allMessages)
   })
@@ -205,7 +205,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   }
 
   useEffect(() => {
-    console.log("CHATBOT WELCOME MESSAGE", chatbotConfig)
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
 
     const timer = setTimeout(() => {
