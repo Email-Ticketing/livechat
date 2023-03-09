@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useMutation } from "react-query"
-import { BACKEND_URL } from "../environments/environment"
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+console.log("backend url", BACKEND_URL)
 
 const useChat = () => {
   const PublicApi = axios.create({
@@ -16,7 +17,6 @@ const useChat = () => {
         "Content-Type": "multipart/form-data",
       },
     }).then((res) => {
-      console.log("uploadRes", res)
       return res.data
     })
   }
@@ -31,7 +31,6 @@ const useChat = () => {
         chat_attachment_id,
       },
     }).then((res) => {
-      console.log("uploadRes", res)
       return res.data
     })
   }
@@ -42,11 +41,9 @@ const useChat = () => {
   const getChatBotConfigData = async (team_cdn_id) => {
     return PublicApi.get(`v1/chatbot/cdn/${team_cdn_id}`)
       .then((res) => {
-        console.log("CHATBOT CONFIGS", res)
         return res
       })
       .catch((error) => {
-        console.log("CHATBOT CONFIG GET ERROR", error)
         return error
       })
   }

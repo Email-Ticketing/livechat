@@ -1,7 +1,8 @@
 import axios from "axios"
 import { useState } from "react"
-import { BACKEND_URL } from "../environments/environment"
 // import { useMutation } from "react-query"
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 const useDeleteAttachment = () => {
   const PublicApi = axios.create({
@@ -23,8 +24,6 @@ const useDeleteAttachment = () => {
       )
 
       .then((res) => {
-        console.log("ress", res)
-
         return res.data
       })
   }
