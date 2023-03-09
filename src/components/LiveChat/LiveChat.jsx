@@ -117,6 +117,7 @@ const LiveChat = ({ teamCdn }) => {
 
   useEffect(() => {
     console.error("this is a updated error msg...")
+    console.error("this is a updated error msg again....")
   }, [])
 
   return (
