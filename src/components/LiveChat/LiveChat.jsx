@@ -116,7 +116,7 @@ const LiveChat = ({ teamCdn }) => {
   // console.log(myPeer)
 
   useEffect(() => {
-    console.error("this is a updated error msg")
+    console.error("this is a updated error msg...")
   }, [])
 
   return (
