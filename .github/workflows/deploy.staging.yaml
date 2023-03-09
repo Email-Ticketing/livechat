@@ -25,3 +25,9 @@ jobs:
           zone: "us-central1-a"
           ssh_private_key: "${{ secrets.GCP_PRIVATE_KEY_STAGING }}"
           command: "sudo ./livechat-cdn.sh -b staging"
+      - id: "get-error"
+        run: |-
+          echo '${{ steps.compute-ssh.outputs.stderr }}'
+      - id: "get-stdout"
+        run: |-
+          echo '${{ steps.compute-ssh.outputs.stdout }}' | grep ready

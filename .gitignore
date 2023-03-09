@@ -9,6 +9,9 @@
 /coverage
 /build
 
+#backend env
+.env.development
+
 # misc
 .DS_Store
 .env.local

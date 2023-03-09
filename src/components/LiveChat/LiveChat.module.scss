@@ -14,9 +14,9 @@
   right: 0;
   z-index: 1000;
 }
-.icon svg{
+.icon svg {
   position: relative;
-  top:0.1em;
+  top: 0.1em;
 }
 .floatBtn:hover {
   background-color: #667aff;
@@ -24,6 +24,8 @@
 
 .liveChatContainer {
   position: relative;
+}
+.opened {
   width: 350px;
   height: 540px;
 }
