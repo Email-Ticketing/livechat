@@ -9,11 +9,11 @@ div.id = "live-chat"
 document.body.appendChild(div)
 const root = ReactDOM.createRoot(document.getElementById("live-chat"))
 // const teamCdn = "TX3O79zUfqbwVVwisWHrN"
-// const teamCdn = document.currentScript.getAttribute("cdnId")
+const teamCdn = document.currentScript.getAttribute("cdnId")
 //staging
 // const teamCdn = "b-j0dIGFE-WjbCM7aWyTw"
 //dev
-const teamCdn = "zv4UNa8LfjowpKo2RdFnx"
+// const teamCdn = "zv4UNa8LfjowpKo2RdFnx"
 
 root.render(
   // <React.StrictMode>
