@@ -115,6 +115,10 @@ const LiveChat = ({ teamCdn }) => {
   }, [latestActivityFromSocket])
   // console.log(myPeer)
 
+  useEffect(() => {
+    console.error("this is a updated error msg")
+  }, [])
+
   return (
     <div className={styles.liveChatContainer + " " + (isBoxOpen && styles.opened)}>
       {chatbotConfig?.chatbot_visibility && (
