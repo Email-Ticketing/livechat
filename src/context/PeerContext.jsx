@@ -6,6 +6,7 @@ import { createContext } from "react"
 import { useCookies } from "react-cookie"
 import { v4 as uuid } from "uuid"
 import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/AudioPlayer"
+import { PEERJS_URL } from "../environments/environment"
 
 // const chatForm = document.getElementById('chat-form');
 // const chatMessages = document.querySelector('.chat-messages');
@@ -184,7 +185,7 @@ export const PeerProvider = ({ children }) => {
   })
   useEffect(() => {
     const myPeer = new Peer(cookies.chat_user_id ? cookies.chat_user_id : chat_user_id, {
-      host: "et-staging-api.ringover-crm.xyz",
+      host: PEERJS_URL,
       path: "/peerApp",
       secure: true,
     })
