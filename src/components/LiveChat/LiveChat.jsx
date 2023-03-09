@@ -91,7 +91,6 @@ const LiveChat = ({ teamCdn }) => {
   }, [teamCdn])
 
   useEffect(() => {
-    console.log("ICON", defaultIcons[chatbotConfig?.default_chatbot_icon]?.IconName)
     if (latestActivityFromSocket) {
       console.log("LATEST ACTIVITY FROM SOCKET", latestActivityFromSocket)
       if (latestActivityFromSocket?.chatRoom?.chat_session_id) {
@@ -117,7 +116,7 @@ const LiveChat = ({ teamCdn }) => {
   // console.log(myPeer)
 
   return (
-    <div className={styles.liveChatContainer}>
+    <div className={styles.liveChatContainer + " " + (isBoxOpen && styles.opened)}>
       {chatbotConfig?.chatbot_visibility && (
         <div
           style={customChatStyles.float_btn}

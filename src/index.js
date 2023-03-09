@@ -13,7 +13,7 @@ const teamCdn = document.currentScript.getAttribute("cdnId")
 //staging
 // const teamCdn = "b-j0dIGFE-WjbCM7aWyTw"
 //dev
-// const teamCdn = "HsG_rGgA8_L-xICsyFVQs"
+// const teamCdn = "zv4UNa8LfjowpKo2RdFnx"
 
 root.render(
   // <React.StrictMode>
