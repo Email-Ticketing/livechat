@@ -95,8 +95,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     if (peerState?.user) {
       const call = peerState.myPeer.call(peerState.user.user_id, stream)
       call.on("stream", (mediaStream) => {
-        console.log("incomingStream")
-        console.log(mediaStream)
+        // console.log("incomingStream")
+        // console.log(mediaStream)
         setPeerState((state) => ({
           ...state,
           remoteAudioStream: mediaStream,
@@ -131,7 +131,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
           setChatAttachmentId(data?.data?.chat_attachment_id)
           // setUploadingMultimedia(false)
           setIsTakingSnapshot(false)
-          console.log("Datacheck", data)
+          // console.log("Datacheck", data)
         },
         onError: (err) => {
           console.log(err)
