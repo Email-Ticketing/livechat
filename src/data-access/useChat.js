@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useMutation } from "react-query"
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import { BACKEND_URL } from "../environment/environment"
 console.log("backend url", BACKEND_URL)
 
 const useChat = () => {

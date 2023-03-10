@@ -6,8 +6,8 @@ import { createContext } from "react"
 import { useCookies } from "react-cookie"
 import { v4 as uuid } from "uuid"
 import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/AudioPlayer"
+import { PEERJS_URL } from "../environment/environment"
 
-const PEERJS_URL = process.env.REACT_APP_PEERJS_URL
 console.log("peerjs url", PEERJS_URL)
 
 // const chatForm = document.getElementById('chat-form');

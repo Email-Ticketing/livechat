@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { usePeer } from "../context/PeerContext"
+import { BACKEND_URL } from "../environment/environment"
 import useSocket from "./useSocket"
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 const useSocketForLiveChat = (setLatestActivityFromSocket) => {
   const [socket] = useSocket(BACKEND_URL)
