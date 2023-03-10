@@ -11,6 +11,7 @@
 
 #backend env
 .env.development
+environment
 
 # misc
 .DS_Store

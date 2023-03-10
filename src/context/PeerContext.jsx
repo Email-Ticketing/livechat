@@ -6,7 +6,9 @@ import { createContext } from "react"
 import { useCookies } from "react-cookie"
 import { v4 as uuid } from "uuid"
 import AudioPlayer from "../components/LiveChat/components/Chatbox/AudioPlayer/AudioPlayer"
-import { PEERJS_URL } from "../environments/environment"
+import { PEERJS_URL } from "../environment/environment"
+
+console.log("peerjs url", PEERJS_URL)
 
 // const chatForm = document.getElementById('chat-form');
 // const chatMessages = document.querySelector('.chat-messages');
@@ -215,7 +217,6 @@ export const PeerProvider = ({ children }) => {
   })
   return (
     <PeerContext.Provider value={{ peerState, setPeerState }}>
-      {console.log("ye stream: ", peerState?.remoteAudioStream)}
       {peerState?.remoteAudioStream && <AudioPlayer stream={peerState?.remoteAudioStream} />}
       {children}
     </PeerContext.Provider>

@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState } from "react"
-import { BACKEND_URL } from "../environments/environment"
+import { BACKEND_URL } from "../environment/environment"
 // import { useMutation } from "react-query"
 
 const useDeleteAttachment = () => {
@@ -23,8 +23,6 @@ const useDeleteAttachment = () => {
       )
 
       .then((res) => {
-        console.log("ress", res)
-
         return res.data
       })
   }
