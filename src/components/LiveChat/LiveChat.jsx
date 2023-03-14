@@ -116,7 +116,7 @@ const LiveChat = ({ teamCdn }) => {
   // console.log(myPeer)
 
   useEffect(() => {
-    console.log("--------> log for testing update")
+    console.log("--------> log for testing ci/cd")
   }, [])
 
   return (
