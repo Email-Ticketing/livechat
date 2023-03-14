@@ -20,8 +20,14 @@ jobs:
     - id: 'compute-ssh'
       uses: 'google-github-actions/ssh-compute@v0'
       with:
-        instance_name: 'email-ticketing-dev'
-        user: 'ringover_developer'
-        zone: 'us-central1-a'
+        instance_name: '${{ secrets.DEV_INSTANCE }}'
+        user: '${{ secrets.GCP_USER }}'
+        zone: '${{ secrets.GCP_REGION }}'
         ssh_private_key: '${{ secrets.GCP_PRIVATE_KEY_DEV }}'
         command: 'sudo ./livechat-cdn.sh -b dev'
+    - id: "get-error"
+      run: |-
+        echo '${{ steps.compute-ssh.outputs.stderr }}'
+    - id: "get-stdout"
+      run: |-
+        echo '${{ steps.compute-ssh.outputs.stdout }}' | grep ready
