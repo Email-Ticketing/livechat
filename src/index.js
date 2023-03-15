@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client"
 import "./index.css"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
-import Frame from "react-frame-component"
+import { IFrame } from "./libs/IFrame/IFrame"
+import Frame, { FrameContext } from "react-frame-component"
 
 let div = document.createElement("div")
 div.id = "live-chat"
@@ -18,9 +19,9 @@ const teamCdn = "S4DZso2j_YkuhCjMu_Fde"
 
 root.render(
   // <React.StrictMode>
-  <Frame height={500}>
+  <IFrame>
     <App teamCdn={teamCdn} />
-  </Frame>
+  </IFrame>
   // </React.StrictMode>
 )
 

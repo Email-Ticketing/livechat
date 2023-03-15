@@ -10,6 +10,8 @@ import { useCookies } from "react-cookie"
 import useChat from "../../data-access/useChat"
 import defaultIcons from "../../libs/icons/defaultIcons/defaultIcons"
 import { browserName, osName } from "react-device-detect"
+import Frame from "react-frame-component"
+import { IFrame } from "../../libs/IFrame/IFrame"
 
 const LiveChat = ({ teamCdn }) => {
   const [isBoxOpen, setIsBoxOpen] = useState(false)
@@ -116,29 +118,34 @@ const LiveChat = ({ teamCdn }) => {
   // console.log(myPeer)
 
   useEffect(() => {
-    console.log(" log for testing update")
+    console.log("log for testing update")
   }, [])
 
   return (
-    <div className={styles.liveChatContainer + " " + (isBoxOpen && styles.opened)}>
-      {chatbotConfig?.chatbot_visibility && (
-        <div
-          style={customChatStyles.float_btn}
-          onClick={() => {
-            setIsBoxOpen(!isBoxOpen)
-            joinClickHandler()
-          }}
-        >
-          {!isBoxOpen && <span className={styles.icon}>{icon}</span>}
-          {isBoxOpen && (
-            <span className={styles.icon}>
-              <Close />
-            </span>
-          )}
-        </div>
-      )}
-      {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen} />}
-    </div>
+    <>
+      {/* <Frame height={500} styleSelector="styles"> */}
+      <link data-frame type="text/css" rel="stylesheet" href="./LiveChat.module.css" />
+      <div className={styles.liveChatContainer + " " + (isBoxOpen && styles.opened)}>
+        {chatbotConfig?.chatbot_visibility && (
+          <div
+            style={customChatStyles.float_btn}
+            onClick={() => {
+              setIsBoxOpen(!isBoxOpen)
+              joinClickHandler()
+            }}
+          >
+            {!isBoxOpen && <span className={styles.icon}>{icon}</span>}
+            {isBoxOpen && (
+              <span className={styles.icon}>
+                <Close />
+              </span>
+            )}
+          </div>
+        )}
+        {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen} />}
+      </div>
+      {/* </Frame> */}
+    </>
   )
 }
 
