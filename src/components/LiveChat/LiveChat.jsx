@@ -76,13 +76,13 @@ const LiveChat = ({ teamCdn }) => {
     if (!isBoxOpen) {
       console.log("teamCdn:", teamCdn)
       console.log("user_data", userData)
-      await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, teamCdn, userData)
+      await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, "S4DZso2j_YkuhCjMu_Fde", userData)
       setIsLoggedIn(true)
     }
   }
 
   useEffect(() => {
-    getChatBotConfigData(teamCdn)
+    getChatBotConfigData("S4DZso2j_YkuhCjMu_Fde")
       .then((res) => {
         setChatbotConfig(res?.data?.data)
         setIcon(defaultIcons[res?.data?.data?.default_chatbot_icon - 1]?.IconName)

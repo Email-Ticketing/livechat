@@ -118,7 +118,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       formData.append("support_chat_id", cookies?.support_chat_id)
       formData.append("msg_type", "customer")
       formData.append("chat_user_id", cookies?.chat_user_id)
-      formData.append("team_cdn_id", teamCdn)
+      formData.append("team_cdn_id", "S4DZso2j_YkuhCjMu_Fde")
       formData.append("chat_room_id", cookies?.chat_room_id)
       formData.append("chat_session_id", cookies?.chat_session_id)
 

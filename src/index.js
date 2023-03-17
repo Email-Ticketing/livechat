@@ -17,13 +17,15 @@ const teamCdn = "S4DZso2j_YkuhCjMu_Fde"
 //dev
 // const teamCdn = "K2rAb9PRdSU8ZR-cUlfqC"
 
-root.render(
+root
+  .render
   // <React.StrictMode>
-  <IFrame>
-    <App teamCdn={teamCdn} />
-  </IFrame>
+  // <IFrame>
+  // <iframe height={500} width={500} src="./App.html" title="abc" />
+  // <App teamCdn={teamCdn} />
+  // {/* </IFrame> */}
   // </React.StrictMode>
-)
+  ()
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
