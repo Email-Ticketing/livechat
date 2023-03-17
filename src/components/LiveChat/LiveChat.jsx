@@ -31,6 +31,7 @@ const LiveChat = ({ teamCdn }) => {
       .match(/\b(\w)/g)
       .join(""),
   })
+  const [dataFetched, setDataFetched] = useState(false)
 
   const { getChatBotConfigData } = useChat()
 
@@ -84,6 +85,7 @@ const LiveChat = ({ teamCdn }) => {
       .then((res) => {
         setChatbotConfig(res?.data?.data)
         setIcon(defaultIcons[res?.data?.data?.default_chatbot_icon - 1]?.IconName)
+        setDataFetched(true)
       })
       .catch((error) => {
         console.log("LIVE CHAT ERROR", error)
@@ -116,12 +118,13 @@ const LiveChat = ({ teamCdn }) => {
   // console.log(myPeer)
 
   useEffect(() => {
-    console.log("--------> log for testing ci/cd")
+    setIsBoxOpen(!isBoxOpen)
+    joinClickHandler()
   }, [])
 
   return (
-    <div className={styles.liveChatContainer + " " + (isBoxOpen && styles.opened)}>
-      {chatbotConfig?.chatbot_visibility && (
+    <div className={styles.liveChatContainer + " " + styles.opened}>
+      {/* {chatbotConfig?.chatbot_visibility && (
         <div
           style={customChatStyles.float_btn}
           onClick={() => {
@@ -137,7 +140,8 @@ const LiveChat = ({ teamCdn }) => {
           )}
         </div>
       )}
-      {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen} />}
+      {isBoxOpen && isLoggedIn && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen} />} */}
+      {dataFetched && <Chatbox socket={socket} allMessages={msgList} teamCdn={teamCdn} chatbotConfig={chatbotConfig} setIsBoxOpen={setIsBoxOpen} />}
     </div>
   )
 }
