@@ -168,7 +168,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     if (isMultimediaUploading || isDeletingAttachment || isTakingSnapshot) return
 
     setIsTakingSnapshot(true)
-    const root = document.body
+    const root = window?.top?.document?.body
 
     html2canvas(root, {
       cacheBust: true,
@@ -176,7 +176,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       allowTaint: true,
       ignoreElements: function (element) {
         /* Remove element with id="live-chat" */
-        if ("live-chat" === element.id) {
+        if ("live-chat-iframe" === element.id) {
           return true
         }
       },
