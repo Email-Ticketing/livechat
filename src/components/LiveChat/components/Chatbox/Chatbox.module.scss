@@ -124,7 +124,8 @@
 .sendMessage {
   padding: 15px 8px 15px 15px;
 }
-.sendMessage .inputMsgBox {
+.sendMessage .inputMsgBox,
+textarea:empty {
   padding: 5px 8px;
   border: none;
   width: 80%;
