@@ -71,13 +71,42 @@ const LiveChat = ({ teamCdn }) => {
     },
   }
 
-  const joinClickHandler = async () => {
-    if (!isBoxOpen) {
-      console.log("teamCdn:", teamCdn)
-      console.log("user_data", userData)
-      await socket.current.emit("join-chat", cookies.chat_user_id ? cookies.chat_user_id : uuid(), cookies.chat_room_id, teamCdn, userData)
-      setIsLoggedIn(true)
+  var chat_room_id
+  var chat_user_id
+  const createUserAndRoomId = () => {
+    if (!cookies?.chat_room_id) {
+      chat_room_id = uuid()
+      setCookies("chat_room_id", chat_room_id, {
+        path: "/",
+      })
+    } else {
+      chat_room_id = cookies?.chat_room_id
     }
+
+    if (!cookies.chat_user_id) {
+      chat_user_id = uuid()
+      setCookies("chat_user_id", chat_user_id, {
+        path: "/",
+      })
+    } else {
+      chat_user_id = cookies?.chat_user_id
+    }
+  }
+
+  const joinClickHandler = async () => {
+    createUserAndRoomId()
+
+    if (!cookies?.chat_room_id) {
+      chat_room_id = uuid()
+      setCookies("chat_room_id", chat_room_id, {
+        path: "/",
+      })
+    } else {
+      chat_room_id = cookies?.chat_room_id
+    }
+
+    await socket.current.emit("join-chat", chat_user_id, chat_room_id, teamCdn, userData)
+    setIsLoggedIn(true)
   }
 
   useEffect(() => {
@@ -118,9 +147,8 @@ const LiveChat = ({ teamCdn }) => {
   // console.log(myPeer)
 
   useEffect(() => {
-    setIsBoxOpen(!isBoxOpen)
     joinClickHandler()
-  }, [])
+  }, [socket])
 
   return (
     <div className={styles.liveChatContainer + " " + styles.opened}>
