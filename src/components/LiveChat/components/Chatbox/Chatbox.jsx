@@ -22,14 +22,13 @@ const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
 }
 const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) => {
-  const [chatbot, setChatbot] = useState(chatbotConfig)
-  const [icon, setIcon] = useState(defaultIcons[chatbot?.default_chatbot_icon - 1].IconName)
+  const [icon, setIcon] = useState(defaultIcons[chatbotConfig?.default_chatbot_icon - 1]?.IconName)
 
   const customChatStyles = {
     chatbot_header: {
       height: "54px",
       width: "100%",
-      background: chatbot?.color,
+      background: chatbotConfig?.color,
       color: "white",
       fontWeight: "600",
       fontSize: "14px",
@@ -63,7 +62,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   useAutosizeTextArea(textAreaRef.current, inputMsg)
 
   useEffect(() => {
-    peerState?.myPeer.on("open", (id) => {
+    peerState?.myPeer?.on("open", (id) => {
       console.log("My peerstate id for connection is:", id)
     })
     console.log("MESSAGE LIST", allMessages)
@@ -169,7 +168,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     if (isMultimediaUploading || isDeletingAttachment || isTakingSnapshot) return
 
     setIsTakingSnapshot(true)
-    const root = document.body
+    const root = window?.top?.document?.body
 
     html2canvas(root, {
       cacheBust: true,
@@ -177,7 +176,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       allowTaint: true,
       ignoreElements: function (element) {
         /* Remove element with id="live-chat" */
-        if ("live-chat" === element.id) {
+        if ("live-chat-iframe" === element.id) {
           return true
         }
       },
@@ -233,7 +232,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         <div className={styles.chatHeader}>
           {" "}
           {icon}
-          <p>{chatbot?.chatbot_name}</p>
+          <p>{chatbotConfig?.chatbot_name}</p>
         </div>
       </header>
       <main>
@@ -312,7 +311,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
               </label>
               <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} />
             </div>
-            {chatbot?.Chatbot_Messages?.[2]?.enabled && (
+            {chatbotConfig?.Chatbot_Messages?.[2]?.enabled && (
               <div onClick={vidClickHandler}>
                 <MdScreenShare size={25} className={styles.icon} />
               </div>
