@@ -11,6 +11,7 @@ const useAutosizeTextArea = (textAreaRef, value) => {
       // We then set the height directly, outside of the render loop
       // Trying to set this with state or a ref will product an incorrect value.
       if (scrollHeight > 100) textAreaRef.style.height = "100px"
+      else if (scrollHeight === 0) textAreaRef.style.height = "29px"
       else textAreaRef.style.height = scrollHeight + "px"
     }
   }, [textAreaRef, value])
