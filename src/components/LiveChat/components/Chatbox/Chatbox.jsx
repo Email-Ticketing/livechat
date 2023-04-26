@@ -282,10 +282,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                                   <h5>{attachment.attachment_title}</h5>
                                   <p>{formatBytes(attachment.attachment_size)}</p>
                                 </div>
-                                {/* {fetchingFile ===
-                    attachment.parsed_attachment_id ? (
-                      <Spinner className={styles.spinner} />
-                    ) : ( */}
 
                                 {!loadingStates[attachment?.support_message_id] ? (
                                   <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
@@ -296,10 +292,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                                     <Spinner className={styles.downloadSpinner} />
                                   </div>
                                 )}
-
-                                {/* <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => setIsDownloading(true)} onLoad={() => setIsDownloading(false)} onError={() => setIsDownloading(false)}> */}
-                                {/* {isDownloading ? <Spinner className={styles.downloadSpinner} /> : <Download className={styles.download_icon} onClick={() => downloadAttachment(attachment)} />} */}
-                                {/* </a> */}
                               </div>
                             )}
                           </div>
