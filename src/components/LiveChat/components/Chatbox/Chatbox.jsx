@@ -58,6 +58,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
 
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const { peerState, setPeerState } = usePeer()
+  const [isDownloading, setIsDownloading] = useState(false)
 
   useAutosizeTextArea(textAreaRef.current, inputMsg)
 
@@ -203,6 +204,28 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     }
   }
 
+  const downloadAttachment = async (attachment) => {
+    try {
+      setIsDownloading(true)
+
+      // const response = await fetch(attachment?.attachment_url)
+      const response = await fetch(attachment?.attachment_url, { mode: "no-cors" })
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = attachment?.attachment_url
+      a.download = attachment?.attachment_title
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+
+      setIsDownloading(false)
+    } catch (error) {
+      setIsDownloading(false)
+      // Handle the error here
+    }
+  }
+
   useEffect(() => {
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
 
@@ -270,9 +293,12 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                       <Spinner className={styles.spinner} />
                     ) : ( */}
 
-                                <a href={attachment?.attachment_url} className={styles.download_link}>
+                                {/* <a href={attachment?.attachment_url} className={styles.download_link}>
                                   <Download className={styles.download_icon} />
-                                </a>
+                                </a> */}
+                                {/* <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => setIsDownloading(true)} onLoad={() => setIsDownloading(false)} onError={() => setIsDownloading(false)}> */}
+                                {isDownloading ? <Spinner className={styles.downloadSpinner} /> : <Download className={styles.download_icon} onClick={() => downloadAttachment(attachment)} />}
+                                {/* </a> */}
                               </div>
                             )}
                           </div>

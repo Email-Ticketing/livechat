@@ -219,6 +219,7 @@ textarea:empty {
           border-color: $lightBlue transparent transparent transparent;
         }
       }
+
       .attachemntImage {
         display: flex;
         align-items: center;
@@ -239,6 +240,14 @@ textarea:empty {
         cursor: pointer;
         .download_icon {
           color: $lightBlue;
+        }
+        .downloadSpinner {
+          div {
+            width: 15px;
+            height: 15px;
+            border: 2px solid $white;
+            border-color: $white transparent transparent transparent;
+          }
         }
       }
       .attachemntText {
