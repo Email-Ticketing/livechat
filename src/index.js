@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById("live-chat"))
 // const teamCdn = "TX3O79zUfqbwVVwisWHrN"
 const teamCdn = document.currentScript.getAttribute("cdnId")
 //staging
-// const teamCdn = "b-j0dIGFE-WjbCM7aWyTw"
+// const teamCdn = "XBfGaVEKx1zhSGE_lOUbh"
 //dev
 // const teamCdn = "WzCRGD9Zx97hTcoWCoWOG"
 

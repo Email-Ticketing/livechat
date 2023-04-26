@@ -58,6 +58,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
 
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const { peerState, setPeerState } = usePeer()
+  const [loadingStates, setLoadingStates] = useState({})
+  const inputRef = useRef(null)
 
   useAutosizeTextArea(textAreaRef.current, inputMsg)
 
@@ -77,8 +79,15 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, teamCdn, supportMsgId)
       setInputMsg("")
       setFiles([])
+      clearInputValue()
       setSupportMsgId()
       setChatAttachmentId()
+    }
+  }
+
+  const clearInputValue = () => {
+    if (inputRef.current) {
+      inputRef.current.value = null
     }
   }
 
@@ -203,6 +212,14 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     }
   }
 
+  const downloadAttachment = (index) => {
+    setLoadingStates((prevState) => ({ ...prevState, [index]: true }))
+
+    setTimeout(() => {
+      setLoadingStates((prevState) => ({ ...prevState, [index]: false }))
+    }, 2000) // Simulate a 2 second download
+  }
+
   useEffect(() => {
     endRef.current?.scrollIntoView({ behaviour: "smooth", block: "end" })
 
@@ -244,7 +261,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
-                      {msg?.Support_Chat_Attachments?.map((attachment) => {
+                      {msg?.Support_Chat_Attachments?.map((attachment, index) => {
                         return (
                           <div className={styles.image}>
                             {attachment?.attachment_type === "audio/wav" ? (
@@ -270,9 +287,19 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                       <Spinner className={styles.spinner} />
                     ) : ( */}
 
-                                <a href={attachment?.attachment_url} className={styles.download_link}>
-                                  <Download className={styles.download_icon} />
-                                </a>
+                                {!loadingStates[attachment?.support_message_id] ? (
+                                  <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
+                                    <Download className={styles.download_icon} />
+                                  </a>
+                                ) : (
+                                  <div className={styles.download_link}>
+                                    <Spinner className={styles.downloadSpinner} />
+                                  </div>
+                                )}
+
+                                {/* <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => setIsDownloading(true)} onLoad={() => setIsDownloading(false)} onError={() => setIsDownloading(false)}> */}
+                                {/* {isDownloading ? <Spinner className={styles.downloadSpinner} /> : <Download className={styles.download_icon} onClick={() => downloadAttachment(attachment)} />} */}
+                                {/* </a> */}
                               </div>
                             )}
                           </div>
@@ -309,7 +336,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
               </label>
-              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} />
+              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} ref={inputRef} />
             </div>
             {chatbotConfig?.Chatbot_Messages?.[2]?.enabled && (
               <div onClick={vidClickHandler}>
