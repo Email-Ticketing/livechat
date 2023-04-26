@@ -58,7 +58,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
 
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const { peerState, setPeerState } = usePeer()
-  const [isDownloading, setIsDownloading] = useState(false)
+  const [loadingStates, setLoadingStates] = useState({})
 
   useAutosizeTextArea(textAreaRef.current, inputMsg)
 
@@ -204,26 +204,12 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     }
   }
 
-  const downloadAttachment = async (attachment) => {
-    try {
-      setIsDownloading(true)
+  const downloadAttachment = (index) => {
+    setLoadingStates((prevState) => ({ ...prevState, [index]: true }))
 
-      // const response = await fetch(attachment?.attachment_url)
-      const response = await fetch(attachment?.attachment_url, { mode: "no-cors" })
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = attachment?.attachment_url
-      a.download = attachment?.attachment_title
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-
-      setIsDownloading(false)
-    } catch (error) {
-      setIsDownloading(false)
-      // Handle the error here
-    }
+    setTimeout(() => {
+      setLoadingStates((prevState) => ({ ...prevState, [index]: false }))
+    }, 2000) // Simulate a 2 second download
   }
 
   useEffect(() => {
@@ -267,7 +253,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
-                      {msg?.Support_Chat_Attachments?.map((attachment) => {
+                      {msg?.Support_Chat_Attachments?.map((attachment, index) => {
                         return (
                           <div className={styles.image}>
                             {attachment?.attachment_type === "audio/wav" ? (
@@ -293,11 +279,18 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                       <Spinner className={styles.spinner} />
                     ) : ( */}
 
-                                {/* <a href={attachment?.attachment_url} className={styles.download_link}>
-                                  <Download className={styles.download_icon} />
-                                </a> */}
+                                {!loadingStates[attachment?.support_message_id] ? (
+                                  <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
+                                    <Download className={styles.download_icon} />
+                                  </a>
+                                ) : (
+                                  <div className={styles.download_link}>
+                                    <Spinner className={styles.downloadSpinner} />
+                                  </div>
+                                )}
+
                                 {/* <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => setIsDownloading(true)} onLoad={() => setIsDownloading(false)} onError={() => setIsDownloading(false)}> */}
-                                {isDownloading ? <Spinner className={styles.downloadSpinner} /> : <Download className={styles.download_icon} onClick={() => downloadAttachment(attachment)} />}
+                                {/* {isDownloading ? <Spinner className={styles.downloadSpinner} /> : <Download className={styles.download_icon} onClick={() => downloadAttachment(attachment)} />} */}
                                 {/* </a> */}
                               </div>
                             )}
