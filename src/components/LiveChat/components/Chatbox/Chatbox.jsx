@@ -59,6 +59,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
   const [isTakingSnapshot, setIsTakingSnapshot] = useState(false)
   const { peerState, setPeerState } = usePeer()
   const [loadingStates, setLoadingStates] = useState({})
+  const inputRef = useRef(null)
 
   useAutosizeTextArea(textAreaRef.current, inputMsg)
 
@@ -78,8 +79,15 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
       await socket.current.emit("chat-message", inputMsg, "customer", cookies.chat_room_id, cookies.chat_session_id, teamCdn, supportMsgId)
       setInputMsg("")
       setFiles([])
+      clearInputValue()
       setSupportMsgId()
       setChatAttachmentId()
+    }
+  }
+
+  const clearInputValue = () => {
+    if (inputRef.current) {
+      inputRef.current.value = null
     }
   }
 
@@ -328,7 +336,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
               <label htmlFor="attachment">
                 <Attachment className={styles.icon} />
               </label>
-              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} />
+              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} ref={inputRef} />
             </div>
             {chatbotConfig?.Chatbot_Messages?.[2]?.enabled && (
               <div onClick={vidClickHandler}>
