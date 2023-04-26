@@ -245,8 +245,8 @@ textarea:empty {
           div {
             width: 15px;
             height: 15px;
-            border: 2px solid $white;
-            border-color: $white transparent transparent transparent;
+            border: 2px solid $lightBlue;
+            border-color: $lightBlue transparent transparent transparent;
           }
         }
       }
@@ -308,6 +308,14 @@ textarea:empty {
         cursor: pointer;
         .download_icon {
           color: $white;
+        }
+        .downloadSpinner {
+          div {
+            width: 15px;
+            height: 15px;
+            border: 2px solid $white;
+            border-color: $white transparent transparent transparent;
+          }
         }
       }
     }
