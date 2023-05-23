@@ -9,9 +9,9 @@ div.id = "live-chat"
 document.body.appendChild(div)
 const root = ReactDOM.createRoot(document.getElementById("live-chat"))
 // const teamCdn = "TX3O79zUfqbwVVwisWHrN"
-const teamCdn = document.currentScript.getAttribute("cdnId")
+// const teamCdn = document.currentScript.getAttribute("cdnId")
 //staging
-// const teamCdn = "XBfGaVEKx1zhSGE_lOUbh"
+const teamCdn = "XBfGaVEKx1zhSGE_lOUbh"
 //dev
 // const teamCdn = "WzCRGD9Zx97hTcoWCoWOG"
 

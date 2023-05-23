@@ -24,22 +24,6 @@ const AttachmentImage = ({ attachment }) => {
     }
   }, [attachment])
 
-  // const download = (e, downloadUrl, fileName) => {
-  //   e.preventDefault()
-  //   // Create a temporary link element
-  //   const link = document.createElement("a")
-  //   link.href = downloadUrl
-  //   link.download = "download.png" // Specify a default filename if the URL doesn't provide one
-  //   link.target = '_blank';
-
-  //   // Append the link to the document body and click it programmatically
-  //   document.body.appendChild(link)
-  //   link.click()
-
-  //   // Clean up the temporary link
-  //   document.body.removeChild(link)
-  // }
-
   return !error ? (
     <div>
       {loading && <Skeleton className={styles.image_skeleton_loader} />}

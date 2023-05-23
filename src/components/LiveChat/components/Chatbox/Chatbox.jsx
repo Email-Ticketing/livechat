@@ -283,7 +283,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                                 </div>
 
                                 {!loadingStates[attachment?.support_message_id] ? (
-                                  <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
+                                  <a href={attachment?.attachment_url} target="_blank" className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
                                     <Download className={styles.download_icon} />
                                   </a>
                                 ) : (
