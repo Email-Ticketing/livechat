@@ -43,7 +43,7 @@ const AttachmentImage = ({ attachment }) => {
   return !error ? (
     <div>
       {loading && <Skeleton className={styles.image_skeleton_loader} />}
-      <a href={attachment?.attachment_url} download={attachment?.attachment_title} className={styles.download_link}>
+      <a href={attachment?.attachment_url} target="_blank" download={attachment?.attachment_title} className={styles.download_link}>
         <img src={attachment?.attachment_url} alt="" />
       </a>
     </div>
