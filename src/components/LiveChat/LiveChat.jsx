@@ -20,8 +20,8 @@ const LiveChat = ({ teamCdn }) => {
   const [icon, setIcon] = useState()
   // const [isButtonClicked,setIsButtonClicked]=useState(false)
 
-  const [socket] = useSocketForLiveChat(setLatestActivityFromSocket)
   const [msgList, setMsgList] = useState([])
+  const [socket] = useSocketForLiveChat(setLatestActivityFromSocket, setMsgList)
   const [userData, setUserData] = useState({
     browser: browserName,
     os: osName,
@@ -140,7 +140,7 @@ const LiveChat = ({ teamCdn }) => {
         })
       }
 
-      setMsgList((list) => [...list, latestActivityFromSocket])
+      // setMsgList((list) => [...list, latestActivityFromSocket])
 
       console.log("MESSAGE LIST", msgList)
     }

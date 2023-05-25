@@ -3,7 +3,7 @@ import { usePeer } from "../context/PeerContext"
 import { BACKEND_URL } from "../environment/environment"
 import useSocket from "./useSocket"
 
-const useSocketForLiveChat = (setLatestActivityFromSocket) => {
+const useSocketForLiveChat = (setLatestActivityFromSocket, setMsgList) => {
   const [socket] = useSocket(BACKEND_URL)
   const { peerState, setPeerState } = usePeer()
   useEffect(() => {
@@ -23,6 +23,7 @@ const useSocketForLiveChat = (setLatestActivityFromSocket) => {
 
     socket.current.on("message", (message) => {
       setLatestActivityFromSocket(message)
+      setMsgList((list) => [...list, message])
       console.log("Received message:- ", message)
     })
 
