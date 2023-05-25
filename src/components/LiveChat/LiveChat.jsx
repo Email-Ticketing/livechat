@@ -141,6 +141,8 @@ const LiveChat = ({ teamCdn }) => {
       }
 
       setMsgList((list) => [...list, latestActivityFromSocket])
+
+      console.log("MESSAGE LIST", msgList)
     }
   }, [latestActivityFromSocket])
   // console.log(myPeer)

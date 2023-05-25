@@ -68,7 +68,6 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
     peerState?.myPeer?.on("open", (id) => {
       console.log("My peerstate id for connection is:", id)
     })
-    console.log("MESSAGE LIST", allMessages)
   })
   const clickHandler = async () => {
     // console.log("teamChatCdn", teamCdn)
