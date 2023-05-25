@@ -17,6 +17,7 @@ import { useRef } from "react"
 import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
 import MessageContent from "./components/MessageContent/MessageContent"
 import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
+import AttachmentImage from "./AttachmentImage/AttachmentImage"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
@@ -267,9 +268,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                             {attachment?.attachment_type === "audio/wav" ? (
                               <audio controls id="audio" src={attachment?.attachment_url} type={attachment?.attachment_type}></audio>
                             ) : attachment.attachment_type.includes("image") ? (
-                              <a href={attachment?.attachment_url} download={attachment?.attachment_title} className={styles.download_link}>
-                                <img src={attachment?.attachment_url} alt="#" />
-                              </a>
+                              <AttachmentImage attachment={attachment} />
                             ) : (
                               <div
                                 // key={`attachementkey-${index}`}
@@ -284,7 +283,7 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
                                 </div>
 
                                 {!loadingStates[attachment?.support_message_id] ? (
-                                  <a href={attachment?.attachment_url} className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
+                                  <a href={attachment?.attachment_url} target="_blank" className={styles.download_link} onClick={() => downloadAttachment(attachment?.support_message_id)}>
                                     <Download className={styles.download_icon} />
                                   </a>
                                 ) : (

@@ -380,3 +380,14 @@ textarea:empty {
   margin-top: 4px;
   cursor: pointer;
 }
+
+.image_skeleton_loader {
+  width: 120px;
+  height: 160px;
+}
+
+.display_none {
+  display: none;
+  height: 0px;
+  width: 0px;
+}
