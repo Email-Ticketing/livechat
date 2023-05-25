@@ -1,7 +1,6 @@
 import axios from "axios"
 import { useMutation } from "react-query"
 import { BACKEND_URL } from "../environment/environment"
-console.log("backend url", BACKEND_URL)
 
 const useChat = () => {
   const PublicApi = axios.create({
