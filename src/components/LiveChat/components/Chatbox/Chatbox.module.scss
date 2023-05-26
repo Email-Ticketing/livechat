@@ -152,6 +152,10 @@ textarea:empty {
   color: #8193a8;
   vertical-align: sub;
 }
+
+.main {
+  padding-top: 10px;
+}
 .msgContainerLeft {
   color: #8193a8;
   margin: 5px 15px;
@@ -168,7 +172,7 @@ textarea:empty {
     font-size: 12px;
     line-height: 16px;
     color: #567191;
-    background-color: #fafafa;
+    background-color: #e4e6ea;
 
     .images {
       display: flex;
@@ -273,7 +277,7 @@ textarea:empty {
   }
 
   .userMsg {
-    background: linear-gradient(106.52deg, rgba(162, 130, 232, 0.92) -11.57%, rgba(126, 142, 231, 0.92) 50.39%, rgba(68, 153, 233, 0.92) 116.35%);
+    // background: linear-gradient(106.52deg, rgba(162, 130, 232, 0.92) -11.57%, rgba(126, 142, 231, 0.92) 50.39%, rgba(68, 153, 233, 0.92) 116.35%);
     align-self: end;
     color: white;
   }
@@ -319,6 +323,10 @@ textarea:empty {
         }
       }
     }
+  }
+
+  .msgInfo {
+    align-self: end;
   }
 }
 
