@@ -18,6 +18,7 @@ import useAutosizeTextArea from "./components/AutoSizeTextArea/AutoSizeTextArea"
 import MessageContent from "./components/MessageContent/MessageContent"
 import defaultIcons from "../../../../libs/icons/defaultIcons/defaultIcons"
 import AttachmentImage from "./AttachmentImage/AttachmentImage"
+import Tooltip from "../../../../libs/utils/Tooltip/Tooltip"
 
 const addToCall = (user, myPeer, myStream) => {
   const call = myPeer.call(user.user_id, myStream)
@@ -123,7 +124,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         formData.append(`attachment`, files[i])
       }
 
-      formData.append("support_chat_id", cookies?.support_chat_id)
+      //if support chat id do not exist so it is first message and send support chat id as null
+      if (cookies?.support_chat_id) formData.append("support_chat_id", cookies?.support_chat_id)
       formData.append("msg_type", "customer")
       formData.append("chat_user_id", cookies?.chat_user_id)
       formData.append("team_cdn_id", teamCdn)
@@ -252,12 +254,12 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
           <p>{chatbotConfig?.chatbot_name}</p>
         </div>
       </header>
-      <main>
+      <main className={styles.main}>
         {allMessages.map((msg) => {
           return (
             (msg?.content || msg?.Support_Chat_Attachments?.length > 0) && (
               <div className={styles.msgContainerLeft + " " + (cookies.chat_user_id === msg.user?.chat_user_id && styles.msgContainerRight)}>
-                <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)}>
+                <div className={styles.msg + " " + ("customer" === msg?.user_type && styles.userMsg)} style={"customer" === msg?.user_type ? { background: chatbotConfig?.color } : {}}>
                   <div className={styles.text}>{<MessageContent msg={msg} />}</div>
                   {msg?.Support_Chat_Attachments?.length > 0 && (
                     <div className={styles.images}>
@@ -317,23 +319,29 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         <div className={styles.sendMessage}>
           <textarea className={styles.inputMsgBox} type="text" placeholder="Write here ..." value={inputMsg} ref={textAreaRef} onChange={(e) => setInputMsg(e.target.value)} onKeyDown={(e) => handleKeyPress(e)} />
           <div className={styles.sendOptions + " " + ((isMultimediaUploading || isDeletingAttachment) && styles.disabled)}>
-            <div className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot}>
-              <ScreenShot size={18} className={styles.icon} />
-            </div>
+            <Tooltip text="Screenshot" theme="TOP">
+              <div className={styles.snapshot + " " + (isTakingSnapshot && styles.blur)} onClick={handleSnapshot}>
+                <ScreenShot size={18} className={styles.icon} />
+              </div>
+            </Tooltip>
 
             {/* <VoiceMemos setFiles={setFiles} /> */}
-            <div className={styles.attachments}>
-              <label htmlFor="attachment">
-                <Attachment className={styles.icon} />
-              </label>
-              <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} ref={inputRef} />
-            </div>
+            <Tooltip text="Attachment" theme="TOP">
+              <div className={styles.attachments}>
+                <label htmlFor="attachment">
+                  <Attachment className={styles.icon} />
+                </label>
+                <input type="file" name="attachment" id="attachment" onChange={(event) => setFiles(event.target.files)} disabled={isMultimediaUploading || isDeletingAttachment} ref={inputRef} />
+              </div>
+            </Tooltip>
             {chatbotConfig?.Chatbot_Messages?.[2]?.enabled && (
               <div onClick={vidClickHandler}>
                 <MdScreenShare size={25} className={styles.icon} />
               </div>
             )}
-            <Send className={styles.icon} onClick={clickHandler} />
+            <Tooltip text="Send" theme="TOP">
+              <Send className={styles.icon} onClick={clickHandler} />
+            </Tooltip>
           </div>
         </div>
         <div className={styles.attachment_name}>
