@@ -124,7 +124,8 @@ const Chatbox = ({ socket, allMessages, teamCdn, chatbotConfig, setIsBoxOpen }) 
         formData.append(`attachment`, files[i])
       }
 
-      formData.append("support_chat_id", cookies?.support_chat_id)
+      //if support chat id do not exist so it is first message and send support chat id as null
+      if (cookies?.support_chat_id) formData.append("support_chat_id", cookies?.support_chat_id)
       formData.append("msg_type", "customer")
       formData.append("chat_user_id", cookies?.chat_user_id)
       formData.append("team_cdn_id", teamCdn)
