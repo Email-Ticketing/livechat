@@ -2,7 +2,6 @@ import { useState } from "react"
 import { CookiesProvider } from "react-cookie"
 import "./App.css"
 import LiveChat from "./components/LiveChat/LiveChat"
-import { PeerProvider } from "./context/PeerContext"
 import { QueryClient, QueryClientProvider } from "react-query"
 
 const queryClient = new QueryClient({
@@ -19,9 +18,7 @@ function App({ teamCdn }) {
     <div className="App">
       <QueryClientProvider client={queryClient}>
         <CookiesProvider>
-          <PeerProvider>
-            <LiveChat teamCdn={teamCdn} />
-          </PeerProvider>
+          <LiveChat teamCdn={teamCdn} />
         </CookiesProvider>
       </QueryClientProvider>
     </div>

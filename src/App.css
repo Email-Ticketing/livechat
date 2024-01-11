@@ -4,7 +4,10 @@
   margin: 0;
 }
 .App {
-  height: fit-content;
-  width: fit-content;
   z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

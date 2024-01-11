@@ -1,46 +1,56 @@
 import { useEffect, useState } from "react"
-import { usePeer } from "../context/PeerContext"
-import { BACKEND_URL } from "../environment/environment"
-import useSocket from "./useSocket"
+import { useCookies } from "react-cookie"
+import { v4 as uuid } from "uuid"
 
-const useSocketForLiveChat = (setLatestActivityFromSocket, setMsgList) => {
-  const [socket] = useSocket(BACKEND_URL)
-  const { peerState, setPeerState } = usePeer()
+const useSocketForLiveChat = (setMsgList) => {
+  const baseUrl = "wss://omnichannel.chatbot.dev137.scw.ringover.net/webchat/websockets/new?app_uuid=e72e2e25-d157-4bb7-951b-db7035356ba6&app_secret=thecakeisalie&user_agent=nicoxflo"
+  const [socket, setSocket] = useState(null)
+  const [cookies, setCookies] = useCookies(["browser_uuid"])
+
   useEffect(() => {
-    defineEvents()
+    let browser_uuid
+    if (!cookies?.browser_uuid) {
+      browser_uuid = uuid()
+      setCookies("browser_uuid", browser_uuid, {
+        path: "/",
+      })
+    } else browser_uuid = cookies?.browser_uuid
+
+    const api = baseUrl + `&browser_uuid=${browser_uuid}`
+
+    setSocket(new WebSocket(api))
   }, [])
 
-  const defineEvents = () => {
-    console.log("socket run")
+  useEffect(() => {
+    if (!socket) return
 
-    socket.current.on("connect", () => {
-      console.log("%cJOINED SOCKET FOR Chat", "background: #00ddd0; color: #000; font-weight: 600;")
-    })
-
-    socket.current.on("connect_failed", () => {
-      console.log("%cFAILED TO CONNECT SOCKET FOR ACTIVITY", "background: #ff8888; color: #000; font-weight: 600;")
+    // Connection opened
+    socket.addEventListener("open", (event) => {
+      console.log("WebSocket connection opened:", event)
     })
 
-    socket.current.on("message", (message) => {
-      setLatestActivityFromSocket(message)
-      setMsgList((list) => [...list, message])
-      console.log("Received message:- ", message)
+    // Message received
+    socket.addEventListener("message", (event) => {
+      console.log("Received message:", event.data)
+      const message = JSON.parse(event.data)
+      if (message?.data) setMsgList((prev) => [...prev, message])
     })
 
-    socket.current.on("disconnect", (disconect) => {
-      console.log("socket for activity disconnected", disconect)
+    // Connection closed
+    socket.addEventListener("close", (event) => {
+      console.log("WebSocket connection closed:", event)
+      if (!event.wasClean) {
+        console.error(`Connection closed abruptly. Code: ${event.code}, Reason: ${event.reason || "No specific reason provided"}`)
+      }
+
+      // Implement a retry mechanism here if needed
     })
-    socket.current.on("user-connected", (user) => {
-      console.log("new user", user)
-      setPeerState((state) => ({
-        ...state,
-        user: { ...user },
-      }))
+
+    // Error handling
+    socket.addEventListener("error", (event) => {
+      console.error("WebSocket error:", event)
     })
-    socket.current.on("close-stream", () => {
-      console.log("stream ending")
-    })
-  }
+  }, [socket])
 
   return [socket]
 }
